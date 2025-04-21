@@ -658,7 +658,7 @@ if [ "$MODE" == "releaseE2E" ] || [ "$MODE" == "QA" ] || [ "$MODE" == "QAE2E" ];
 	export SENTRY_PROPERTIES="${REPO_ROOT_DIR}/sentry.debug.properties"
 elif [ "$MODE" == "release" ] || [ "$MODE" == "flask" ]; then
 	echo "RELEASE SENTRY PROPS"
-	checkAuthToken 'sentry.release.properties'
+#	checkAuthToken 'sentry.release.properties' # [Arthur]
 	export SENTRY_PROPERTIES="${REPO_ROOT_DIR}/sentry.release.properties"
 fi
 

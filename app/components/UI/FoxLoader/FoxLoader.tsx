@@ -10,7 +10,8 @@ const FoxLoader = () => {
       <Image
         style={styles.image}
         // eslint-disable-next-line @typescript-eslint/no-require-imports
-        source={require('../../../images/branding/fox.png')}
+        //source={require('../../../images/branding/fox.png')}
+        source={require('../../../images/branding/wezan.png')}
         resizeMode="contain"
       />
       <View style={styles.spacer} />

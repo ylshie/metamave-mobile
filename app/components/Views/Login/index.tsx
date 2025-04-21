@@ -88,7 +88,8 @@ import stylesheet from './styles';
 import ReduxService from '../../../core/redux';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { BIOMETRY_TYPE } from 'react-native-keychain';
-import FOX_LOGO from '../../../images/branding/fox.png';
+//import FOX_LOGO from '../../../images/branding/fox.png';
+import FOX_LOGO from '../../../images/branding/wezan.png';
 
 /**
  * View where returning users can authenticate

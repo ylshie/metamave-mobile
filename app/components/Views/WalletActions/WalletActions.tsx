@@ -324,7 +324,7 @@ const WalletActions = () => {
   return (
     <BottomSheet ref={sheetRef}>
       <View style={styles.actionsContainer}>
-        {isNetworkRampSupported && (
+        {/* isNetworkRampSupported && (
           <WalletAction
             actionType={WalletActionType.Buy}
             iconName={IconName.Add}
@@ -333,8 +333,8 @@ const WalletActions = () => {
             iconStyle={styles.icon}
             iconSize={AvatarSize.Md}
           />
-        )}
-        {isNetworkRampSupported && (
+        )*/}
+        {/* isNetworkRampSupported && (
           <WalletAction
             actionType={WalletActionType.Sell}
             iconName={IconName.MinusBold}
@@ -344,8 +344,8 @@ const WalletActions = () => {
             iconSize={AvatarSize.Md}
             disabled={!canSignTransactions}
           />
-        )}
-        {AppConstants.SWAPS.ACTIVE && isSwapsAllowed(chainId) && (
+        )*/ }
+        {/* AppConstants.SWAPS.ACTIVE && isSwapsAllowed(chainId) && (
           <WalletAction
             actionType={WalletActionType.Swap}
             iconName={IconName.SwapHorizontal}
@@ -355,8 +355,8 @@ const WalletActions = () => {
             iconSize={AvatarSize.Md}
             disabled={!canSignTransactions || !swapsIsLive}
           />
-        )}
-        {isBridgeAllowed(chainId) && (
+        )*/ }
+        {/* isBridgeAllowed(chainId) && (
           <WalletAction
             actionType={WalletActionType.Bridge}
             iconName={IconName.Bridge}
@@ -366,7 +366,7 @@ const WalletActions = () => {
             iconSize={AvatarSize.Md}
             disabled={!canSignTransactions}
           />
-        )}
+        )*/ }
         <WalletAction
           actionType={WalletActionType.Send}
           iconName={IconName.Arrow2Right}
@@ -385,7 +385,7 @@ const WalletActions = () => {
           iconSize={AvatarSize.Md}
           disabled={false}
         />
-        {isStablecoinLendingFeatureEnabled() && (
+        {/* isStablecoinLendingFeatureEnabled() && (
           <WalletAction
             actionType={WalletActionType.Earn}
             iconName={IconName.Plant}
@@ -395,7 +395,7 @@ const WalletActions = () => {
             iconSize={AvatarSize.Md}
             disabled={!canSignTransactions}
           />
-        )}
+        )*/ }
       </View>
     </BottomSheet>
   );

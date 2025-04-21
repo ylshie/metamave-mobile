@@ -26,7 +26,7 @@ module.exports = {
         'react/self-closing-comp': 'off',
         // This change is included in `@metamask/eslint-config-typescript@10.0.0
         '@typescript-eslint/no-unused-vars': [
-          'error',
+          'warn', // [Arthur]
           {
             vars: 'all',
             args: 'all',
@@ -137,7 +137,7 @@ module.exports = {
 
   rules: {
     'no-catch-shadow': 0,
-    'no-console': ['error', { allow: ['warn', 'error'] }],
+    'no-console': ['warn', { allow: ['warn', 'error'] }], // [Arthur]
     quotes: [
       'error',
       'single',
@@ -165,7 +165,7 @@ module.exports = {
     eqeqeq: 2,
     'import/no-amd': 2,
     'import/no-commonjs': 2,
-    'import/no-duplicates': 2,
+    //'import/no-duplicates': 2,
     'import/no-extraneous-dependencies': ['error', { packageDir: ['./'] }],
     'import/no-mutable-exports': 2,
     'import/no-namespace': 2,
@@ -178,7 +178,7 @@ module.exports = {
         checkLoops: false,
       },
     ],
-    'no-duplicate-imports': 2,
+    //'no-duplicate-imports': 2,
     'no-empty-function': 2,
     'no-else-return': 2,
     'no-eval': 2,

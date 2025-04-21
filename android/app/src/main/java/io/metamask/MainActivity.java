@@ -1,4 +1,4 @@
-package io.metamask;
+package io.metawave;
 import expo.modules.ReactActivityDelegateWrapper;
 
 import com.facebook.react.ReactActivity;

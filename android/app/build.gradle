@@ -172,10 +172,10 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace"io.metamask"
+    namespace"io.metawave" // [Arthur]
 
     defaultConfig {
-        applicationId "io.metamask"
+        applicationId "io.metawave" // [Arthur]
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionName "7.44.0"
@@ -243,18 +243,18 @@ android {
           qa {
             dimension "version"
             applicationIdSuffix ".qa"
-            applicationId "io.metamask"
+            applicationId "io.metawave" // [Arthur]
             signingConfig signingConfigs.qa
           }
           prod {
             dimension "version"
-            applicationId "io.metamask"
+            applicationId "io.metawave" // [Arthur]
             signingConfig signingConfigs.release
           }
           flask {
             dimension "version"
             applicationIdSuffix ".flask"
-            applicationId "io.metamask"
+            applicationId "io.metawave" // [Arthur]
             // Use the appropriate signing config based on environment
             if (System.getenv("METAMASK_ENVIRONMENT") == 'qa') {
               signingConfig signingConfigs.qa

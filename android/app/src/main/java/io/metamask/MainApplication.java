@@ -1,4 +1,4 @@
-package io.metamask;
+package io.metawave;
 import android.content.res.Configuration;
 import expo.modules.ApplicationLifecycleDispatcher;
 import expo.modules.ReactNativeHostWrapper;
@@ -32,6 +32,7 @@ import android.content.Intent;
 import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
 import android.os.Build;
+import io.metamask.ReactNativeFlipper;
 
 public class MainApplication extends Application implements ShareApplication, ReactApplication {
 

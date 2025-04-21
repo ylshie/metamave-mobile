@@ -20,13 +20,14 @@ import OptIn from '../../Views/Notifications/OptIn';
 import AppInformation from '../../Views/Settings/AppInformation';
 import DeveloperOptions from '../../Views/Settings/DeveloperOptions';
 import Contacts from '../../Views/Settings/Contacts';
-import Wallet from '../../Views/Wallet';
+//import Wallet from '../../Views/Wallet';
+import Wallet from '../../Views/MyWallet'; // Arthur
 import Asset from '../../Views/Asset';
 import AssetDetails from '../../Views/AssetDetails';
 import AddAsset from '../../Views/AddAsset';
 import Collectible from '../../Views/Collectible';
 import Send from '../../Views/confirmations/legacy/Send';
-import SendTo from '../../Views/confirmations/legacy/SendFlow/SendTo';
+import SendTo from '../../Views/confirmations/legacy/SendFlow/WeSendTo'; // [Arthur]
 import { RevealPrivateCredential } from '../../Views/RevealPrivateCredential';
 import WalletConnectSessions from '../../Views/WalletConnectSessions';
 import OfflineMode from '../../Views/OfflineMode';
@@ -542,27 +543,34 @@ const HomeTabs = () => {
             options={options.home}
             component={WalletTabModalFlow}
           />
+          {/*
           <Tab.Screen
             name={Routes.TRANSACTIONS_VIEW}
             options={options.activity}
             component={TransactionsHome}
           />
+          */}
+          {/*
           <Tab.Screen
             name={Routes.MODAL.WALLET_ACTIONS}
             options={options.actions}
             component={WalletTabModalFlow}
           />
+          */}
+          {
           <Tab.Screen
             name={Routes.BROWSER.HOME}
             options={options.browser}
             component={BrowserFlow}
           />
-
+          }
+          {/*
           <Tab.Screen
             name={Routes.SETTINGS_VIEW}
             options={options.settings}
             component={SettingsFlow}
           />
+          */}
         </Tab.Navigator>
       </Drawer>
     </DrawerContext.Provider>

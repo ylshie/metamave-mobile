@@ -240,6 +240,7 @@
     "deeplink_failure": "糟糕！出问题了！请重试",
     "warn_network_change": "网络已更改为",
     "send_to": "发送到",
+    "send_to_we": "發送給 WeZan 客戶",
     "amount": "数额",
     "confirm": "确认"
   },

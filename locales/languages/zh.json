@@ -242,11 +242,11 @@
     "import_from_seed_button": "使用私钥助记词导入"
   },
   "login": {
-    "title": "欢迎回来！",
-    "password": "密码",
+    "title": "歡迎回來！",
+    "password": "密碼",
     "unlock_button": "登录",
     "go_back": "返回",
-    "reset_wallet": "重置钱包",
+    "reset_wallet": "重置錢包",
     "cant_proceed": "您在输入“删除”（Delete）一词之前不能继续。通过此操作，您选择删除您当前的钱包。",
     "invalid_password": "密码无效",
     "type_delete": "输入“%{delete}”以永久删除当前钱包",
@@ -382,8 +382,9 @@
     "deeplink_failure": "出错了。请重试",
     "warn_network_change": "网络已更改为",
     "send_to": "发送到",
-    "amount": "数额",
-    "confirm": "确认",
+    "send_to_we": "發送給WeZan客戶",
+    "amount": "輸入金額",
+    "confirm": "確認付款",
     "sign": "签名",
     "network_not_found_title": "未找到网络",
     "network_not_found_description": "在您的钱包中没有发现链 ID 为 {{chain_id}} 的网络。请先添加该网络。",
@@ -1468,7 +1469,7 @@
   "transaction": {
     "transaction_id": "交易 ID",
     "alert": "警报",
-    "amount": "数额",
+    "amount": "金額",
     "details": "详细信息",
     "next": "下一步",
     "back": "返回",
@@ -1552,7 +1553,7 @@
     "adjust_transaction_fee": "调整交易费用",
     "could_not_resolve_ens": "无法解析 ENS",
     "asset": "资产",
-    "balance": "余额",
+    "balance": "餘額",
     "token_id": "代币 ID",
     "not_enough_for_gas": "您的账户中有 0 {{ticker}} 可用于支付交易费用。",
     "send": "发送",
@@ -1982,7 +1983,7 @@
     "add": "添加代币",
     "message": "是否要添加此代币？",
     "token": "代币",
-    "balance": "余额"
+    "balance": "余额2"
   },
   "unit": {
     "eth": "ETH",
@@ -2477,7 +2478,7 @@
     "qr_code": "二维码",
     "send_link": "发送链接",
     "request_qr_code": "付款请求二维码",
-    "balance": "余额"
+    "balance": "余额3"
   },
   "receive_request": {
     "title": "接收",
@@ -3581,7 +3582,7 @@
     "review": "审核",
     "not_enough_eth": "ETH 不足",
     "not_enough_token": "{{ticker}} 不足",
-    "balance": "余额",
+    "balance": "余额4",
     "stake_eth_and_earn": "质押 ETH 并赚取奖励",
     "how_it_works": "如何运作",
     "stake_any_amount_of_eth": "抵押任意金额的 ETH。",
@@ -3715,9 +3716,9 @@
     "fiat_not_available": "不可用",
     "incoming_heading": "您收到",
     "no_balance_changes": "预计您的钱包不会发生变化",
-    "outgoing_heading": "您发送",
+    "outgoing_heading": "您發送",
     "reverted": "这笔交易可能会失败",
-    "title": "预计变化",
+    "title": "預計變化",
     "tooltip_description": "预计变化是指您完成该交易可能发生的变化。这只是一个预测，而不是保证。",
     "total_fiat": "总计 = {{currency}}"
   },
@@ -3767,7 +3768,7 @@
     },
     "label": {
       "account": "账户",
-      "balance": "余额",
+      "balance": "余额5",
       "interacting_with": "正在与下述内容交互：",
       "network": "网络",
       "primary_type": "主要类型",

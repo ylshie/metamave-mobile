@@ -32,7 +32,8 @@ import { RequestPaymentModalSelectorsIDs } from '../../../../e2e/selectors/Recei
 import { withMetricsAwareness } from '../../../components/hooks/useMetrics';
 import { getDecimalChainId } from '../../../util/networks';
 import QRAccountDisplay from '../../Views/QRAccountDisplay';
-import PNG_MM_LOGO_PATH from '../../../images/branding/fox.png';
+//import PNG_MM_LOGO_PATH from '../../../images/branding/fox.png';
+import PNG_MM_LOGO_PATH from '../../../images/branding/wezan.png';
 
 const { height: windowHeight, width: windowWidth } = Dimensions.get('window');
 

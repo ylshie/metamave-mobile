@@ -94,7 +94,8 @@ export default class WebviewError extends PureComponent {
       <View style={styles.wrapper}>
         <View style={styles.foxWrapper}>
           <Image
-            source={require('../../../images/branding/fox.png')}
+            //source={require('../../../images/branding/fox.png')}
+            source={require('../../../images/branding/wezan.png')}
             style={styles.image}
             resizeMethod={'auto'}
           />

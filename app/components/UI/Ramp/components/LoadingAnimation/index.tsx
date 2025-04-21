@@ -13,7 +13,8 @@ import BaseTitle from '../../../../Base/Title';
 import ShapesBackgroundAnimation from '../../../Swaps/components/LoadingAnimation/ShapesBackgroundAnimation';
 import { useTheme } from '../../../../../util/theme';
 import { Colors } from '../../../../../util/theme/models';
-import foxImage from '../../../../../images/branding/fox.png';
+//import foxImage from '../../../../../images/branding/fox.png';
+import foxImage from '../../../../../images/branding/wezan.png';
 
 // TODO: Convert into typescript and correctly type
 // TODO: Replace "any" with type

@@ -17,7 +17,8 @@ import { strings } from '../../../../../../locales/i18n';
 import Text from '../../../../Base/Text';
 import Title from '../../../../Base/Title';
 import { useTheme } from '../../../../../util/theme';
-import foxImage from '../../../../../images/branding/fox.png';
+//import foxImage from '../../../../../images/branding/fox.png';
+import foxImage from '../../../../../images/branding/wezan.png';
 import ShapesBackgroundAnimation from './ShapesBackgroundAnimation';
 
 const ANIM_MULTIPLIER = 0.67;

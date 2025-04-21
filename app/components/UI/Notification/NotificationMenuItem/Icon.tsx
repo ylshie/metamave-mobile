@@ -7,7 +7,8 @@ import Badge, {
 } from '../../../../component-library/components/Badges/Badge';
 import { BOTTOM_BADGEWRAPPER_BADGEPOSITION } from '../../../../component-library/components/Badges/BadgeWrapper/BadgeWrapper.constants';
 import RemoteImage from '../../../../components/Base/RemoteImage';
-import METAMASK_FOX from '../../../../images/branding/fox.png';
+//import METAMASK_FOX from '../../../../images/branding/fox.png';
+import METAMASK_FOX from '../../../../images/branding/wezan.png';
 import { View } from 'react-native';
 
 type NotificationIconProps = Pick<

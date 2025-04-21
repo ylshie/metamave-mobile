@@ -367,7 +367,8 @@ class Onboarding extends PureComponent {
       <View style={styles.ctas}>
         <View style={styles.largeFoxWrapper}>
           <Image
-            source={require('../../../images/branding/fox.png')}
+          //source={require('../../../images/branding/fox.png')}
+            source={require('../../../images/branding/wezan.png')}
             style={styles.foxImage}
             resizeMethod={'auto'}
           />
@@ -456,7 +457,8 @@ class Onboarding extends PureComponent {
             {loading && (
               <View style={styles.foxWrapper}>
                 <Image
-                  source={require('../../../images/branding/fox.png')}
+                //source={require('../../../images/branding/fox.png')}
+                  source={require('../../../images/branding/wezan.png')}
                   style={styles.image}
                   resizeMethod={'auto'}
                 />

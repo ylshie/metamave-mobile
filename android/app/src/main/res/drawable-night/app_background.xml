@@ -2,7 +2,7 @@
    <item android:drawable="@color/theme" />
     <item>
         <bitmap
-            android:src="@drawable/fox"
+            android:src="@drawable/wezan"
             android:gravity="center"
             android:tileMode="disabled" />
     </item>

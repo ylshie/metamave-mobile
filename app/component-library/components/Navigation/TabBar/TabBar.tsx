@@ -30,6 +30,7 @@ const TabBar = ({ state, descriptors, navigation }: TabBarProps) => {
   const { styles } = useStyles(styleSheet, { bottomInset });
   const chainId = useSelector(selectChainId);
   const tabBarRef = useRef(null);
+
   /**
    * Current onboarding wizard step
    */
@@ -145,13 +146,15 @@ const TabBar = ({ state, descriptors, navigation }: TabBarProps) => {
   );
 
   return (
-    <>
-      <View style={styles.border} />
+    <View style={{
+      backgroundColor: '#ECF2F8'
+    }}>
+      {/*<View style={styles.border} />*/}
       <View style={styles.base} ref={tabBarRef}>
         {renderTabBarItems()}
         {renderOnboardingWizard()}
       </View>
-    </>
+    </View>
   );
 };
 

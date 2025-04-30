@@ -43,10 +43,16 @@ const styleSheet = (params: { vars: TabBarStyleSheetVars; theme: Theme }) => {
       paddingHorizontal: 16,
       marginBottom: bottomInset,
       backgroundColor: colors.background.default,
+      borderWidth: 1, // 0.5, // Arthur
+      borderColor: 'gray', // Arthur
+      borderStyle: 'solid',  // Arthur
+      borderTopLeftRadius: 16,
+      borderTopRightRadius: 16,
     },
     border: {
       ...borderStyle,
       backgroundColor: colors.background.default,
+    //backgroundColor: 'red', // Arthur
     },
   });
 };

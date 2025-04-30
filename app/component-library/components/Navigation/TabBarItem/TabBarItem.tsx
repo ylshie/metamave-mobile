@@ -11,10 +11,12 @@ import { useStyles } from '../../../hooks';
 import styleSheet from './TabBarItem.styles';
 import { TabBarItemProps } from './TabBarItem.types';
 import Avatar, { AvatarVariant } from '../../Avatars/Avatar';
+import Text from '../../Texts/Text';
 
 const TabBarItem = ({
   style,
   icon,
+  label,
   iconSize,
   iconColor,
   iconBackgroundColor,
@@ -31,6 +33,7 @@ const TabBarItem = ({
         backgroundColor={iconBackgroundColor}
         iconColor={iconColor}
       />
+      <Text>{label}</Text>
     </TouchableOpacity>
   );
 };

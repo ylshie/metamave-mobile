@@ -144,6 +144,14 @@ const SLIPPAGE_BUCKETS = {
 
 const createStyles = (colors) =>
   StyleSheet.create({
+    swapItem: {
+      flexDirection: 'row',
+      justifyContent: 'space-between'
+    },
+    swapAmount: {
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
     screen: {
       flexGrow: 1,
       justifyContent: 'space-between',
@@ -216,11 +224,13 @@ const createStyles = (colors) =>
       marginHorizontal: 15,
       marginTop: Device.isSmallDevice() ? 2 : 4,
       marginBottom: Device.isSmallDevice() ? 0 : 2,
+      transform: [{rotate: '-90deg'}],
     },
     amount: {
       textAlignVertical: 'center',
-      fontSize: Device.isSmallDevice() ? 45 : 60,
-      marginBottom: Device.isSmallDevice() ? 8 : 24,
+    //fontSize: Device.isSmallDevice() ? 45 : 60,     // [Arthur]
+    //marginBottom: Device.isSmallDevice() ? 8 : 24,  // [Arthur]
+      fontSize: Device.isSmallDevice() ? 16 : 18,     // [Arthur]
     },
     exchangeRate: {
       flexDirection: 'row',
@@ -2060,31 +2070,51 @@ function SwapsQuotesView({
       >
         {selectedQuote && (
           <>
-            <View style={styles.sourceTokenContainer}>
-              <Text style={styles.tokenText}>
-                {renderFromTokenMinimalUnit(
-                  selectedQuote.sourceAmount,
-                  sourceToken.decimals,
-                )}
-              </Text>
-              <TokenIcon
-                style={styles.tokenIcon}
-                icon={sourceToken.iconUrl}
-                symbol={sourceToken.symbol}
-              />
-              <Text style={styles.tokenText}>{sourceToken.symbol}</Text>
+            {/*<Text>{'Arthur 1'}</Text>*/}
+            <View style={styles.swapItem}>
+              <View style={styles.swapAmount}>
+                <View style={styles.sourceTokenContainer}>
+                  <TokenIcon
+                    style={styles.tokenIcon}
+                    icon={sourceToken.iconUrl}
+                    symbol={sourceToken.symbol}
+                  />
+                  <Text style={styles.tokenText}>{sourceToken.symbol}</Text>
+                </View>
+                <Text style={styles.tokenText}>
+                  {renderFromTokenMinimalUnit(
+                    selectedQuote.sourceAmount,
+                    sourceToken.decimals,
+                  )}
+                </Text>
+              </View>
+              <IonicIcon style={styles.arrowDown} name="md-arrow-down" />
+              <View style={styles.swapAmount}>
+                <View style={styles.sourceTokenContainer}>
+                  <TokenIcon
+                    style={styles.tokenIcon}
+                    icon={destinationToken.iconUrl}
+                    symbol={destinationToken.symbol}
+                  />
+                  <Text style={[styles.tokenText, styles.tokenTextDestination]}>
+                    {destinationToken.symbol}
+                  </Text>
+                </View>
+                <Text
+                  primary
+                  style={styles.amount}
+                  numberOfLines={1}
+                  adjustsFontSizeToFit
+                  allowFontScaling
+                >
+                  {renderFromTokenMinimalUnit(
+                    selectedQuote.destinationAmount,
+                    destinationToken.decimals,
+                  )}
+                </Text>
+              </View>
             </View>
-            <IonicIcon style={styles.arrowDown} name="md-arrow-down" />
-            <View style={styles.sourceTokenContainer}>
-              <TokenIcon
-                style={styles.tokenIcon}
-                icon={destinationToken.iconUrl}
-                symbol={destinationToken.symbol}
-              />
-              <Text style={[styles.tokenText, styles.tokenTextDestination]}>
-                {destinationToken.symbol}
-              </Text>
-            </View>
+            {/*
             <Text
               primary
               style={styles.amount}
@@ -2097,6 +2127,7 @@ function SwapsQuotesView({
                 destinationToken.decimals,
               )}
             </Text>
+            */}
             <View style={styles.exchangeRate}>
               <Ratio
                 sourceAmount={selectedQuote.sourceAmount}
@@ -2113,6 +2144,7 @@ function SwapsQuotesView({
         style={[styles.bottomSection, disabledView && styles.disabled]}
         pointerEvents={disabledView ? 'none' : 'auto'}
       >
+        {/*<Text>{'Arthur 2'}</Text>*/}
         {selectedQuote && (
           <QuotesSummary style={styles.quotesSummary}>
             <QuotesSummary.Header

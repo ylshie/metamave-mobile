@@ -87,9 +87,25 @@ import { useMetrics } from '../../../components/hooks/useMetrics';
 import { getSwapsLiveness } from '../../../reducers/swaps/utils';
 import { selectShouldUseSmartTransaction } from '../../../selectors/smartTransactionsController';
 import { useStablecoinsDefaultSlippage } from './useStablecoinsDefaultSlippage';
+import { BorderColor, BorderRadius } from '../Box/box.types';
 const createStyles = (colors) =>
   StyleSheet.create({
-    container: { backgroundColor: colors.background.default },
+    swapItem: {
+      width: '80%',
+      left: '10%',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      backgroundColor: '#F6F7FB',
+      borderColor: '#FFFFFF',
+      borderStyle: 'solid',
+      borderWidth: 1,
+      borderRadius: 19,
+    //border: 1.5px solid #FFFFFF;
+    //box-shadow: 0px -1px 4px #F8F9FB, 0px 5px 4px #DBDEE3;
+    },
+    container: { 
+      backgroundColor: '#ECF2F8', //colors.background.default 
+    },
     screen: {
       flexGrow: 1,
       justifyContent: 'space-between',
@@ -683,80 +699,87 @@ function SwapsAmountView({
       keyboardShouldPersistTaps="handled"
     >
       <View style={styles.content}>
+        {/*   // Arthur
         <View style={styles.accountSelector}>
           <AccountSelector />
         </View>
-        <View
-          style={[styles.tokenButtonContainer, disabledView && styles.disabled]}
-          pointerEvents={disabledView ? 'none' : 'auto'}
-          testID={QuoteViewSelectorIDs.SOURCE_TOKEN}
-        >
-          {isInitialLoadingTokens ? (
-            <ActivityIndicator size="small" />
-          ) : (
-            <TokenSelectButton
-              label={strings('swaps.select_a_token')}
-              onPress={toggleSourceModal}
-              icon={sourceToken?.iconUrl}
-              symbol={sourceToken?.symbol}
-            />
-          )}
-
-          <TokenSelectModal
-            isVisible={isSourceModalVisible}
-            dismiss={toggleSourceModal}
-            title={strings('swaps.convert_from')}
-            tokens={swapsTokens}
-            initialTokens={tokensWithBalance}
-            onItemPress={handleSourceTokenPress}
-            excludeAddresses={[destinationToken?.address]}
-          />
-        </View>
-        <View
-          style={[styles.amountContainer, disabledView && styles.disabled]}
-          pointerEvents={disabledView ? 'none' : 'auto'}
-        >
-          <TouchableOpacity onPress={handleAmountPress}>
-            <Text
-              primary
-              style={styles.amount}
-              numberOfLines={1}
-              adjustsFontSizeToFit
-              allowFontScaling
-            >
-              {amount}
-            </Text>
-          </TouchableOpacity>
-          {!!sourceToken &&
-            (hasInvalidDecimals || (!isAmountZero && !hasEnoughBalance) ? (
-              <Text style={styles.amountInvalid}>
-                {hasInvalidDecimals
-                  ? strings('swaps.allows_up_to_decimals', {
-                      symbol: sourceToken.symbol,
-                      decimals: sourceToken.decimals,
-                      // eslint-disable-next-line no-mixed-spaces-and-tabs
-                    })
-                  : strings('swaps.not_enough', { symbol: sourceToken.symbol })}
-              </Text>
-            ) : isAmountZero ? (
-              <Text>
-                {!!sourceToken &&
-                  balance !== null &&
-                  strings('swaps.available_to_swap', {
-                    asset: `${balance} ${sourceToken.symbol}`,
-                  })}
-                {showMaxBalanceLink && (
-                  <Text style={styles.linkText} onPress={handleUseMax}>
-                    {' '}
-                    {strings('swaps.use_max')}
-                  </Text>
-                )}
-              </Text>
+        */}
+        <View style={styles.swapItem}>
+          <View
+            style={[styles.tokenButtonContainer, disabledView && styles.disabled]}
+            pointerEvents={disabledView ? 'none' : 'auto'}
+            testID={QuoteViewSelectorIDs.SOURCE_TOKEN}
+          >
+            {isInitialLoadingTokens ? (
+              <ActivityIndicator size="small" />
             ) : (
-              <Text upper>{currencyAmount ? `~${currencyAmount}` : ''}</Text>
-            ))}
-          {!sourceToken && <Text> </Text>}
+              <TokenSelectButton
+                label={strings('swaps.select_a_token')}
+                onPress={toggleSourceModal}
+                icon={sourceToken?.iconUrl}
+                symbol={sourceToken?.symbol}
+              />
+            )}
+
+            <TokenSelectModal
+              isVisible={isSourceModalVisible}
+              dismiss={toggleSourceModal}
+              title={strings('swaps.convert_from')}
+              tokens={swapsTokens}
+              initialTokens={tokensWithBalance}
+              onItemPress={handleSourceTokenPress}
+              excludeAddresses={[destinationToken?.address]}
+            />
+          </View>
+          <View
+            style={[styles.amountContainer, disabledView && styles.disabled]}
+            pointerEvents={disabledView ? 'none' : 'auto'}
+          >
+            <TouchableOpacity onPress={handleAmountPress}>
+              <Text
+                primary
+                style={styles.amount}
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                allowFontScaling
+              >
+                {amount}
+              </Text>
+            </TouchableOpacity>
+            {/*
+            {!!sourceToken &&
+              (hasInvalidDecimals || (!isAmountZero && !hasEnoughBalance) ? (
+                <Text style={styles.amountInvalid}>
+                  {hasInvalidDecimals
+                    ? strings('swaps.allows_up_to_decimals', {
+                        symbol: sourceToken.symbol,
+                        decimals: sourceToken.decimals,
+                        // eslint-disable-next-line no-mixed-spaces-and-tabs
+                      })
+                    : strings('swaps.not_enough', { symbol: sourceToken.symbol })}
+                </Text>
+              ) : isAmountZero ? (
+                <Text>
+                  {!!sourceToken &&
+                    balance !== null &&
+                    strings('swaps.available_to_swap', {
+                      asset: `${balance} ${sourceToken.symbol}`,
+                    })}
+                  {showMaxBalanceLink && (
+                    <Text style={styles.linkText} onPress={handleUseMax}>
+                      {' '}
+                      {strings('swaps.use_max')}
+                    </Text>
+                  )}
+                </Text>
+              ) : (
+                <Text upper>{currencyAmount ? `~${currencyAmount}` : ''}</Text>
+              ))}
+            {!sourceToken && <Text> </Text>}
+            */}
+          </View>
         </View>
+        
         <View
           style={[
             styles.horizontalRuleContainer,
@@ -770,39 +793,43 @@ function SwapsAmountView({
           </TouchableOpacity>
           <View style={styles.horizontalRule} />
         </View>
-        <View
-          style={styles.tokenButtonContainer}
-          testID={QuoteViewSelectorIDs.DEST_TOKEN}
-        >
-          {isInitialLoadingTokens ? (
-            <ActivityIndicator size="small" />
-          ) : (
-            <TokenSelectButton
-              label={strings('swaps.select_a_token')}
-              onPress={toggleDestinationModal}
-              icon={destinationToken?.iconUrl}
-              symbol={destinationToken?.symbol}
+        <View style={styles.swapItem}>
+          <View
+            style={styles.tokenButtonContainer}
+            testID={QuoteViewSelectorIDs.DEST_TOKEN}
+          >
+            {isInitialLoadingTokens ? (
+              <ActivityIndicator size="small" />
+            ) : (
+              <TokenSelectButton
+                label={strings('swaps.select_a_token')}
+                onPress={toggleDestinationModal}
+                icon={destinationToken?.iconUrl}
+                symbol={destinationToken?.symbol}
+              />
+            )}
+            <TokenSelectModal
+              isVisible={isDestinationModalVisible}
+              dismiss={toggleDestinationModal}
+              title={strings('swaps.convert_to')}
+              tokens={swapsTokens}
+              initialTokens={[
+                swapsUtils.getNativeSwapsToken(chainId),
+                ...tokensTopAssets
+                  .slice(0, MAX_TOP_ASSETS)
+                  .filter(
+                    (asset) =>
+                      asset.address !==
+                      swapsUtils.getNativeSwapsToken(chainId).address,
+                  ),
+              ]}
+              onItemPress={handleDestinationTokenPress}
+              excludeAddresses={[sourceToken?.address]}
             />
-          )}
-          <TokenSelectModal
-            isVisible={isDestinationModalVisible}
-            dismiss={toggleDestinationModal}
-            title={strings('swaps.convert_to')}
-            tokens={swapsTokens}
-            initialTokens={[
-              swapsUtils.getNativeSwapsToken(chainId),
-              ...tokensTopAssets
-                .slice(0, MAX_TOP_ASSETS)
-                .filter(
-                  (asset) =>
-                    asset.address !==
-                    swapsUtils.getNativeSwapsToken(chainId).address,
-                ),
-            ]}
-            onItemPress={handleDestinationTokenPress}
-            excludeAddresses={[sourceToken?.address]}
-          />
+          </View>
+          <View></View>
         </View>
+
         <View>
           {Boolean(destinationToken) &&
           !isSwapsNativeAsset(destinationToken) ? (

@@ -167,7 +167,19 @@ import walletmoneySVG from './assets/wallet-money.svg';
 import walletSVG from './assets/wallet.svg';
 import warningSVG from './assets/warning.svg';
 import wifiSVG from './assets/wifi.svg';
-
+/*========================*/
+import wePayout from './assets/we_payout.svg'
+import weReceive from './assets/we_receive.svg'
+import weSwap from './assets/we_swap.svg'
+import weCashout from './assets/we_cashout.svg'
+import wePoint from './assets/we_point.svg'
+import weFriend from './assets/we_friend.svg'
+import weSocial from './assets/we_social.svg'
+import weGame from './assets/we_game.svg'
+import weHome from './assets/we_home.svg'
+import weFinance from './assets/we_finance.svg'
+import weAsset from './assets/we_asset.svg'
+import wePerson from './assets/we_person.svg'
 /**
  * Asset stored by icon name
  */
@@ -177,7 +189,7 @@ export const assetByIconName: AssetByIconName = {
   [IconName.Add]: addSVG,
   [IconName.Arrow2Down]: arrow2downSVG,
   [IconName.Arrow2Left]: arrow2leftSVG,
-  [IconName.Arrow2Right]: arrow2rightSVG,
+  [IconName.Arrow2Right]: wePayout, //arrow2rightSVG, //[Arthur]
   [IconName.Arrow2Up]: arrow2upSVG,
   [IconName.Arrow2Upright]: arrow2uprightSVG,
   [IconName.ArrowDoubleLeft]: arrowdoubleleftSVG,
@@ -278,7 +290,7 @@ export const assetByIconName: AssetByIconName = {
   [IconName.ProgrammingArrows]: programmingarrowsSVG,
   [IconName.QrCode]: qrcodeSVG,
   [IconName.Question]: questionSVG,
-  [IconName.Received]: receivedSVG,
+  [IconName.Received]: weReceive, // receivedSVG, // [Arthur]
   [IconName.Refresh]: refreshSVG,
   [IconName.Save]: saveSVG,
   [IconName.ScanBarcode]: scanbarcodeSVG,
@@ -309,7 +321,7 @@ export const assetByIconName: AssetByIconName = {
   [IconName.Square]: squareSVG,
   [IconName.Star]: starSVG,
   [IconName.Student]: studentSVG,
-  [IconName.SwapHorizontal]: swaphorizontalSVG,
+  [IconName.SwapHorizontal]: weSwap,  // swaphorizontalSVG, // [Arthur]
   [IconName.SwapVertical]: swapverticalSVG,
   [IconName.Tag]: tagSVG,
   [IconName.Tilde]: tildeSVG,
@@ -335,4 +347,16 @@ export const assetByIconName: AssetByIconName = {
   [IconName.Wallet]: walletSVG,
   [IconName.Warning]: warningSVG,
   [IconName.Wifi]: wifiSVG,
+  [IconName.WePayout]: wePayout,
+  [IconName.WeReceive]: weReceive,
+  [IconName.WeSwap]: weSwap,
+  [IconName.WeCashout]: weCashout,
+  [IconName.WePoint]: wePoint,
+  [IconName.WeFriend]: weFriend,
+  [IconName.WeSocial]: weSocial,
+  [IconName.WeGame]: weGame,
+  [IconName.WeHome]: weHome,
+  [IconName.WeFinance]: weFinance,
+  [IconName.WeAsset]: weAsset,
+  [IconName.WePerson]: wePerson,
 };

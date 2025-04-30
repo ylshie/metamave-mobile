@@ -149,7 +149,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const metamask_name = require('../../../images/branding/metamask-name.png'); // eslint-disable-line
+//const metamask_name = require('../../../images/branding/metamask-name.png'); // eslint-disable-line
+const metamask_name = require('../../../images/branding/wezan-name.png'); // eslint-disable-line
 const metamask_fox = require('../../../images/branding/fox.png'); // eslint-disable-line
 /**
  * Function that returns the navigation options
@@ -691,7 +692,7 @@ export function getTransparentOnboardingNavbarOptions(themeColors) {
     metamaskName: {
       width: 70,
       height: 35,
-      tintColor: themeColors.text.default,
+    //tintColor: themeColors.text.default,  // [Arthur]
     },
   });
   return {
@@ -964,6 +965,7 @@ export function getWalletNavbarOptions(
 
   function openQRScanner() {
     navigation.navigate(Routes.QR_TAB_SWITCHER, {
+      disableTabber: true,  // [Arthur] {QRScan Entrance}
       onScanSuccess,
     });
     trackEvent(
@@ -1017,6 +1019,23 @@ export function getWalletNavbarOptions(
 
   return {
     headerTitle: () => (
+      <View style={{
+          width: '100%',
+          alignItems: 'center',
+          ...innerStyles.headerTitle
+        }}>
+        <Text style={{
+          color: '#121314',
+          fontFamily: 'CentraNo1-Medium',
+          fontSize: 18,
+          fontWeight: 500,
+          letterSpacing: 0,
+          lineHeight: 24,
+        }}>WeZan Pay</Text>
+      </View>
+    ),
+    /*
+    headerTitle: () => (
       <View style={innerStyles.headerTitle}>
         <PickerAccount
           ref={accountActionsRef}
@@ -1035,6 +1054,7 @@ export function getWalletNavbarOptions(
         />
       </View>
     ),
+    */
     headerLeft: () => renderNetworkPicker(),
     headerRight: () => (
       <View style={styles.rightElementContainer}>
@@ -1599,7 +1619,8 @@ export function getSwapsAmountNavbar(navigation, route, themeColors) {
       elevation: 0,
     },
   });
-  const title = route.params?.title ?? 'Swap';
+  //const title = route.params?.title ?? 'Swap';
+  const title = route.params?.title ?? '兌換';  // [Arthur]
   return {
     headerTitle: () => (
       <NavbarTitle title={title} disableNetwork translate={false} />
@@ -1636,7 +1657,8 @@ export function getSwapsQuotesNavbar(navigation, route, themeColors) {
       elevation: 0,
     },
   });
-  const title = route.params?.title ?? 'Swap';
+  //const title = route.params?.title ?? 'Swap';
+  const title = route.params?.title ?? '兌換確認';    // [Arthur]
   const leftActionText = route.params?.leftAction ?? strings('navigation.back');
 
   const leftAction = () => {

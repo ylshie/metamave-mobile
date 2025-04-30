@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import React, {
   useEffect,
   useRef,
   useCallback,
   useContext,
   useMemo,
+  FC
 } from 'react';
 import {
   ActivityIndicator,
@@ -81,7 +83,7 @@ import Text, {
   getFontFamily,
   TextVariant,
 } from '../../../component-library/components/Texts/Text';
-import { useMetrics } from '../../../components/hooks/useMetrics';
+import { useMetrics } from '../../hooks/useMetrics';
 import { RootState } from '../../../reducers';
 import usePrevious from '../../hooks/usePrevious';
 import { selectSelectedInternalAccount } from '../../../selectors/accountsController';
@@ -100,7 +102,7 @@ import { selectIsProfileSyncingEnabled } from '../../../selectors/identity';
 import { ButtonVariants } from '../../../component-library/components/Buttons/Button';
 import { useAccountName } from '../../hooks/useAccountName';
 
-import { PortfolioBalance } from '../../UI/Tokens/TokenList/PortfolioBalance';
+import { PortfolioBalance } from '../../UI/Tokens/TokenList/WePortfolioBalance';
 import useCheckNftAutoDetectionModal from '../../hooks/useCheckNftAutoDetectionModal';
 import useCheckMultiRpcModal from '../../hooks/useCheckMultiRpcModal';
 import { selectContractBalances } from '../../../selectors/tokenBalancesController';
@@ -123,8 +125,8 @@ import {
 import { useNftDetectionChainIds } from '../../hooks/useNftDetectionChainIds';
 import Logger from '../../../util/Logger';
 /*----- [Arthur] -----*/
-import WalletAction from '../../UI/WalletAction';
-import { WalletActionType } from '../../UI/WalletAction/WalletAction.types';
+import WalletAction from '../../UI/WeWalletAction';
+import { WalletActionType } from '../../UI/WeWalletAction/WalletAction.types';
 import { IconName } from '../../../component-library/components/Icons/Icon';
 import { WalletActionsBottomSheetSelectorsIDs } from '../../../../e2e/selectors/wallet/WalletActionsBottomSheet.selectors';
 import { AvatarSize } from '../../../component-library/components/Avatars/Avatar';
@@ -135,10 +137,18 @@ import { isEvmAccountType, SolScope } from '@metamask/keyring-api';
 import { isMultichainWalletSnap } from '../../../core/SnapKeyring/utils/snaps';
 import { CaipChainId, SnapId } from '@metamask/snaps-sdk';
 import { sendMultichainTransaction } from '../../../core/SnapKeyring/utils/sendMultichainTransaction';
-import { QRTabSwitcherScreens } from '../QRTabSwitcher';
+import { QRTabSwitcherScreens } from '../WeQRTabSwitcher';
 import BottomSheet, {
   BottomSheetRef,
 } from '../../../component-library/components/BottomSheets/BottomSheet';
+import { swapsUtils } from '@metamask/swaps-controller';
+import { swapsLivenessSelector } from '../../../reducers/swaps';
+/*--------------------*/
+import { Image } from 'react-native';
+import { SvgProps } from 'react-native-svg';
+import usda from './usda.svg'
+import xgame from './xgame.svg'
+import { Dimensions } from 'react-native';
 /*--------------------*/
 
 const createStyles = ({ colors, typography }: Theme) =>
@@ -148,7 +158,11 @@ const createStyles = ({ colors, typography }: Theme) =>
     },
     wrapper: {
       flex: 1,
-      backgroundColor: colors.background.default,
+    //backgroundColor: colors.background.default,
+      backgroundColor: '#ECF2F8', // [Arthur]
+    //borderColor: 'green',
+    //borderStyle: 'solid',
+    //borderWidth: 3,
     },
     walletAccount: { marginTop: 28 },
     tabUnderlineStyle: {
@@ -178,6 +192,9 @@ const createStyles = ({ colors, typography }: Theme) =>
       widht: '80%',
       marginTop: 20,
       paddingHorizontal: 16,
+      borderColor: 'red',
+      borderStyle: 'solid',
+      borderWidth: 3,
     },
     carouselContainer: {
       marginTop: 12,
@@ -383,6 +400,13 @@ const MyWallet = ({
   const selectedNetworkClientId = useSelector(selectNetworkClientId);
 
   const chainIdsToDetectNftsFor = useNftDetectionChainIds();
+  const swapsIsLive = useSelector(swapsLivenessSelector);
+
+  /**
+     * Asset to receive, could be not defined
+     */
+  let receiveAsset: object;
+  let metrics: object;
 
   /**
    * Shows Nft auto detect modal if the user is on mainnet, never saw the modal and have nft detection off
@@ -704,7 +728,8 @@ const MyWallet = ({
   const canSignTransactions = useSelector(selectCanSignTransactions);
   const sendIconStyle = useMemo(
     () => ({
-      transform: [{ rotate: '-45deg' }],
+    //  transform: [{ rotate: '-45deg' }],
+      transform: [{ rotate: '0deg' }],
       ...styleActions.styles.icon,
     }),
     [styleActions.styles.icon],
@@ -782,8 +807,16 @@ const MyWallet = ({
       });
     });
     */
+    // Hack
+    /*
     navigate(Routes.QR_TAB_SWITCHER, {
       initialScreen: QRTabSwitcherScreens.Receive,
+      disableTabber: true,  // [Arthur] {remove tabz}
+    });
+    */
+    navigate('PaymentRequestView', {
+      screen: 'PaymentRequest',
+    //params: { receiveAsset: receiveAsset },
     });
 
     trackEvent(
@@ -796,6 +829,19 @@ const MyWallet = ({
         })
         .build(),
     );
+    /*
+    navigate('PaymentRequestView', {
+      screen: 'PaymentRequest',
+      params: { receiveAsset: receiveAsset },
+    });
+    */
+    /*
+    trackEvent(
+      metrics
+        .createEventBuilder(MetaMetricsEvents.RECEIVE_OPTIONS_PAYMENT_REQUEST)
+        .build(),
+    );
+    */
   }, [
     // closeBottomSheetAndNavigate, [Arthur]
     navigate,
@@ -804,6 +850,69 @@ const MyWallet = ({
     createEventBuilder,
   ]);
 
+  const goToSwaps = useCallback(() => {
+    /*
+    closeBottomSheetAndNavigate(() => {
+      navigate('Swaps', {
+        screen: 'SwapsAmountView',
+        params: {
+          sourceToken: swapsUtils.NATIVE_SWAPS_TOKEN_ADDRESS,
+          sourcePage: 'MainView',
+        },
+      });
+    });
+    */
+    navigate('Swaps', {
+      screen: 'SwapsAmountView',
+      params: {
+        sourceToken: swapsUtils.NATIVE_SWAPS_TOKEN_ADDRESS,
+        sourcePage: 'MainView',
+      },
+    });
+
+    trackEvent(
+      createEventBuilder(MetaMetricsEvents.SWAP_BUTTON_CLICKED)
+        .addProperties({
+          text: 'Swap',
+          tokenSymbol: '',
+          location: 'TabBar',
+          chain_id: getDecimalChainId(chainId),
+        })
+        .build(),
+    );
+  }, [
+    //closeBottomSheetAndNavigate,
+    navigate,
+    trackEvent,
+    chainId,
+    createEventBuilder,
+  ]);
+
+  const onPressSwaps = useCallback(() => {
+    ///: BEGIN:ONLY_INCLUDE_IF(keyring-snaps)
+    if (chainId === SolScope.Mainnet) {
+    //  goToBridge(); // turn off first
+      return;
+    }
+    ///: END:ONLY_INCLUDE_IF
+
+    goToSwaps();
+  }, [
+    ///: BEGIN:ONLY_INCLUDE_IF(keyring-snaps)
+    chainId,
+    //goToBridge,
+    ///: END:ONLY_INCLUDE_IF
+    goToSwaps,
+  ]);
+  const onNothing = useCallback(() => {
+    if (chainId === SolScope.Mainnet) {
+      return
+    }
+  }, [chainId])
+  
+  const Usda: React.FC<SvgProps & { name: string }> = usda;
+  const Xgame: React.FC<SvgProps & { name: string }> = xgame;
+  const win = Dimensions.get('window');
   const renderContent = useCallback(() => {
     const assets = tokensByChainIdAndAddress
       ? [...tokensByChainIdAndAddress]
@@ -814,11 +923,6 @@ const MyWallet = ({
     if (stakedEvmAsset) {
       assets.push(stakedEvmAsset);
     }
-    console.log('==========================')
-    console.log('======              ======')
-    console.log('======   ARTHUR     ======')
-    console.log('======              ======')
-    console.log('==========================')
     return (
       <View
         style={styles.wrapper}
@@ -838,27 +942,211 @@ const MyWallet = ({
           </View>
         ) : null}
         <>
-          <View>
-            <WalletAction
-              actionType={WalletActionType.Send}
-              iconName={IconName.Arrow2Right}
-              onPress={onSend}
-              iconStyle={sendIconStyle}
-              actionID={WalletActionsBottomSheetSelectorsIDs.SEND_BUTTON}
-              iconSize={AvatarSize.Md}
-              disabled={!canSignTransactions}
-            />
-            <WalletAction
-              actionType={WalletActionType.Receive}
-              iconName={IconName.Received}
-              onPress={onReceive}
-              actionID={WalletActionsBottomSheetSelectorsIDs.RECEIVE_BUTTON}
-              iconStyle={styleActions.styles.icon}
-              iconSize={AvatarSize.Md}
-              disabled={false}
-            />
+          <View style={{
+            padding: 0,
+            backgroundColor: '#ECF2F8',
+          }}>
+            <Image style={{
+              left: win.width * 0.05,
+              width: win.width * 0.9,
+            //height: '90%',
+            }}
+            resizeMode={'contain'}
+            source={require('./card.png')} />
           </View>
           {<PortfolioBalance />}
+          <View style={{
+            //flexDirection: 'row',
+            //justifyContent: 'space-around',
+            //alignItems: 'flex-start',
+            paddingVertical: 4,
+            borderRadius: 8,
+            backgroundColor: '#FFFFFF',
+          }}>
+            <View style={{
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              alignItems: 'flex-start',
+            }}>
+              <WalletAction
+                actionType={WalletActionType.WeSend}
+                iconName={IconName.Arrow2Right}
+                onPress={onSend}
+                iconStyle={sendIconStyle}
+                actionID={WalletActionsBottomSheetSelectorsIDs.SEND_BUTTON}
+                iconSize={AvatarSize.Md}
+                disabled={!canSignTransactions}
+              />
+              <WalletAction
+                actionType={WalletActionType.WeReceive}
+                iconName={IconName.Received}
+                onPress={onReceive}
+                actionID={WalletActionsBottomSheetSelectorsIDs.RECEIVE_BUTTON}
+                iconStyle={styleActions.styles.icon}
+                iconSize={AvatarSize.Md}
+                disabled={false}
+              />
+              <WalletAction
+                actionType={WalletActionType.WeSwap}
+                iconName={IconName.SwapHorizontal}
+                onPress={onPressSwaps}
+                actionID={WalletActionsBottomSheetSelectorsIDs.SWAP_BUTTON}
+                //iconStyle={styles.icon}
+                iconStyle={styleActions.styles.icon}
+                iconSize={AvatarSize.Md}
+                disabled={!canSignTransactions || !swapsIsLive}
+              />
+              <WalletAction
+                actionType={WalletActionType.WeCashout}
+                iconName={IconName.Received}
+                onPress={onReceive}
+                actionID={WalletActionsBottomSheetSelectorsIDs.RECEIVE_BUTTON}
+                iconStyle={styleActions.styles.icon}
+                iconSize={AvatarSize.Md}
+                disabled={false}
+              />
+            </View>
+            <View style={{
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              alignItems: 'flex-start',
+            }}>
+              <WalletAction
+                actionType={WalletActionType.WePoint}
+                iconName={IconName.WePoint}
+                onPress={onNothing}
+                iconStyle={sendIconStyle}
+                actionID={WalletActionsBottomSheetSelectorsIDs.SEND_BUTTON}
+                iconSize={AvatarSize.Md}
+                disabled={!canSignTransactions}
+              />
+              <WalletAction
+                actionType={WalletActionType.WeFriend}
+                iconName={IconName.WeFriend}
+                onPress={onNothing}
+                actionID={WalletActionsBottomSheetSelectorsIDs.RECEIVE_BUTTON}
+                iconStyle={styleActions.styles.icon}
+                iconSize={AvatarSize.Md}
+                disabled={false}
+              />
+              <WalletAction
+                actionType={WalletActionType.WeSocial}
+                iconName={IconName.WeSocial}
+                onPress={onNothing}
+                actionID={WalletActionsBottomSheetSelectorsIDs.SWAP_BUTTON}
+                //iconStyle={styles.icon}
+                iconStyle={styleActions.styles.icon}
+                iconSize={AvatarSize.Md}
+                disabled={!canSignTransactions || !swapsIsLive}
+              />
+              <WalletAction
+                actionType={WalletActionType.WeGame}
+                iconName={IconName.WeGame}
+                onPress={onNothing}
+                actionID={WalletActionsBottomSheetSelectorsIDs.RECEIVE_BUTTON}
+                iconStyle={styleActions.styles.icon}
+                iconSize={AvatarSize.Md}
+                disabled={false}
+              />
+            </View>
+          </View>
+          <View style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+              marginBottom: 20,
+            }}>
+            <View style={{
+              flexDirection: 'column',
+              justifyContent: 'space-around',
+              alignItems: 'flex-start',
+              width: '48%',
+            }}>
+              <Text style={{
+                paddingTop: 8,
+                paddingLeft: 12,
+              }}>金融</Text>
+              <View style={{
+                flexDirection: 'column',
+                justifyContent: 'space-around',
+                alignItems: 'flex-start',
+                borderTopRightRadius: 16,
+                borderBottomRightRadius: 16,
+                backgroundColor: '#D7E3FC',
+                width: '100%',
+                paddingTop: 8,
+                paddingBottom: 8,
+                paddingLeft: 12,
+              }}>
+                <View style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                  <Usda name='usda'/>
+                  <Text style={{
+                    paddingLeft: 4
+                  }}>USDA</Text>
+                </View>
+                <View style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'flex-start',
+                  width: '95%',
+                  paddingTop: 8,
+                }}>
+                  <Text>活期/定期</Text>
+                  <Text style={{
+                    color: '#E38600',
+                  }}>7.36% &gt;</Text>
+                </View>
+              </View>
+            </View>
+            <View style={{
+              flexDirection: 'column',
+              justifyContent: 'space-around',
+              alignItems: 'flex-start',
+              width: '48%',
+            }}>
+              <Text style={{
+                paddingTop: 8,
+                paddingLeft: 12,
+              }}>遊戲</Text>
+              <View style={{
+                flexDirection: 'column',
+                justifyContent: 'space-around',
+                alignItems: 'flex-start',
+                borderTopLeftRadius: 16,
+                borderBottomLeftRadius: 16,
+                backgroundColor: '#D7E3FC',
+                width: '100%',
+                paddingTop: 8,
+                paddingBottom: 8,
+                paddingLeft: 12,
+              }}>
+                <View style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                  <Xgame name='xgame'/>
+                  <Text style={{
+                    paddingLeft: 4
+                  }}>xGame</Text>
+                </View>
+                <View style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'flex-start',
+                  width: '95%',
+                  paddingTop: 8,
+                }}>
+                  <Text>最高獎勵</Text>
+                  <Text style={{
+                    color: '#E38600',
+                  }}>1000% &gt;</Text>
+                </View>
+              </View>
+            </View>
+          </View>
           {/*<Carousel style={styles.carouselContainer} />*/}
           {renderTokensContent()}
           {
@@ -926,6 +1214,7 @@ const MyWallet = ({
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mapStateToProps = (state: any) => ({
   shouldShowNewPrivacyToast: shouldShowNewPrivacyToastSelector(state),
+  receiveAsset: state.modals.receiveAsset,  // [Arthur] {connect PaymentRequest}
 });
 
 // TODO: Replace "any" with type

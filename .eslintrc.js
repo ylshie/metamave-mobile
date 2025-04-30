@@ -136,6 +136,7 @@ module.exports = {
   },
 
   rules: {
+    //'no-require-imports': ['warn', { allow: ['warn', 'error'] }],
     'no-catch-shadow': 0,
     'no-console': ['warn', { allow: ['warn', 'error'] }], // [Arthur]
     quotes: [
@@ -221,8 +222,8 @@ module.exports = {
     'import/no-unresolved': 2,
     'eslint-comments/no-unlimited-disable': 0,
     'eslint-comments/no-unused-disable': 0,
-    'react-native/no-color-literals': 2,
-    'react-native/no-inline-styles': 2,
+    'react-native/no-color-literals': 0,  // Arthur
+    'react-native/no-inline-styles': 0,
     'react-native/no-unused-styles': 0,
     'react-native/split-platform-components': 2,
     'react/jsx-boolean-value': 2,

@@ -119,7 +119,7 @@ const createStyles = (colors) =>
       marginTop: 4,
       width: 90,
       height: 18,
-      tintColor: colors.text.default,
+    // tintColor: colors.text.default,  // [Arthur]
     },
     account: {
       flex: 1,
@@ -320,7 +320,8 @@ const createStyles = (colors) =>
     protectWalletButtonWrapper: { marginVertical: 8 },
   });
 
-const metamask_name = require('../../../images/branding/metamask-name.png'); // eslint-disable-line
+//const metamask_name = require('../../../images/branding/metamask-name.png'); // eslint-disable-line
+const metamask_name = require('../../../images/branding/wezan-name.png'); // eslint-disable-line
 //const metamask_fox = require('../../../images/branding/fox.png'); // eslint-disable-line
 const metamask_fox = require('../../../images/branding/wezan.png'); // eslint-disable-line
 const ICON_IMAGES = {

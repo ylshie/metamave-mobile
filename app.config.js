@@ -1,6 +1,6 @@
 module.exports = {
     name: 'MetaMask',
-    displayName: 'MetaMask',
+    displayName: 'WeZan',
     plugins: [
         [
             'expo-build-properties',

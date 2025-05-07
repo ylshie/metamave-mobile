@@ -63,7 +63,7 @@ import { fetchEstimatedMultiLayerL1Fee } from '../../../../../../util/networks/e
 import Text from '../../../../../Base/Text';
 import { removeFavoriteCollectible } from '../../../../../../actions/collectibles';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import AccountFromToInfoCard from '../../../../../UI/AccountFromToInfoCard';
+import AccountFromToInfoCard from '../../../../../UI/WeAccountFromToInfoCard';
 import TransactionReview from '../../components/TransactionReview/TransactionReviewEIP1559Update';
 import CustomNonce from '../../components/CustomNonce';
 import AppConstants from '../../../../../../core/AppConstants';
@@ -1418,6 +1418,7 @@ class Confirm extends PureComponent {
           onPressFromAddressIcon={
             !paymentRequest ? null : this.openAccountSelector
           }
+          transactionValue={transactionValue} 
           layout="vertical"
         />
         <ScrollView style={baseStyles.flexGrow} ref={this.setScrollViewRef}>
@@ -1433,6 +1434,7 @@ class Confirm extends PureComponent {
           )}
           {!selectedAsset.tokenId ? (
             <View style={styles.amountWrapper}>
+              {/*
               <Text style={styles.textAmountLabel}>
                 {strings('transaction.amount')}
               </Text>
@@ -1442,6 +1444,7 @@ class Confirm extends PureComponent {
               >
                 {transactionValue}
               </Text>
+              */}
               {isMainnetByChainId(chainId) && (
                 <Text style={styles.textAmountLabel}>
                   {transactionValueFiat}

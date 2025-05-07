@@ -129,6 +129,7 @@ const createStyles = (colors) =>
     buttonNext: {
       flex: 1,
       marginHorizontal: 24,
+      backgroundColor: '#264C98', // [Arthur]
     },
     inputWrapper: {
       flex: 1,

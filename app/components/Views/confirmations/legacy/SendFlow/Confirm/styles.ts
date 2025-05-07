@@ -31,6 +31,7 @@ const createStyles = (colors: any) =>
       flex: 1,
       marginHorizontal: 24,
       alignSelf: 'flex-end',
+      backgroundColor: '#264C98', // [Arthur]
     },
     buttonNextWrapper: {
       flexDirection: 'row',

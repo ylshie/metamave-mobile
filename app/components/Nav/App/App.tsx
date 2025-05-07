@@ -135,6 +135,7 @@ import ImportNewSecretRecoveryPhrase from '../../Views/ImportNewSecretRecoveryPh
 import { SelectSRPBottomSheet } from '../../Views/SelectSRP/SelectSRPBottomSheet';
 ///: END:ONLY_INCLUDE_IF
 import NavigationService from '../../../core/NavigationService';
+import { BorderColor } from '../../UI/Box/box.types';
 
 const clearStackNavigatorOptions = {
   headerShown: false,
@@ -175,7 +176,11 @@ const OnboardingSuccessComponentNoSRP = () => {
 };
 
 const OnboardingSuccessFlow = () => (
-  <Stack.Navigator initialRouteName={Routes.ONBOARDING.SUCCESS}>
+  <Stack.Navigator 
+    initialRouteName={Routes.ONBOARDING.SUCCESS}
+    screenOptions={{        // [Arthur]
+      headerShown: false,
+    }}>
     <Stack.Screen
       name={Routes.ONBOARDING.SUCCESS}
       component={OnboardingSuccessComponent} // Used in SRP flow
@@ -203,7 +208,12 @@ const OnboardingSuccessFlow = () => (
  * Create Wallet and Import from Secret Recovery Phrase
  */
 const OnboardingNav = () => (
-  <Stack.Navigator initialRouteName="OnboardingCarousel">
+  <Stack.Navigator 
+    initialRouteName="OnboardingCarousel"
+    screenOptions={{      // [Debug]
+      headerShown: true,
+    }}
+  >
     <Stack.Screen name="Onboarding" component={Onboarding} />
     <Stack.Screen name="OnboardingCarousel" component={OnboardingCarousel} />
     <Stack.Screen name="ChoosePassword" component={ChoosePassword} />
@@ -769,9 +779,12 @@ const App: React.FC = () => {
   }, [navigation, queueOfHandleDeeplinkFunctions]);
 
   const handleDeeplink = useCallback(({ error, params, uri }) => {
+    console.log("[Arthur]", "handleDeeplink", params)
     if (error) {
+      console.log("[Arthur]", "handleDeeplink error")
       trackErrorAsAnalytics(error, 'Branch:');
     }
+    console.log("[Arthur]", "handleDeeplink done")
     const deeplink = params?.['+non_branch_link'] || uri || null;
     try {
       if (deeplink) {
@@ -794,6 +807,7 @@ const App: React.FC = () => {
       Linking.addEventListener('url', (params) => {
         const { url } = params;
         if (url) {
+          console.log("[Arthur]", "handleDeeplink caller 3")
           handleDeeplink({ uri: url });
         }
       });
@@ -818,11 +832,13 @@ const App: React.FC = () => {
       }
 
       if (sdkInit.current) {
+        console.log("[Arthur]", "handleDeeplink caller 1")
         handleDeeplink(opts);
       } else {
         queueOfHandleDeeplinkFunctions.current =
           queueOfHandleDeeplinkFunctions.current.concat([
             () => {
+              console.log("[Arthur]", "handleDeeplink caller 2")
               handleDeeplink(opts);
             },
           ]);

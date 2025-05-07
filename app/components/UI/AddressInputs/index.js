@@ -40,6 +40,7 @@ const createStyles = (colors, layout = 'horizontal') => {
       borderWidth: 1,
       borderRadius: 8,
       marginVertical: 8,
+    //  backgroundColor: 'green', // [Arthur]
     },
     inputWrapper: {
       flex: 1,
@@ -90,6 +91,7 @@ const createStyles = (colors, layout = 'horizontal') => {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
+    //  backgroundColor: 'red', // [Arthur]
     },
     accountNameLabelText: {
       marginLeft: 4,
@@ -170,6 +172,7 @@ const createStyles = (colors, layout = 'horizontal') => {
     },
     toInputWrapper: {
       flexDirection: 'row',
+    //  backgroundColor: 'yellow' // [Arthur]
     },
     checkCleanWrapper: { flexDirection: 'row', alignItems: 'center' },
     toAddressTextWrapper: {
@@ -208,7 +211,7 @@ const AddressName = ({ toAddressName, confusableCollection = [] }) => {
   return (
     <View style={styles.accountNameLabel}>
       <Text style={styles.textAddress} numberOfLines={1}>
-        {toAddressName}
+        {`${toAddressName}` /* Arthur */}
       </Text>
     </View>
   );
@@ -251,9 +254,11 @@ export const AddressTo = (props) => {
     }
     return (
       <View style={wrapperStyles}>
+        {/* // Arthur
         <View style={styles.label}>
           <Text style={styles.labelText}>To:</Text>
         </View>
+        */}
         <View
           style={[
             styles.selectWrapper,
@@ -313,9 +318,11 @@ export const AddressTo = (props) => {
 
   return (
     <View style={styles.wrapper}>
+      {/*
       <View style={styles.label}>
         <Text style={styles.labelText}>To:</Text>
       </View>
+      */}
       {!addressToReady ? (
         <View
           style={[

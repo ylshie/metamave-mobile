@@ -48,6 +48,13 @@ const carouselSize = {
 };
 const createStyles = (colors: ThemeColors) =>
   StyleSheet.create({
+    flexGrow: { // [Arthur] [Debug]
+      flex: 1,
+    //backgroundColor: 'red',
+    //borderColor: 'red',
+    //borderStyle: 'solid',
+    //borderWidth: 3,
+    },
     scroll: {
       flexGrow: 1,
     },
@@ -216,7 +223,8 @@ export const OnboardingCarousel: React.FC<OnboardingCarouselProps> = ({
 
   return (
     <View
-      style={baseStyles.flexGrow}
+    //style={baseStyles.flexGrow}
+      style={styles.flexGrow}
       testID={OnboardingCarouselSelectorIDs.CONTAINER_ID}
     >
       <OnboardingScreenWithBg screen={'carousel'}>

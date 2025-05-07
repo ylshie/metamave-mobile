@@ -525,7 +525,14 @@ class WeSendFlow extends PureComponent {
       >
         <View style={styles.inputWrapper}>
           {
-            <View style={styles.hidden}>
+          /*
+            <SendFlowAddressFrom
+              chainId={globalChainId}
+              fromAccountBalanceState={this.fromAccountBalanceState}
+              setFromAddress={this.setFromAddress}
+            />
+          */
+            <View style={styles.hidden}> 
               <SendFlowAddressFrom
                 chainId={globalChainId}
                 fromAccountBalanceState={this.fromAccountBalanceState}
@@ -559,6 +566,35 @@ class WeSendFlow extends PureComponent {
                   : strings('transaction.ens_not_found')
               }
             />
+          </View>
+        )}
+      
+        {!errorContinue && (
+          <View
+            style={styles.footerContainer}
+            testID={SendViewSelectorsIDs.NO_ETH_MESSAGE}
+          >
+            {!errorContinue && (
+              <View style={styles.buttonNextWrapper}>
+                <StyledButton
+                  type={'confirm'}
+                  containerStyle={styles.buttonNext}
+                  onPress={this.onTransactionDirectionSet}
+                  testID={SendViewSelectorsIDs.ADDRESS_BOOK_NEXT_BUTTON}
+                  //To selectedAddressReady needs to be calculated on this component, needing a bigger refactor
+                  //Will be here just to ensure that we don't break existing conditions
+                  disabled={
+                    !(
+                      (isValidHexAddress(toEnsAddressResolved) ||
+                        isValidHexAddress(toAccount)) &&
+                      toSelectedAddressReady
+                    )
+                  }
+                >
+                  {strings('address_book.next')}
+                </StyledButton>
+              </View>
+            )}
           </View>
         )}
 
@@ -656,34 +692,7 @@ class WeSendFlow extends PureComponent {
           </View>
         )}
 
-        {!errorContinue && (
-          <View
-            style={styles.footerContainer}
-            testID={SendViewSelectorsIDs.NO_ETH_MESSAGE}
-          >
-            {!errorContinue && (
-              <View style={styles.buttonNextWrapper}>
-                <StyledButton
-                  type={'confirm'}
-                  containerStyle={styles.buttonNext}
-                  onPress={this.onTransactionDirectionSet}
-                  testID={SendViewSelectorsIDs.ADDRESS_BOOK_NEXT_BUTTON}
-                  //To selectedAddressReady needs to be calculated on this component, needing a bigger refactor
-                  //Will be here just to ensure that we don't break existing conditions
-                  disabled={
-                    !(
-                      (isValidHexAddress(toEnsAddressResolved) ||
-                        isValidHexAddress(toAccount)) &&
-                      toSelectedAddressReady
-                    )
-                  }
-                >
-                  {strings('address_book.next')}
-                </StyledButton>
-              </View>
-            )}
-          </View>
-        )}
+        
       </SafeAreaView>
     );
   };

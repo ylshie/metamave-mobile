@@ -15,8 +15,8 @@ const createStyles = (colors: any) =>
     },
     inputWrapper: {
       flex: 0,
-      borderBottomWidth: 1,
-      borderBottomColor: colors.border.muted,
+      //borderBottomWidth: 1,                   // [Arthur] [remove]
+      //borderBottomColor: colors.border.muted, // [Arthur] [remove]
       paddingHorizontal: 8,
     },
     bottomModal: {
@@ -45,6 +45,8 @@ const createStyles = (colors: any) =>
     buttonNext: {
       flex: 1,
       marginHorizontal: 24,
+      color: '#FFFFFF',
+      backgroundColor: '#E38600', // [Arthur]
     },
     addressErrorWrapper: {
       margin: 16,

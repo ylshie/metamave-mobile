@@ -483,6 +483,7 @@ const Wallet = ({
         isProfileSyncingEnabled,
         unreadNotificationCount,
         readNotificationCount,
+        'WeZan Pay' // [Arthur] Resolve Build: to remove
       ),
     );
   }, [

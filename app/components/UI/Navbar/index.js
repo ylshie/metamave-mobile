@@ -894,6 +894,7 @@ export function getWalletNavbarOptions(
   isProfileSyncingEnabled,
   unreadNotificationCount,
   readNotificationCount,
+  caption,
 ) {
   const innerStyles = StyleSheet.create({
     headerStyle: {
@@ -1031,7 +1032,7 @@ export function getWalletNavbarOptions(
           fontWeight: 500,
           letterSpacing: 0,
           lineHeight: 24,
-        }}>WeZan Pay</Text>
+        }}>{caption}</Text>
       </View>
     ),
     /*

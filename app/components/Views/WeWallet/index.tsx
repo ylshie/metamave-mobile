@@ -526,6 +526,7 @@ const MyWallet = ({
         isProfileSyncingEnabled,
         unreadNotificationCount,
         readNotificationCount,
+        'WeZan Pay'
       ),
     );
   }, [

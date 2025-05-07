@@ -21,7 +21,13 @@ import AppInformation from '../../Views/Settings/AppInformation';
 import DeveloperOptions from '../../Views/Settings/DeveloperOptions';
 import Contacts from '../../Views/Settings/Contacts';
 //import Wallet from '../../Views/Wallet';
-import Wallet from '../../Views/MyWallet'; // Arthur
+import Wallet from '../../Views/WeWallet';      // Arthur
+import Persona from '../../Views/WePersona';    // Arthur
+import Security from '../../Views/WeSecurity';  // Arthur
+import Language from '../../Views/WeLanguage';  // Arthur
+import Currency from '../../Views/WeCurrency';  // Arthur
+import WeHelp from '../../Views/WeHelp';        // Arthur
+import WeRobot from '../../Views/WeRobot';      // Arthur
 import Asset from '../../Views/Asset';
 import AssetDetails from '../../Views/AssetDetails';
 import AddAsset from '../../Views/AddAsset';
@@ -31,7 +37,7 @@ import SendTo from '../../Views/confirmations/legacy/SendFlow/WeSendTo'; // [Art
 import { RevealPrivateCredential } from '../../Views/RevealPrivateCredential';
 import WalletConnectSessions from '../../Views/WalletConnectSessions';
 import OfflineMode from '../../Views/OfflineMode';
-import QRTabSwitcher from '../../Views/QRTabSwitcher';
+import QRTabSwitcher from '../../Views/WeQRTabSwitcher';  // [Arthur]
 import EnterPasswordSimple from '../../Views/EnterPasswordSimple';
 import ChoosePassword from '../../Views/ChoosePassword';
 import ResetPassword from '../../Views/ResetPassword';
@@ -40,14 +46,14 @@ import AccountBackupStep1B from '../../Views/AccountBackupStep1B';
 import ManualBackupStep1 from '../../Views/ManualBackupStep1';
 import ManualBackupStep2 from '../../Views/ManualBackupStep2';
 import ManualBackupStep3 from '../../Views/ManualBackupStep3';
-import PaymentRequest from '../../UI/PaymentRequest';
+import PaymentRequest from '../../UI/WePaymentRequest'; // [Arthur]
 import PaymentRequestSuccess from '../../UI/PaymentRequestSuccess';
 import Amount from '../../Views/confirmations/legacy/SendFlow/Amount';
 import Confirm from '../../Views/confirmations/legacy/SendFlow/Confirm';
 import ContactForm from '../../Views/Settings/Contacts/ContactForm';
 import ActivityView from '../../Views/ActivityView';
-import SwapsAmountView from '../../UI/Swaps';
-import SwapsQuotesView from '../../UI/Swaps/QuotesView';
+import SwapsAmountView from '../../UI/WeSwaps';
+import SwapsQuotesView from '../../UI/WeSwaps/QuotesView';
 import CollectiblesDetails from '../../UI/CollectibleModal';
 import OptinMetrics from '../../UI/OptinMetrics';
 import Drawer from '../../UI/Drawer';
@@ -60,7 +66,8 @@ import RampActivationKeyForm from '../../UI/Ramp/Views/Settings/ActivationKeyFor
 import { colors as importedColors } from '../../../styles/common';
 import OrderDetails from '../../UI/Ramp/Views/OrderDetails';
 import SendTransaction from '../../UI/Ramp/Views/SendTransaction';
-import TabBar from '../../../component-library/components/Navigation/TabBar';
+import TabBar from '../../../component-library/components/Navigation/WeTabBar';
+import { TabBarIconKey } from '../../../component-library/components/Navigation/WeTabBar/TabBar.types';
 ///: BEGIN:ONLY_INCLUDE_IF(external-snaps)
 import { SnapsSettingsList } from '../../Views/Snaps/SnapsSettingsList';
 import { SnapSettings } from '../../Views/Snaps/SnapSettings';
@@ -69,7 +76,6 @@ import Routes from '../../../constants/navigation/Routes';
 import { MetaMetricsEvents } from '../../../core/Analytics';
 import { getActiveTabUrl } from '../../../util/transactions';
 import { getPermittedAccountsByHostname } from '../../../core/Permissions';
-import { TabBarIconKey } from '../../../component-library/components/Navigation/TabBar/TabBar.types';
 import { isEqual } from 'lodash';
 import { selectProviderConfig } from '../../../selectors/networkController';
 import { selectAccountsLength } from '../../../selectors/accountTrackerController';
@@ -91,6 +97,7 @@ import AccountPermissions from '../../../components/Views/AccountPermissions';
 import { AccountPermissionsScreens } from '../../../components/Views/AccountPermissions/AccountPermissions.types';
 import { StakeModalStack, StakeScreenStack } from '../../UI/Stake/routes';
 import { BridgeModalStack, BridgeScreenStack } from '../../UI/Bridge/routes';
+import WeKYC from '../../Views/WeKYC';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -193,7 +200,34 @@ const WalletTabModalFlow = () => (
     />
   </Stack.Navigator>
 );
-
+/*
+const PersonaModalFlow = () => (
+  <Stack.Navigator mode={'modal'} screenOptions={clearStackNavigatorOptions}>
+    <Stack.Screen
+      name={'Persona'}
+      component={Persona}
+      options={{ headerShown: true, animationEnabled: false }}
+    />
+  </Stack.Navigator>
+);
+const PersonaTabStackFlow = () => (
+  <Stack.Navigator initialRouteName={'PersonaView'}>
+    <Stack.Screen
+      name="PersonaView"
+      component={PersonaModalFlow}
+      options={{ headerShown: false }}
+    />
+  </Stack.Navigator>
+)
+const PersonaTabModalFlow = () => (
+  <Stack.Navigator mode={'modal'} screenOptions={clearStackNavigatorOptions}>
+    <Stack.Screen
+      name={Routes.WALLET.TAB_STACK_FLOW}
+      component={PersonaTabStackFlow}
+    />
+  </Stack.Navigator>
+);
+*/
 const TransactionsHome = () => (
   <Stack.Navigator>
     <Stack.Screen
@@ -260,16 +294,57 @@ const NotificationsOptInStack = () => (
   </Stack.Navigator>
 );
 
+const PersonaFlow = () => (
+  <Stack.Navigator initialRouteName={'Persona'}>
+    <Stack.Screen
+      name="Persona"
+      component={Persona}
+      options={Settings.navigationOptions}
+    />
+    <Stack.Screen
+      name="SecurityPersona"
+      component={Security}
+      options={GeneralSettings.navigationOptions}
+    />
+    <Stack.Screen
+      name="LanguagePersona"
+      component={Language}
+      options={GeneralSettings.navigationOptions}
+    />
+    <Stack.Screen
+      name="CurrencyPersona"
+      component={Currency}
+      options={GeneralSettings.navigationOptions}
+    />
+    <Stack.Screen
+      name="HelpPersona"
+      component={WeHelp}
+      options={GeneralSettings.navigationOptions}
+    />
+    <Stack.Screen
+      name="RobotPersona"
+      component={WeRobot}
+      options={GeneralSettings.navigationOptions}
+    />
+    <Stack.Screen
+      name="KYCPersona"
+      component={WeKYC}
+      options={GeneralSettings.navigationOptions}
+    />
+  </Stack.Navigator>
+);
+
 const SettingsFlow = () => (
   <Stack.Navigator initialRouteName={'Settings'}>
     <Stack.Screen
       name="Settings"
-      component={Settings}
+      component={Persona}
       options={Settings.navigationOptions}
     />
     <Stack.Screen
       name="GeneralSettings"
-      component={GeneralSettings}
+    //component={GeneralSettings}
+      component={Security}
       options={GeneralSettings.navigationOptions}
     />
     <Stack.Screen
@@ -441,7 +516,8 @@ const HomeTabs = () => {
 
   const options = {
     home: {
-      tabBarIconKey: TabBarIconKey.Wallet,
+      tabBarIconKey: TabBarIconKey.WeHome,
+      tabBarLabel: '首頁',
       callback: () => {
         trackEvent(
           createEventBuilder(MetaMetricsEvents.WALLET_OPENED)
@@ -454,12 +530,28 @@ const HomeTabs = () => {
       },
       rootScreenName: Routes.WALLET_VIEW,
     },
+    finance: {
+      tabBarIconKey: TabBarIconKey.WeFinance,
+      tabBarLabel: '理財',
+      rootScreenName: Routes.WALLET_VIEW,
+    },
+    asset: {
+      tabBarIconKey: TabBarIconKey.WeAsset,
+      tabBarLabel: '資產',
+      rootScreenName: Routes.WALLET_VIEW,
+    },
+    person: {
+      tabBarIconKey: TabBarIconKey.WePerson,
+      tabBarLabel: '個人中心',
+      rootScreenName: Routes.SETTINGS_VIEW,
+    },
     actions: {
       tabBarIconKey: TabBarIconKey.Actions,
       rootScreenName: Routes.MODAL.WALLET_ACTIONS,
     },
     browser: {
       tabBarIconKey: TabBarIconKey.Browser,
+      tabBarLabel: '理財',
       callback: () => {
         trackEvent(
           createEventBuilder(MetaMetricsEvents.BROWSER_OPENED)
@@ -543,6 +635,21 @@ const HomeTabs = () => {
             options={options.home}
             component={WalletTabModalFlow}
           />
+          <Tab.Screen
+            name={Routes.TRANSACTIONS_VIEW}
+            options={options.finance}
+            component={WalletTabModalFlow}
+          />
+          <Tab.Screen
+            name={Routes.BROWSER.HOME}
+            options={options.asset}
+            component={WalletTabModalFlow}
+          />
+          <Tab.Screen
+            name={Routes.SETTINGS_VIEW}
+            options={options.person}
+            component={PersonaFlow}
+          />
           {/*
           <Tab.Screen
             name={Routes.TRANSACTIONS_VIEW}
@@ -557,13 +664,13 @@ const HomeTabs = () => {
             component={WalletTabModalFlow}
           />
           */}
-          {
+          {/*
           <Tab.Screen
             name={Routes.BROWSER.HOME}
             options={options.browser}
             component={BrowserFlow}
           />
-          }
+          */}
           {/*
           <Tab.Screen
             name={Routes.SETTINGS_VIEW}
@@ -727,7 +834,11 @@ const Swaps = () => (
 );
 
 const SetPasswordFlow = () => (
-  <Stack.Navigator>
+  <Stack.Navigator 
+    screenOptions={{        // [Arthur]
+      headerShown: false,
+    }}
+  >
     <Stack.Screen
       name="ChoosePassword"
       component={ChoosePassword}
@@ -848,7 +959,8 @@ const MainNavigator = () => (
       headerTitle={() => (
         <Image
           style={styles.headerLogo}
-          source={require('../../../images/branding/metamask-name.png')}
+        //source={require('../../../images/branding/metamask-name.png')}
+          source={require('../../../images/branding/wezan-name.png')}
           resizeMode={'contain'}
         />
       )}

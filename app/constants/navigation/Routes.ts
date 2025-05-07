@@ -1,5 +1,6 @@
 const Routes = {
   WALLET_VIEW: 'WalletView',
+  PERSONA_VIEW: 'PersonaView',
   BROWSER_TAB_HOME: 'BrowserTabHome',
   BROWSER_VIEW: 'BrowserView',
   SETTINGS_VIEW: 'SettingsView',
@@ -191,6 +192,11 @@ const Routes = {
   },
   ///: END:ONLY_INCLUDE_IF
   FOX_LOADER: 'FoxLoader',
+  PERSONA: {
+    HOME: 'PersonaView',  //'PersonaTabHome',
+    TAB_STACK_FLOW: 'PersonaTabStackFlow',
+  //WALLET_CONNECT_SESSIONS_VIEW: 'WalletConnectSessionsView',
+  },
 };
 
 export default Routes;

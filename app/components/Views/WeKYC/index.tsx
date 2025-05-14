@@ -14,7 +14,7 @@ import {
 
 import { connect, useSelector } from 'react-redux';
 import { baseStyles } from '../../../styles/common';
-import { getWalletNavbarOptions } from '../../UI/Navbar';
+import { getPersonaNavbar } from '../../UI/Navbar';
 import { strings } from '../../../../locales/i18n';
 import {
   isPastPrivacyPolicyDate,
@@ -55,6 +55,7 @@ import {
   NavigationProp,
   ParamListBase,
   useNavigation,
+  useRoute,
 } from '@react-navigation/native';
 import BannerAlert from '../../../component-library/components/Banners/Banner/variants/BannerAlert/BannerAlert';
 import { BannerAlertSeverity } from '../../../component-library/components/Banners/Banner';
@@ -90,6 +91,7 @@ import { Image } from 'react-native';
 import { Dimensions } from 'react-native';
 import createStyles from './styles';
 //import { LinearGradient } from "expo-linear-gradient";
+import LinearGradient from 'react-native-linear-gradient'
 /*--------------------*/
 
 interface WalletProps {
@@ -112,6 +114,7 @@ const MyPersona = ({
   storePrivacyPolicyClickedOrClosed,
 }: WalletProps) => {
   const { navigate } = useNavigation();
+  const route = useRoute();
   const walletRef = useRef(null);
   const theme = useTheme();
   const { toastRef } = useContext(ToastContext);
@@ -297,22 +300,7 @@ const MyPersona = ({
   useEffect(() => {
     if (!selectedInternalAccount) return;
     navigation.setOptions(
-      getWalletNavbarOptions(
-        walletRef,
-        selectedInternalAccount,
-        accountName,
-        accountAvatarType,
-        networkName,
-        networkImageSource,
-        onTitlePress,
-        navigation,
-        colors,
-        isNotificationEnabled,
-        isProfileSyncingEnabled,
-        unreadNotificationCount,
-        readNotificationCount,
-        '個人驗證'
-      ),
+      getPersonaNavbar(navigation, route, colors, '個人驗證')
     );
   }, [
     selectedInternalAccount,
@@ -365,6 +353,34 @@ const MyPersona = ({
     fontSize: 16,
     fontWeight: '400',
   }
+  const Upload = () => (
+    <View style={{
+      width: '60%',
+      backgroundColor: '#E37D00',
+      borderRadius: 10,
+      justifyContent: 'center',
+      flexDirection: 'row',
+      alignItems: 'center',
+    }}>
+      <Image style={{
+              left: win.width * 0.01,
+              width: win.width * 0.05,
+            }}
+            resizeMode={'contain'}
+            source={require('./images/camera.png')}
+      />
+      <Text style={{
+        color: '#FFFFFF',
+        fontSize: 8,
+        fontWeight: '500',
+      }}>上傳</Text>
+    </View>
+  )
+  const onApply = () => {
+    navigation.navigate(Routes.MODAL.ROOT_MODAL_FLOW, {
+      screen: Routes.MODAL.WE_ACTIONS,
+    });
+  }
   const renderContent = useCallback(() => {
     const assets = tokensByChainIdAndAddress
       ? [...tokensByChainIdAndAddress]
@@ -379,6 +395,7 @@ const MyPersona = ({
       <View
         style={{
           alignItems: 'center',
+          justifyContent: 'center',
           ...styles.wrapper
         }}
         testID={WalletViewSelectorsIDs.WALLET_CONTAINER}
@@ -399,25 +416,90 @@ const MyPersona = ({
         <>
           <View style={{
             width: '90%',
-          //margin: 10,
-          marginTop: 30,
+            alignItems: 'center',
+            justifyContent: 'center',
           }}>
-            {/*
             <LinearGradient 
-                colors={['#4c669f', '#3b5998', '#192f6a']} 
+                colors={['#E4E9F5', '#F3F3F3']} 
                 style={{
                   width: '100%',
-                  height: 100,
-                  borderRadius: 10
-            }}>
-              <Text>
-                Sign in with Facebook
-              </Text>
+                  borderWidth: 1,
+                  borderStyle: 'solid', 
+                  borderColor: '#B7B7B7',
+                  borderRadius: 10,
+                  paddingLeft: 10,
+                  paddingRight: 10,
+                  paddingTop: 5,
+                  paddingBottom: 5,
+                }}>
+              <View style={{
+                width: '100%'
+              }}>
+                <Text style={{
+                  width: '100%',
+                  color: '#000000',
+                  textAlign: 'center',
+                  fontSize: 15,
+                  fontWeight: '500',
+                  marginBottom: 5,
+                }}>身分驗證</Text>
+              </View>
+              <Text style={{
+                color: '#3D3D3D',
+                fontSize: 12,
+                fontWeight: '500',
+              }}>證件簽發國家/地區</Text>
+              <View style={{
+                  backgroundColor: '#FFFFFF',
+                  borderRadius: 5,
+                  borderColor: '#B7B7B7',
+                  borderWidth: 1,
+                  borderStyle: 'solid',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginBottom: 5,
+              }}>
+                <Image style={{
+                        left: win.width * 0.01,
+                        width: win.width * 0.05,
+                }}
+                  resizeMode={'contain'}
+                  source={require('./images/id.png')} />
+                <Text style={{
+                  marginLeft: win.width * 0.02,
+                  color: '#000000',
+                  fontSize: 11,
+                  fontWeight: '500',
+                }}>身分證</Text>
+              </View>
+              <View style={{
+                  backgroundColor: '#FFFFFF',
+                  borderRadius: 5,
+                  borderColor: '#B7B7B7',
+                  borderWidth: 1,
+                  borderStyle: 'solid',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginBottom: 5,
+              }}>
+                <Image style={{
+                        left: win.width * 0.01,
+                        width: win.width * 0.05,
+                }}
+                  resizeMode={'contain'}
+                  source={require('./images/passport.png')} />
+                <Text style={{
+                  marginLeft: win.width * 0.02,
+                  color: '#000000',
+                  fontSize: 11,
+                  fontWeight: '500',
+                }}>護照</Text>
+              </View>
             </LinearGradient>
-            */}
+            {/*
             <View style={{
               width: '100%',
-              backgroundColor: '#000000',
+              backgroundColor: '#E4E9F5',
               borderRadius: 10
             }}>
               <View style={{
@@ -425,7 +507,7 @@ const MyPersona = ({
               }}>
                 <Text style={{
                   width: '100%',
-                  color: '#FFFFFF',
+                  color: '#000000',
                   textAlign: 'center',
                   fontSize: 16,
                   fontWeight: '500',
@@ -433,63 +515,148 @@ const MyPersona = ({
               </View>
               <Text>證件簽發國家/地區</Text>
               <View style={{
-                  backgroundColor: '#5A5A5A',
+                  backgroundColor: '#FFFFFF',
                   borderRadius: 5,
+                  borderColor: '#B7B7B7',
+                  borderWidth: 1,
+                  borderStyle: 'solid',
               }}>
                 <Text>身分證</Text>
               </View>
               <View style={{
                   backgroundColor: '#5A5A5A',
                   borderRadius: 5,
+                  borderColor: '#B7B7B7',
+                  borderWidth: 1,
+                  borderStyle: 'solid',
               }}>
                 <Text>護照</Text>
               </View>
             </View>
-            <Text>
+            */}
+            <Text style={{
+              width: '95%',
+              color: '#454545',
+              fontSize: 11,
+              fontWeight: '500',
+            }}>
             平台會嚴格對個人資訊進行加密保護，以保證使用者的隱私及安全。
+            </Text>
+            <Text style={{
+              width: '95%',
+              color: '#454545',
+              fontSize: 11,
+              fontWeight: '500',
+            }}>
             請您放心個人資訊只會用於驗證用戶身分，從而提供更佳服務品質，決不會對外分享或用於任何用途
             </Text>
-            <Text>證件要求:</Text>
-            <Text>
-            1.請提供政府簽發的有效證件
-            2.請提供證件元件或使用原相機拍攝，不支持使用圖形編輯器處理照片
-            3.確保所有照片內容清晰可見
-            5.圖片大小不超過5MB
-            </Text>
-            <Text>證件照片</Text>
-            <View>
-              <View>
-                <Text>
-                請上傳證件背面照片
-                (護照不需要上傳)
-                </Text>
-                <View style={{
-                    backgroundColor: '#000000',
-                    borderRadius: 3,
-                    padding: 5,
+            <Text style={{
+              width: '100%',
+              color: '#000000',
+              fontSize: 14,
+              fontWeight: '600',
+            }}>證件要求:</Text>
+            <View style={{
+              width: '95%',
+              position: 'relative',
+              flexDirection: 'column',
+            }}>
+              <Text style={{
+                color: '#686868',
+                fontSize: 11,
+                fontWeight: '500',
+              }}>
+              1.請提供政府簽發的有效證件
+              </Text>
+              <Text style={{
+                color: '#686868',
+                fontSize: 11,
+                fontWeight: '500',
+              }}>
+              2.請提供證件元件或使用原相機拍攝，不支持使用圖形編輯器處理照片
+              </Text>
+              <Text style={{
+                color: '#686868',
+                fontSize: 11,
+                fontWeight: '500',
+              }}>
+              3.確保所有照片內容清晰可見
+              </Text>
+              <Text style={{
+                color: '#686868',
+                fontSize: 11,
+                fontWeight: '500',
+              }}>
+              4.圖片大小不超過5MB
+              </Text>
+            </View>
+            
+            <Text style={{
+              width: '100%',
+              color: '#000000',
+              fontSize: 14,
+              fontWeight: '600',
+              textAlign: 'left',
+            }}>證件照片</Text>
+            <View style={{
+              flexDirection: 'row',
+              marginBottom: 10,
+            }}>
+              <View style={{
+                width: '45%',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+                <Image style={{
+                      //left: win.width * 0.01,
+                        width: win.width * 0.45,
+                }}
+                  resizeMode={'contain'}
+                  source={require('./images/front.png')} />
+                <Text style={{
+                  color: '#686868',
+                  fontSize: 8,
+                  lineHeight: 10,
+                  fontWeight: '500',
                 }}>
-                  <Text>上傳</Text>
-                </View>
-              </View>
-              <View>
-                <Text>
                 請上傳證件正面照片
+                {"\n"}(護照不需要上傳)
                 </Text>
-                <View style={{
-                    backgroundColor: '#000000',
-                    borderRadius: 3,
-                    padding: 5,
+                <Upload />
+              </View>
+              <View style={{
+                width: '45%',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+                <Image style={{
+                      //left: win.width * 0.01,
+                        width: win.width * 0.35,
+                      //...styles.debug,
+                }}
+                  resizeMode={'contain'}
+                  source={require('./images/back.png')} />
+                <Text style={{
+                  color: '#686868',
+                  fontSize: 8,
+                  lineHeight: 10,
+                  fontWeight: '500',
+                  //...styles.debug,
                 }}>
-                  <Text>上傳</Text>
-                </View>
+                請上傳證件背面照片
+                {"\n"} 
+                </Text>
+                <Upload />
               </View>
             </View>
             <View style={{
-              width: '100%',
-              backgroundColor: '#3281EC',
+              width: '90%',
+              backgroundColor: '#264C98',
               borderRadius: 10,
             }}>
-              <Text style={{
+              <Text onPress={onApply}
+              style={{
                 color: '#FFFFFF',
                 width: '100%',
                 textAlign: 'center',
@@ -497,6 +664,13 @@ const MyPersona = ({
               提交
               </Text>
             </View>
+            <Text style={{
+              color: '#626262',
+              fontSize: 10,
+              fontWeight: '500',
+            }}>
+              預計審核時間:24小時
+            </Text>
           </View>       
         </>
       </View>

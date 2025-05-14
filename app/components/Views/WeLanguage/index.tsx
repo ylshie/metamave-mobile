@@ -9,12 +9,13 @@ import {
   ActivityIndicator,
   View,
   Linking,
+  TextInput,
   ImageSourcePropType,
 } from 'react-native';
 
 import { connect, useSelector } from 'react-redux';
 import { baseStyles } from '../../../styles/common';
-import { getWalletNavbarOptions } from '../../UI/Navbar';
+import { getPersonaNavbar } from '../../UI/Navbar';
 import { strings } from '../../../../locales/i18n';
 import {
   isPastPrivacyPolicyDate,
@@ -55,6 +56,7 @@ import {
   NavigationProp,
   ParamListBase,
   useNavigation,
+  useRoute,
 } from '@react-navigation/native';
 import BannerAlert from '../../../component-library/components/Banners/Banner/variants/BannerAlert/BannerAlert';
 import { BannerAlertSeverity } from '../../../component-library/components/Banners/Banner';
@@ -111,6 +113,7 @@ const MyPersona = ({
   storePrivacyPolicyClickedOrClosed,
 }: WalletProps) => {
   const { navigate } = useNavigation();
+  const route = useRoute();
   const walletRef = useRef(null);
   const theme = useTheme();
   const { toastRef } = useContext(ToastContext);
@@ -296,22 +299,7 @@ const MyPersona = ({
   useEffect(() => {
     if (!selectedInternalAccount) return;
     navigation.setOptions(
-      getWalletNavbarOptions(
-        walletRef,
-        selectedInternalAccount,
-        accountName,
-        accountAvatarType,
-        networkName,
-        networkImageSource,
-        onTitlePress,
-        navigation,
-        colors,
-        isNotificationEnabled,
-        isProfileSyncingEnabled,
-        unreadNotificationCount,
-        readNotificationCount,
-        '語言'
-      ),
+      getPersonaNavbar(navigation, route, colors, '語言')
     );
   }, [
     selectedInternalAccount,
@@ -404,6 +392,7 @@ const MyPersona = ({
             <Text style={{
               fontSize: 11,
               fontWeight: '400',
+              flexShrink: 1,
             }}>
             您選擇的語言適用於WeZanAPP內通知及登入所有裝置
             </Text>

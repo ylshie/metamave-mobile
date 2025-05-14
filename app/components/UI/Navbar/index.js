@@ -1642,6 +1642,62 @@ export function getSwapsAmountNavbar(navigation, route, themeColors) {
   };
 }
 
+export function getPersonaNavbar(navigation, route, themeColors, title) {
+  const innerStyles = StyleSheet.create({
+    headerButtonText: {
+      color: themeColors.primary.default,
+      fontSize: 14,
+      ...fontStyles.normal,
+    },
+    headerIcon: {
+      color: themeColors.primary.default,
+    },
+    headerStyle: {
+      backgroundColor: themeColors.background.default,
+      shadowColor: importedColors.transparent,
+      elevation: 0,
+    },
+  });
+  function navigationPop() {
+    navigation.goBack();
+  }
+  //const title = route.params?.title ?? 'Swap';
+  //const title = route.params?.title ?? '兌換';  // [Arthur]
+  return {
+    headerTitle: () => (
+      <NavbarTitle title={title} disableNetwork showSelectedNetwork={false} translate={false} />
+    ),
+    headerLeft: () => (
+      <TouchableOpacity
+        onPress={navigationPop}
+        style={styles.backButton}
+        testID={CommonSelectorsIDs.EDIT_CONTACT_BACK_BUTTON}
+      >
+        <IonicIcon
+          name={Device.isAndroid() ? 'md-arrow-back' : 'ios-arrow-back'}
+          size={Device.isAndroid() ? 24 : 28}
+          style={innerStyles.headerIcon}
+        />
+      </TouchableOpacity>
+    ),
+    headerRight: () => (
+      // eslint-disable-next-line react/jsx-no-bind
+      <TouchableOpacity></TouchableOpacity>
+      /*
+      <TouchableOpacity 
+        onPress={() => navigation.dangerouslyGetParent()?.pop()}
+        style={styles.closeButton}
+      >
+        <Text style={innerStyles.headerButtonText}>
+          {strings('navigation.cancel')}
+        </Text>
+      </TouchableOpacity>
+      */
+    ),
+    headerStyle: innerStyles.headerStyle,
+  };
+}
+
 export function getSwapsQuotesNavbar(navigation, route, themeColors) {
   const innerStyles = StyleSheet.create({
     headerButtonText: {

@@ -21,7 +21,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import DefaultTabBar from 'react-native-scrollable-tab-view/DefaultTabBar';
 import { baseStyles } from '../../../styles/common';
 import Tokens from '../../UI/Tokens';
-import { getWalletNavbarOptions } from '../../UI/Navbar';
+import { getPersonaNavbar } from '../../UI/Navbar';
 import { strings } from '../../../../locales/i18n';
 import {
   isPastPrivacyPolicyDate,
@@ -72,6 +72,7 @@ import {
   NavigationProp,
   ParamListBase,
   useNavigation,
+  useRoute,
 } from '@react-navigation/native';
 import {
   selectConversionRate,
@@ -150,7 +151,9 @@ import iLaguage  from './images/language.png'
 import iCurrency from './images/currency.png'
 import iHelp     from './images/help.png'
 import iSocial   from './images/social.png'
-  
+import Banner from './images/banner.svg';
+import { RenderItem } from '../WePersona';
+
 const createStyles = ({ colors, typography }: Theme) =>
   StyleSheet.create({
     base: {
@@ -223,6 +226,7 @@ const MyPersona = ({
   hideNftFetchingLoadingIndicator,
 }: WalletProps) => {
   const { navigate } = useNavigation();
+  const route = useRoute();
   const walletRef = useRef(null);
   const theme = useTheme();
   const { toastRef } = useContext(ToastContext);
@@ -512,24 +516,10 @@ const MyPersona = ({
   useEffect(() => {
     if (!selectedInternalAccount) return;
     navigation.setOptions(
-      getWalletNavbarOptions(
-        walletRef,
-        selectedInternalAccount,
-        accountName,
-        accountAvatarType,
-        networkName,
-        networkImageSource,
-        onTitlePress,
-        navigation,
-        colors,
-        isNotificationEnabled,
-        isProfileSyncingEnabled,
-        unreadNotificationCount,
-        readNotificationCount,
-        '安全'
-      ),
+      getPersonaNavbar(navigation, route, colors, '安全')
     );
   }, [
+    route,
     selectedInternalAccount,
     accountName,
     accountAvatarType,
@@ -718,7 +708,15 @@ const MyPersona = ({
     trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
     navigation.navigate('KYCPersona');
   };
-  
+  const onPress2FA = () => {
+    trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
+    navigation.navigate('2FAPersona');
+  };
+  const onPressDevice = () => {
+    trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
+    navigation.navigate('DevicePersona');
+  };
+
   //const Usda: React.FC<SvgProps & { name: string }> = usda;
   //const Xgame: React.FC<SvgProps & { name: string }> = xgame;
   const win = Dimensions.get('window');
@@ -783,14 +781,14 @@ const MyPersona = ({
           <View style={{
             padding: 0,
             backgroundColor: '#ECF2F8',
+          //justifyContent: 'center',
+            alignItems: 'center',
           }}>
-            <Image style={{
-              left: win.width * 0.05,
-              width: win.width * 0.9,
-            //height: '90%',
-            }}
-            resizeMode={'contain'}
-            source={require('./images/banner.png')} />
+            <Banner 
+              name='banner' 
+              width={win.width * 0.9} 
+              height={win.width * 0.4} 
+            />
           </View>
           
           <View style={{
@@ -803,26 +801,32 @@ const MyPersona = ({
               <Text>{'身分驗證方式'}</Text>
               <View style={{
                 width: '90%',
-                padding: 10,
-                //margin: 10,
-                backgroundColor: '#FFFFFF',
-              //box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.075);
+                //padding: 10,
+                //backgroundColor: '#FFFFFF',
                 borderRadius: 12
               }}>
-                {renderItem(iSecurity, 'Google 2FA驗證 ')}
-                {renderItem(iLaguage, '電子信箱驗證')}
-                {renderItem(iLaguage, 'KYC驗證')}
+                <RenderItem 
+                  icon={iSecurity} 
+                  caption='Google 2FA驗證'
+                  onPress={onPress2FA}/>
+                <RenderItem 
+                  icon={iLaguage} 
+                  caption='電子信箱驗證'
+                  onPress={onPressKYC}/>
+                <RenderItem 
+                  icon={iLaguage} 
+                  caption='KYC驗證'
+                  onPress={onPressKYC}/>
               </View>
               <Text>{'裝置安全'}</Text>
               <View style={{
                 width: '90%',
-                padding: 10,
-                //margin: 10,
-                backgroundColor: '#FFFFFF',
                 borderRadius: 12
               }}>
-                {renderItem(iHelp, '登入裝置')}
-                {/* renderItem(iSocial, '社群') */}
+                <RenderItem 
+                  icon={iHelp} 
+                  caption='登入裝置'
+                  onPress={onPressDevice}/>
               </View>
           </View>
         </>

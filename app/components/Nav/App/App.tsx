@@ -136,6 +136,8 @@ import { SelectSRPBottomSheet } from '../../Views/SelectSRP/SelectSRPBottomSheet
 ///: END:ONLY_INCLUDE_IF
 import NavigationService from '../../../core/NavigationService';
 import { BorderColor } from '../../UI/Box/box.types';
+import WeActions from '../../Views/WeActions';
+import We2FAAction from '../../Views/We2FAAction';
 
 const clearStackNavigatorOptions = {
   headerShown: false,
@@ -329,6 +331,14 @@ const RootModalFlow = (
     <Stack.Screen
       name={Routes.MODAL.WALLET_ACTIONS}
       component={WalletActions}
+    />
+    <Stack.Screen
+      name={Routes.MODAL.WE_ACTIONS}  // [Arthur]
+      component={WeActions}
+    />
+    <Stack.Screen
+      name={Routes.MODAL.WE_2FA_ACTION}  // [Arthur]
+      component={We2FAAction}
     />
     <Stack.Screen
       name={Routes.MODAL.DELETE_WALLET}

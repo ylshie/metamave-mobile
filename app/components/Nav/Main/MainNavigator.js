@@ -28,6 +28,7 @@ import Language from '../../Views/WeLanguage';  // Arthur
 import Currency from '../../Views/WeCurrency';  // Arthur
 import WeHelp from '../../Views/WeHelp';        // Arthur
 import WeRobot from '../../Views/WeRobot';      // Arthur
+import WeArticle from '../../Views/WeArticle';      // Arthur
 import Asset from '../../Views/Asset';
 import AssetDetails from '../../Views/AssetDetails';
 import AddAsset from '../../Views/AddAsset';
@@ -98,6 +99,8 @@ import { AccountPermissionsScreens } from '../../../components/Views/AccountPerm
 import { StakeModalStack, StakeScreenStack } from '../../UI/Stake/routes';
 import { BridgeModalStack, BridgeScreenStack } from '../../UI/Bridge/routes';
 import WeKYC from '../../Views/WeKYC';
+import WeDevice from '../../Views/WeDevice';
+import We2FA from '../../Views/We2FA';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -329,6 +332,21 @@ const PersonaFlow = () => (
     <Stack.Screen
       name="KYCPersona"
       component={WeKYC}
+      options={GeneralSettings.navigationOptions}
+    />
+    <Stack.Screen
+      name="DevicePersona"
+      component={WeDevice}
+      options={GeneralSettings.navigationOptions}
+    />
+    <Stack.Screen
+      name="2FAPersona"
+      component={We2FA}
+      options={GeneralSettings.navigationOptions}
+    />
+    <Stack.Screen
+      name="ArticlePersona"
+      component={WeArticle}
       options={GeneralSettings.navigationOptions}
     />
   </Stack.Navigator>

@@ -14,7 +14,7 @@ import {
 
 import { connect, useSelector } from 'react-redux';
 import { baseStyles } from '../../../styles/common';
-import { getWalletNavbarOptions } from '../../UI/Navbar';
+import { getPersonaNavbar } from '../../UI/Navbar';
 import { strings } from '../../../../locales/i18n';
 import {
   isPastPrivacyPolicyDate,
@@ -55,6 +55,7 @@ import {
   NavigationProp,
   ParamListBase,
   useNavigation,
+  useRoute,
 } from '@react-navigation/native';
 import BannerAlert from '../../../component-library/components/Banners/Banner/variants/BannerAlert/BannerAlert';
 import { BannerAlertSeverity } from '../../../component-library/components/Banners/Banner';
@@ -89,6 +90,7 @@ import {
 import { Image } from 'react-native';
 import { Dimensions } from 'react-native';
 import createStyles from './styles';
+import Robot from './images/robot.svg'
 /*--------------------*/
 
 interface WalletProps {
@@ -111,6 +113,7 @@ const MyPersona = ({
   storePrivacyPolicyClickedOrClosed,
 }: WalletProps) => {
   const { navigate } = useNavigation();
+  const route = useRoute();
   const walletRef = useRef(null);
   const theme = useTheme();
   const { toastRef } = useContext(ToastContext);
@@ -296,22 +299,7 @@ const MyPersona = ({
   useEffect(() => {
     if (!selectedInternalAccount) return;
     navigation.setOptions(
-      getWalletNavbarOptions(
-        walletRef,
-        selectedInternalAccount,
-        accountName,
-        accountAvatarType,
-        networkName,
-        networkImageSource,
-        onTitlePress,
-        navigation,
-        colors,
-        isNotificationEnabled,
-        isProfileSyncingEnabled,
-        unreadNotificationCount,
-        readNotificationCount,
-        '自助客服機器人'
-      ),
+      getPersonaNavbar(navigation, route, colors, '自助客服機器人')
     );
   }, [
     selectedInternalAccount,
@@ -340,24 +328,36 @@ const MyPersona = ({
     navigation.navigate('SecurityPersona');
   };
   
-  const RenderItem = ({icon, caption}: {icon: string, caption: string}) => (
-              <View style={{
-                width: '100%',
-                flexDirection: 'column',
-                marginBottom: 10,
-              //...styles.debug,
-              }}>
-                <Text style={{
-                  fontSize: 14,
-                  fontWeight: '600',
-                  color: '#272729',
-                }}>{icon}</Text>
-                <Text style={{
-                  fontSize: 12,
-                  fontWeight: '400',
-                  color: '#8C8D99',
-                }}>{caption}</Text>
-              </View>
+  const RenderItem = ({caption}: {caption: string}) => (
+                        <View style={{
+                          backgroundColor: '#3281EC',
+                          borderRadius: 5,
+                          padding: 5,
+                        }}>
+                          <Text style={{
+                            color: '#DAEAFF',
+                            fontSize: 14,
+                            fontWeight: '400',
+                          }}>{caption}</Text>
+                        </View>
+  )
+  const Chat = () => (
+    <View style={{
+      height: 35,
+      backgroundColor: '#003DF5',
+      borderRadius: 10,
+      margin: 10,
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}>
+      <Text style={{
+        color: '#FFFFFF',
+        width: '100%',
+        textAlign: 'center',
+      }}>
+        Start chat
+      </Text>
+    </View>
   )
   const styleArticle = {
     color: '#0066F1',
@@ -407,8 +407,17 @@ const MyPersona = ({
               backgroundColor: '#DAEAFF',
               borderTopLeftRadius: 30,
               borderTopRightRadius: 30,
+              justifyContent: 'center',
+              alignItems: 'center',
             //...styles.debug,
             }}>
+              <Image style={{
+                      width: 70,
+                      height: 70,
+                    }}
+                    resizeMode={'contain'}
+                    source={require('./images/robot.png')} 
+            />
             </View>
             <View style={{
               width: '100%',
@@ -433,73 +442,45 @@ const MyPersona = ({
               width: '100%',
               height: 200,
               marginTop: 30,
-              justifyContent: 'flex-end',
+              justifyContent: 'flex-start',
             }}>
-              <Text>請點擊問題標籤，客服進一步了了解您的需求</Text>
+              <Text style={{
+                width: '100%',
+                color: '#667085',
+                fontSize: 16,
+                fontWeight: '700',
+                textAlign: 'center',
+                marginTop: 10,
+                marginBottom: 20,
+              }}>請點擊問題標籤，客服進一步了了解您的需求</Text>
               <View style={{
                 position: 'relative',
-                width: '90%',
+                width: '100%',
                 flexDirection: 'row',
-                justifyContent: 'space-between',
-                margin: 10,
+                justifyContent: 'space-around',
+                marginBottom: 10,
+              //paddingLeft: 5,
+              //paddingRight: 5,
               }}>
-                <View style={{
-                      backgroundColor: '#3281EC',
-                      borderRadius: 5,
-                }}>
-                  <Text>提款問題</Text>
-                </View>
-                <View style={{
-                      backgroundColor: '#3281EC',
-                      borderRadius: 5,
-                }}>
-                  <Text>帳號驗證失敗</Text>
-                </View>
-                <View style={{
-                      backgroundColor: '#3281EC',
-                      borderRadius: 5,
-                }}>
-                  <Text>帳號風控</Text>
-                </View>
+                <RenderItem caption='提款問題'/>
+                <RenderItem caption='帳號驗證失敗'/>
+                <RenderItem caption='帳號風控'/>
               </View>
               <View style={{
                 position: 'relative',
-                width: '90%',
+                width: '100%',
                 flexDirection: 'row',
-                justifyContent: 'space-between',
-                margin: 10,
+                justifyContent: 'space-around',
+                marginBottom: 10,
+              //paddingLeft: 5,
+              //paddingRight: 5,
               }}>
-                <View style={{
-                      backgroundColor: '#3281EC',
-                      borderRadius: 5,
-                }}>
-                  <Text>刷卡問題</Text>
-                </View>
-                <View style={{
-                      backgroundColor: '#3281EC',
-                      borderRadius: 5,
-                }}>
-                  <Text>內部轉帳問題</Text>
-                </View>
-                <View style={{
-                      backgroundColor: '#3281EC',
-                      borderRadius: 5,
-                }}>
-                  <Text>提款問題</Text>
-                </View>
+                <RenderItem caption='刷卡問題'/>
+                <RenderItem caption='內部轉帳問題'/>
+                <RenderItem caption='提款問題'/>
               </View>
-              <View style={{
-                      backgroundColor: '#003DF5',
-                      borderRadius: 10,
-                      margin: 10,
-              }}>
-                <Text style={{
-                  color: '#FFFFFF',
-                  width: '100%',
-                  textAlign: 'center',
-                }}>Start chat</Text>
-              </View>
-            </View>     
+            </View>
+            <Chat />     
           </View>       
         </>
       </View>

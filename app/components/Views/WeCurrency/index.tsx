@@ -4,17 +4,19 @@ import React, {
   useRef,
   useCallback,
   useContext,
+  useState,
 } from 'react';
 import {
   ActivityIndicator,
   View,
   Linking,
+  TextInput,
   ImageSourcePropType,
 } from 'react-native';
 
 import { connect, useSelector } from 'react-redux';
 import { baseStyles } from '../../../styles/common';
-import { getWalletNavbarOptions } from '../../UI/Navbar';
+import { getPersonaNavbar } from '../../UI/Navbar';
 import { strings } from '../../../../locales/i18n';
 import {
   isPastPrivacyPolicyDate,
@@ -55,6 +57,7 @@ import {
   NavigationProp,
   ParamListBase,
   useNavigation,
+  useRoute,
 } from '@react-navigation/native';
 import BannerAlert from '../../../component-library/components/Banners/Banner/variants/BannerAlert/BannerAlert';
 import { BannerAlertSeverity } from '../../../component-library/components/Banners/Banner';
@@ -89,6 +92,7 @@ import {
 import { Image } from 'react-native';
 import { Dimensions } from 'react-native';
 import createStyles from './styles';
+import LinearGradient from 'react-native-linear-gradient'
 /*--------------------*/
 
 interface WalletProps {
@@ -111,6 +115,7 @@ const MyPersona = ({
   storePrivacyPolicyClickedOrClosed,
 }: WalletProps) => {
   const { navigate } = useNavigation();
+  const route = useRoute();
   const walletRef = useRef(null);
   const theme = useTheme();
   const { toastRef } = useContext(ToastContext);
@@ -296,22 +301,7 @@ const MyPersona = ({
   useEffect(() => {
     if (!selectedInternalAccount) return;
     navigation.setOptions(
-      getWalletNavbarOptions(
-        walletRef,
-        selectedInternalAccount,
-        accountName,
-        accountAvatarType,
-        networkName,
-        networkImageSource,
-        onTitlePress,
-        navigation,
-        colors,
-        isNotificationEnabled,
-        isProfileSyncingEnabled,
-        unreadNotificationCount,
-        readNotificationCount,
-        '選擇一種貨幣'
-      ),
+      getPersonaNavbar(navigation, route, colors, '選擇一種貨幣')
     );
   }, [
     selectedInternalAccount,
@@ -327,19 +317,37 @@ const MyPersona = ({
     unreadNotificationCount,
     readNotificationCount,
   ]);
-
+  const [keyword, setKeyword] = useState<string>('')
   const turnOnBasicFunctionality = useCallback(() => {
     navigation.navigate(Routes.MODAL.ROOT_MODAL_FLOW, {
       screen: Routes.SHEET.BASIC_FUNCTIONALITY,
     });
   }, [navigation]);
+  const dollarList = [
+    {symbol: 'USD', caption: 'United States Dollar'},
+    {symbol:'JPY', caption:'Japanese Yen'},
+    {symbol:'EUR', caption: 'Euro'},
+    {symbol:'CNY', caption: 'Chinese Yuan (Onshore)'},
+    {symbol:'MMK', caption: 'Myanmar Kyat'},
+    {symbol:'TWD', caption: 'New Taiwan Dollar'},
+    {symbol:'HKD', caption: 'Hong Kong Dollar'},
+    {symbol:'MYR', caption: 'Malaysian Ringgit'}
+  ]
+  const matchKeyword = (x: {symbol: string, caption: string}) => {
+    const lowKeyword    = keyword.toUpperCase()
+    const matchSymbol   = x.symbol.toUpperCase().indexOf(lowKeyword) >= 0
+    const matchCatpion  = x.caption.toUpperCase().indexOf(lowKeyword) >= 0
 
+    return matchSymbol || matchCatpion;
+  }
   const win = Dimensions.get('window');
   const onPressGeneral = () => {
     trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
     navigation.navigate('SecurityPersona');
   };
-  
+  const onChangeValueText = (text: string) => {
+    setKeyword(text)
+  }
   const RenderItem = ({icon, caption}: {icon: string, caption: string}) => (
               <View style={{
                 width: '100%',
@@ -391,50 +399,67 @@ const MyPersona = ({
           </View>
         ) : null}
         <>
-          <View style={{
-              width: '90%',
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: '#CBCBCB',
-              borderRadius: 8,
-              padding: 5,
-              marginTop: 10,
-              marginBottom: 10,
-            //...styles.debug,
-          }}>
-            <Image style={{
-              //left: win.width * 0.05,
-                width: win.width * 0.1,
-              }}
-              resizeMode={'contain'}
-              source={require('./images/search.png')}
-            />
-            <Text style={{
-              //left: win.width * 0.05,
-                width: win.width * 0.7,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: '#D9D9D9',
-                textAlign: 'center',
-                fontSize: 11,
-                fontWeight: '400',
-                borderRadius: 5,
-              //...styles.debug,
-              }}
-            >
-            Search
-            </Text>
-          </View>
+          
+            <LinearGradient 
+                colors={['#CDD7EE', '#E4E9F5']} 
+                style={{
+                  width: '90%',
+                  flexDirection: 'row',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                  borderWidth: 1,
+                  borderStyle: 'solid', 
+                  borderColor: '#FFFFFF',
+                  borderRadius: 10,
+                  padding: 0,
+                  marginTop: 5,
+                  marginBottom: 5,
+                }}>
+              <Image style={{
+                  width: win.width * 0.1,
+                }}
+                resizeMode={'contain'}
+                source={require('./images/search.png')}
+              />
+              <View style={{
+                width: '100%',
+              //backgroundColor: '#FFFFFF'
+              }}>
+                <TextInput
+                  multiline={false}
+                  onChangeText={onChangeValueText}
+                  value={keyword}
+                  placeholder={'Search'}
+                  style={{
+                    width: '80%',
+                  //height: 18,
+                    marginTop: 5,
+                    marginBottom: 5,
+                    paddingTop: 0,
+                    paddingBottom: 0, 
+                    fontSize: 12,
+                    fontWeight: '400',
+                    backgroundColor: 'white',
+                  }}
+                />
+              </View>
+            </LinearGradient>
+          
           <View style={{
               width: '90%',
               flexDirection: 'column',
-              justifyContent: 'center',
+            //justifyContent: 'center',
+              justifyContent: 'flex-start',
               alignItems: 'center',
               marginBottom: 20,
             //...styles.debug,
             }}>
+              {dollarList
+              .filter(matchKeyword)
+              .map((x) => (
+                <RenderItem icon={x.symbol} caption={x.caption}/>
+              ))}
+              {/*
               <RenderItem icon='USD' caption='United States Dollar'/>
               <RenderItem icon='JPY' caption='Japanese Yen'/>
               <RenderItem icon='EUR' caption='Euro'/>
@@ -443,6 +468,7 @@ const MyPersona = ({
               <RenderItem icon='TWD' caption='New Taiwan Dollar'/>
               <RenderItem icon='HKD' caption='Hong Kong Dollar'/>
               <RenderItem icon='MYR' caption='Malaysian Ringgit'/>
+              */}
           </View>
         </>
       </View>

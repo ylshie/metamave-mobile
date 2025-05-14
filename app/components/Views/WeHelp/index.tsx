@@ -4,17 +4,19 @@ import React, {
   useRef,
   useCallback,
   useContext,
+  useState,
 } from 'react';
 import {
   ActivityIndicator,
   View,
   Linking,
   ImageSourcePropType,
+  TextInput,
 } from 'react-native';
 
 import { connect, useSelector } from 'react-redux';
 import { baseStyles } from '../../../styles/common';
-import { getWalletNavbarOptions } from '../../UI/Navbar';
+import { getPersonaNavbar, getWalletNavbarOptions } from '../../UI/Navbar';
 import { strings } from '../../../../locales/i18n';
 import {
   isPastPrivacyPolicyDate,
@@ -55,6 +57,7 @@ import {
   NavigationProp,
   ParamListBase,
   useNavigation,
+  useRoute,
 } from '@react-navigation/native';
 import BannerAlert from '../../../component-library/components/Banners/Banner/variants/BannerAlert/BannerAlert';
 import { BannerAlertSeverity } from '../../../component-library/components/Banners/Banner';
@@ -89,6 +92,7 @@ import {
 import { Image } from 'react-native';
 import { Dimensions } from 'react-native';
 import createStyles from './styles';
+import LinearGradient from 'react-native-linear-gradient'
 /*--------------------*/
 
 interface WalletProps {
@@ -111,12 +115,14 @@ const MyPersona = ({
   storePrivacyPolicyClickedOrClosed,
 }: WalletProps) => {
   const { navigate } = useNavigation();
+  const route = useRoute();
   const walletRef = useRef(null);
   const theme = useTheme();
   const { toastRef } = useContext(ToastContext);
   const { trackEvent, createEventBuilder } = useMetrics();
   const styles = createStyles(theme);
   const { colors } = theme;
+  const [keyword, setKeyword] = useState<string>('')
 
   const networkConfigurations = useSelector(selectNetworkConfigurations);
   const evmNetworkConfigurations = useSelector(
@@ -164,6 +170,10 @@ const MyPersona = ({
       : AvatarAccountType.JazzIcon,
   );
 
+  const onChangeValueText = (text: string) => {
+    setKeyword(text)
+  }
+  
   useEffect(() => {
     if (
       isDataCollectionForMarketingEnabled === null &&
@@ -296,22 +306,7 @@ const MyPersona = ({
   useEffect(() => {
     if (!selectedInternalAccount) return;
     navigation.setOptions(
-      getWalletNavbarOptions(
-        walletRef,
-        selectedInternalAccount,
-        accountName,
-        accountAvatarType,
-        networkName,
-        networkImageSource,
-        onTitlePress,
-        navigation,
-        colors,
-        isNotificationEnabled,
-        isProfileSyncingEnabled,
-        unreadNotificationCount,
-        readNotificationCount,
-        '幫助中心'
-      ),
+      getPersonaNavbar(navigation, route, colors, '幫助中心')
     );
   }, [
     selectedInternalAccount,
@@ -335,29 +330,40 @@ const MyPersona = ({
   }, [navigation]);
 
   const win = Dimensions.get('window');
-  const onPressGeneral = () => {
+  const onPressRobot = () => {
     trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
     navigation.navigate('RobotPersona');
   };
+  const onPressArticle = () => {
+    trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
+    navigation.navigate('ArticlePersona');
+  };
   
-  const RenderItem = ({icon, caption}: {icon: string, caption: string}) => (
-              <View style={{
-                width: '100%',
-                flexDirection: 'column',
-                marginBottom: 10,
-              //...styles.debug,
-              }}>
-                <Text style={{
-                  fontSize: 14,
-                  fontWeight: '600',
-                  color: '#272729',
-                }}>{icon}</Text>
-                <Text style={{
-                  fontSize: 12,
-                  fontWeight: '400',
-                  color: '#8C8D99',
-                }}>{caption}</Text>
-              </View>
+  const RenderItem = ({caption}: {caption: string}) => (
+                <LinearGradient 
+                colors={['#0857A1', '#183672']} 
+                style={{
+                  width: '45%',
+                  borderWidth: 1,
+                  //borderStyle: 'solid', 
+                  //borderColor: '#FFFFFF',
+                  borderRadius: 5,
+                  padding: 10,
+                  marginTop: 5,
+                  marginBottom: 5,
+                }}>
+                  <Text style={{
+                          width: '100%',
+                          color: '#FFFFFF',
+                          fontSize: 16,
+                          fontWeight: '400',
+                          textAlign: 'center',
+                        }} 
+                        onPress={onPressRobot}
+                  >
+                    {caption}
+                  </Text>
+                </LinearGradient>
   )
   const styleArticle = {
     color: '#0066F1',
@@ -396,44 +402,64 @@ const MyPersona = ({
           </View>
         ) : null}
         <>
-          <View style={{
-              width: '90%',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: '#3281EC',
-              borderRadius: 8,
-              padding: 5,
-              marginTop: 10,
-              marginBottom: 10,
-            //...styles.debug,
-          }}>
+          <LinearGradient 
+              colors={['#CDD7EE', '#FBFDFF']} 
+              style={{
+                width: '90%',
+                borderWidth: 1,
+                borderStyle: 'solid', 
+                borderColor: '#FFFFFF',
+                borderRadius: 10,
+                padding: 20,
+                marginTop: 5,
+                marginBottom: 5,
+              }}>
             <Text style={{
-              color: '#FFFFFF',
+              color: '#272727',
               fontSize: 20,
               fontWeight: '600',
             }}>
-            您好，請問如何幫助您?
+            自助客服機器人
             </Text>
-            <Text style={{
-              //left: win.width * 0.05,
-                width: win.width * 0.7,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: '#D9D9D9',
-                textAlign: 'center',
-                fontSize: 11,
-                fontWeight: '400',
-                borderRadius: 5,
-              //...styles.debug,
-              }}
-            >
-            請入輸入您的問題
-            </Text>
-          </View>
+            <View style={{
+              flexDirection: 'row',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+            }}>
+              <Image style={{
+                  width: win.width * 0.1,
+                }}
+                resizeMode={'contain'}
+                source={require('./images/search.png')}
+              />
+              <View style={{
+                width: '100%',
+              }}>
+                <TextInput
+                  multiline={false}
+                  onChangeText={onChangeValueText}
+                  value={keyword}
+                  placeholder={'Search'}
+                  style={{
+                    width: '80%',
+                  //height: 18,
+                    marginTop: 5,
+                    marginBottom: 5,
+                    paddingTop: 0,
+                    paddingBottom: 0, 
+                    fontSize: 12,
+                    fontWeight: '400',
+                    backgroundColor: 'white',
+                  }}
+                />
+              </View>
+            </View>
+          </LinearGradient>
           <Text style={{
             width: '90%',
+            color: '#494965',
+            fontSize: 20,
+            fontWeight: '600',
           }}>自助服務</Text>
           <View style={{
               width: '90%',
@@ -448,118 +474,61 @@ const MyPersona = ({
                 flexDirection: 'row',
                 justifyContent: 'space-between',
               }}>
-                <View style={{
-                  width: '45%',
-                  backgroundColor: '#006FFF',
-                  borderRadius: 5,
-                  padding: 10,
-                  margin: 10,
-                }}>
-                  <Text style={{
-                          width: '100%',
-                          color: '#FFFFFF',
-                          fontSize: 16,
-                          fontWeight: '400',
-                          textAlign: 'center',
-                        }} 
-                        onPress={onPressGeneral}
-                  >
-                    驗證帳戶
-                  </Text>
-                </View>
-                <View style={{
-                  width: '45%',
-                  backgroundColor: '#006FFF',
-                  borderRadius: 5,
-                  padding: 10,
-                  margin: 10,
-                }}>
-                  <Text style={{
-                          width: '100%',
-                          color: '#FFFFFF',
-                          fontSize: 16,
-                          fontWeight: '400',
-                          textAlign: 'center',
-                        }}
-                        onPress={onPressGeneral}
-                  >
-                    帳號出現異常
-                  </Text>
-                </View>
+                <RenderItem caption='驗證帳戶'/>
+                <RenderItem caption='帳號出現異常'/>
               </View>
               <View style={{
                 width: '100%',
                 flexDirection: 'row',
                 justifyContent: 'space-between',
               }}>
-                <View style={{
-                  width: '45%',
-                  backgroundColor: '#006FFF',
-                  borderRadius: 5,
-                  padding: 10,
-                  margin: 10,
-                }}>
-                  <Text style={{
-                          width: '100%',
-                          color: '#FFFFFF',
-                          fontSize: 16,
-                          fontWeight: '400',
-                          textAlign: 'center',
-                        }}
-                        onPress={onPressGeneral}
-                        >
-                    充值提現問題
-                  </Text>
-                </View>
-                <View style={{
-                  width: '45%',
-                  backgroundColor: '#006FFF',
-                  borderRadius: 5,
-                  padding: 10,
-                  margin: 10,
-                }}>
-                  <Text style={{
-                    width: '100%',
-                    color: '#FFFFFF',
-                    fontSize: 16,
-                    fontWeight: '400',
-                    textAlign: 'center',
-                  }}>刷卡問題</Text>
-                </View>
+                <RenderItem caption='充值提現問題'/>
+                <RenderItem caption='刷卡問題'/>
               </View>
           </View>
           <Text style={{
             width: '90%',
+            fontSize: 20,
+            fontWeight: '600',
+            color: '#494965',
           }}>熱門文章</Text>
           <View style={{
             width: '90%',
           }}>
             <Text style={{
-              color: '#0066F1',
-              fontSize: 16,
-              fontWeight: '400',
-            }}>
+                    color: '#0D4D93',
+                    fontSize: 16,
+                    fontWeight: '400',
+                  }}
+                  onPress={onPressArticle}
+            >
               如何恢復您的谷歌身分驗證碼
             </Text>
             <Text style={{
-              color: '#0066F1',
-              fontSize: 16,
-              fontWeight: '400',
-            }}>
+                    color: '#0D4D93',
+                    fontSize: 16,
+                    fontWeight: '400',
+                  }}
+                  onPress={onPressArticle}
+            >
               平台幣常見問題
             </Text>
             <Text style={{
-              color: '#0066F1',
-              fontSize: 16,
-              fontWeight: '400',
-            }}>
+                    color: '#0D4D93',
+                    fontSize: 16,
+                    fontWeight: '400',
+                  }}
+                  onPress={onPressArticle}
+            >
               點數常見問題
             </Text>
             <Text style={{
-              color: '#0066F1',
-              fontSize: 16,
-              fontWeight: '400',
-            }}>
+                    color: '#0D4D93',
+                    fontSize: 16,
+                    fontWeight: '400',
+                  }}
+                  onPress={onPressArticle}
+            >
               遊戲常見問題
             </Text>
           </View>          

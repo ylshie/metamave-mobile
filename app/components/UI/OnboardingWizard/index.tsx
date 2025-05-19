@@ -10,6 +10,7 @@ import {
   TextVariant,
 } from '../../../component-library/components/Texts/Text';
 
+import Step0 from './Step0';
 import Step1 from './Step1';
 import Step2 from './Step2';
 import Step3 from './Step3';
@@ -137,13 +138,14 @@ const OnboardingWizard = ({
 
   const onboardingWizardNavigator = (s: number) => {
     const steps: Record<number, JSX.Element> = {
-      1: <Step1 onClose={closeOnboardingWizard} />,
-      2: <Step2 coachmarkRef={coachmarkRef} onClose={closeOnboardingWizard} />,
-      3: <Step3 coachmarkRef={coachmarkRef} onClose={closeOnboardingWizard} />,
-      4: <Step4 onClose={closeOnboardingWizard} />,
-      5: <Step5 coachmarkRef={coachmarkRef} onClose={closeOnboardingWizard} />,
-      6: <Step6 navigation={navigation} onClose={closeOnboardingWizard} />,
-      7: <Step7 navigation={navigation} onClose={closeOnboardingWizard} />,
+      1: <Step0 onClose={closeOnboardingWizard} />,
+      2: <Step1 onClose={closeOnboardingWizard} />,
+      3: <Step2 coachmarkRef={coachmarkRef} onClose={closeOnboardingWizard} />,
+      4: <Step3 coachmarkRef={coachmarkRef} onClose={closeOnboardingWizard} />,
+      5: <Step4 onClose={closeOnboardingWizard} />,
+      6: <Step5 coachmarkRef={coachmarkRef} onClose={closeOnboardingWizard} />,
+      7: <Step6 navigation={navigation} onClose={closeOnboardingWizard} />,
+      8: <Step7 navigation={navigation} onClose={closeOnboardingWizard} />,
     };
     return steps[s];
   };

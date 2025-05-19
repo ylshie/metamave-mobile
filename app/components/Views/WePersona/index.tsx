@@ -92,6 +92,8 @@ import { Dimensions } from 'react-native';
 import createStyles from './styles';
 import Banner from './images/banner.svg';
 import Basic from './images/basic.svg';
+import Verify from './images/verify.svg';
+import Arrow from './images/arrow.svg';
 import LinearGradient from 'react-native-linear-gradient'
 import Copy from './images/copy.svg'
 import useCopyClipboard from '../Notifications/Details/hooks/useCopyClipboard';
@@ -108,9 +110,10 @@ interface WalletProps {
   hideNftFetchingLoadingIndicator: () => void;
 }
 const win = Dimensions.get('window');
-export const RenderItem = ({icon, caption, onPress = ()=>{}}: 
+export const RenderItem = ({icon, caption, gap, onPress = ()=>{}}: 
   { icon: ImageSourcePropType, 
     caption: string,
+    gap: number,
     onPress: () => void,
   }) => (
         <LinearGradient 
@@ -121,7 +124,7 @@ export const RenderItem = ({icon, caption, onPress = ()=>{}}:
             borderColor: '#D2D2D2',
             borderRadius: 10,
             padding: 5,
-            marginBottom: 5,
+            marginBottom: gap,
           }}>
             <TouchableOpacity
                 onPress={onPress}
@@ -142,11 +145,11 @@ export const RenderItem = ({icon, caption, onPress = ()=>{}}:
                       left: win.width * 0.05,
                       width: win.width * 0.7,
               }}>{caption}</Text>
-              <Text style={{
-                    //left: win.width * 0.05,
-                      width: win.width * 0.1,
-                      color: '#A0A7BA',
-              }}>{'>'}</Text>
+              {
+              (gap == 21)
+              ? <Verify name='verify' width={24} height={24}/>
+              : <Arrow name='verify' width={24} height={24}/>
+              }
             </TouchableOpacity>
         </LinearGradient>
         
@@ -376,6 +379,14 @@ const MyPersona = ({
     trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
     navigation.navigate('SecurityPersona');
   };
+  const onPressSocial = () => {
+    trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
+    navigation.navigate('SocialPersona');
+  }
+  const onPressMember = () => {
+    trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
+    navigation.navigate('MemberPersona');
+  }
   const onPressLanguage = () => {
     trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
     navigation.navigate('LanguagePersona');
@@ -427,11 +438,13 @@ const MyPersona = ({
           <View style={{
             position: 'relative',
           }}>
-            <Basic
-              name='basic' 
-              width={win.width * 0.9} 
-              height={win.width * 0.4} 
-            />
+            <TouchableOpacity onPress={onPressMember}>
+              <Basic
+                name='basic' 
+                width={win.width * 0.9} 
+                height={win.width * 0.4} 
+              />
+            </TouchableOpacity>
             <Text style={{
               position: 'absolute',
               right: 50,
@@ -530,16 +543,19 @@ const MyPersona = ({
                 <RenderItem 
                   icon={require('./images/security.png')} 
                   caption='安全'
+                  gap={5}
                   onPress={onPressSecuriy}
                 />
                 <RenderItem 
                   icon={require('./images/language.png')} 
                   caption='語言'
+                  gap={5}
                   onPress={onPressLanguage}
                 />
                 <RenderItem 
                   icon={require('./images/currency.png')} 
                   caption='貨幣'
+                  gap={5}
                   onPress={onPressCurrency}
                 />
               </View>
@@ -553,12 +569,14 @@ const MyPersona = ({
                 <RenderItem 
                   icon={require('./images/help.png')} 
                   caption='幫助中心'
+                  gap={5}
                   onPress={onPressHelp}
                 />
                 <RenderItem 
                   icon={require('./images/social.png')} 
                   caption='社群'
-                  onPress={onPressSecuriy}
+                  gap={5}
+                  onPress={onPressSocial}
                 />
               </View>
           </View>

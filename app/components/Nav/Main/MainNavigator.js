@@ -29,6 +29,8 @@ import Currency from '../../Views/WeCurrency';  // Arthur
 import WeHelp from '../../Views/WeHelp';        // Arthur
 import WeRobot from '../../Views/WeRobot';      // Arthur
 import WeArticle from '../../Views/WeArticle';      // Arthur
+import WeSocial from '../../Views/WeSocial';      // Arthur
+import WeMember from '../../Views/WeMember';      // Arthur
 import Asset from '../../Views/Asset';
 import AssetDetails from '../../Views/AssetDetails';
 import AddAsset from '../../Views/AddAsset';
@@ -302,6 +304,16 @@ const PersonaFlow = () => (
     <Stack.Screen
       name="Persona"
       component={Persona}
+      options={Settings.navigationOptions}
+    />
+    <Stack.Screen
+      name="SocialPersona"
+      component={WeSocial}
+      options={Settings.navigationOptions}
+    />
+    <Stack.Screen
+      name="MemberPersona"
+      component={WeMember}
       options={Settings.navigationOptions}
     />
     <Stack.Screen

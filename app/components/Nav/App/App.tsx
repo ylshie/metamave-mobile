@@ -138,6 +138,12 @@ import NavigationService from '../../../core/NavigationService';
 import { BorderColor } from '../../UI/Box/box.types';
 import WeActions from '../../Views/WeActions';
 import We2FAAction from '../../Views/We2FAAction';
+import WeSignup from '../../Views/WeSignup'
+import WeCode from '../../Views/WeCode';
+import WeFode from '../../Views/WeFode';
+import WeForgot from '../../Views/WeForgot';
+import WeReset from '../../Views/WeReset';
+import WeSocial from '../../Views/WeSocial';
 
 const clearStackNavigatorOptions = {
   headerShown: false,
@@ -216,6 +222,11 @@ const OnboardingNav = () => (
       headerShown: true,
     }}
   >
+    <Stack.Screen name="SignUp" component={WeSignup} />
+    <Stack.Screen name="Code" component={WeCode} />
+    <Stack.Screen name="Fode" component={WeFode} />
+    <Stack.Screen name="Forgot" component={WeForgot} />
+    <Stack.Screen name="Reset" component={WeReset} />
     <Stack.Screen name="Onboarding" component={Onboarding} />
     <Stack.Screen name="OnboardingCarousel" component={OnboardingCarousel} />
     <Stack.Screen name="ChoosePassword" component={ChoosePassword} />

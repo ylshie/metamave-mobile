@@ -173,7 +173,8 @@ export const OnboardingCarousel: React.FC<OnboardingCarouselProps> = ({
   );
 
   const onPressGetStarted = () => {
-    navigation.navigate('Onboarding');
+    //navigation.navigate('Onboarding');  // [Arthur]
+    navigation.navigate('SignUp');
     track(
       MetricsEventBuilder.createEventBuilder(
         MetaMetricsEvents.ONBOARDING_STARTED,

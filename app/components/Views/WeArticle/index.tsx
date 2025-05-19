@@ -92,7 +92,6 @@ import {
 import { Image } from 'react-native';
 import { Dimensions } from 'react-native';
 import createStyles from './styles';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
 import Arrow from './images/arrow.svg'
 /*--------------------*/
 

@@ -17,7 +17,6 @@ import {
 } from 'react-native';
 import type { Theme } from '@metamask/design-tokens';
 import { connect, useSelector } from 'react-redux';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
 import DefaultTabBar from 'react-native-scrollable-tab-view/DefaultTabBar';
 import { baseStyles } from '../../../styles/common';
 import Tokens from '../../UI/Tokens';
@@ -704,6 +703,10 @@ const MyPersona = ({
     [navigation],
   );
 
+  const onPressNG = () => {
+    trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
+  //navigation.navigate('KYCPersona');
+  };
   const onPressKYC = () => {
     trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
     navigation.navigate('KYCPersona');
@@ -793,9 +796,10 @@ const MyPersona = ({
           
           <View style={{
               width: '100%',
+              left: '5%',
               flexDirection: 'column',
               justifyContent: 'space-between',
-              alignItems: 'center',
+              alignItems: 'flex-start',
               marginBottom: 20,
             }}>
               <Text>{'身分驗證方式'}</Text>
@@ -808,14 +812,17 @@ const MyPersona = ({
                 <RenderItem 
                   icon={iSecurity} 
                   caption='Google 2FA驗證'
+                  gap={20}
                   onPress={onPress2FA}/>
                 <RenderItem 
                   icon={iLaguage} 
                   caption='電子信箱驗證'
-                  onPress={onPressKYC}/>
+                  gap={21}
+                  onPress={(onPressNG)}/>
                 <RenderItem 
                   icon={iLaguage} 
                   caption='KYC驗證'
+                  gap={20}
                   onPress={onPressKYC}/>
               </View>
               <Text>{'裝置安全'}</Text>
@@ -826,6 +833,7 @@ const MyPersona = ({
                 <RenderItem 
                   icon={iHelp} 
                   caption='登入裝置'
+                  gap={20}
                   onPress={onPressDevice}/>
               </View>
           </View>

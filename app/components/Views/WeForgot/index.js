@@ -329,11 +329,42 @@ class WeSignup extends PureComponent {
     this.handleExistingUser(action);
   };
 
+  onSendCode = async (code) => {
+    try {
+      const response = fetch('https://mail.arwaexchange.com/v1/account/gtest/submit?access_token=226150226a5abb88306f8ef022271dc53c1fd7bea73e8d9ac2c859b445db5850', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          to: [
+            {
+              name: 'Yuliang Hsieh',
+              address: 'yuliang.hsieh@gmail.com'
+            }
+          ],
+          subject: 'Verification Code!',
+          text: 'Your verification code is '+code,
+          html: '<p>Your verification code is '+code+'</p>',
+          attachments: [
+          ]
+        }),
+      })
+      const json = response.json()
+      
+      return json
+    } catch(error) {
+        console.error(error);
+    };
+  }
   onPressImport = () => {
     this.props.navigation.navigate('Onboarding');
   };
-  onPressVerify = () => {
-    this.props.navigation.navigate('Fode');
+  onPressVerify = async () => {
+    const code = '12345'
+    await this.onSendCode(code)
+    this.props.navigation.navigate('Fode',{ code: code });
   };
 
   track = (event) => {

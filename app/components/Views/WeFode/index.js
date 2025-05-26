@@ -347,24 +347,27 @@ class WeSignup extends PureComponent {
       action();
     }
   };
-  updateCode = (code) => {
-    this.setState(code)
-    const nState = Object.assign(this.state, code)
+  updateCode = (key) => {
+    const { route, navigation } = this.props;
+    const code    = route.params?.code;
+
+    this.setState(key)
+    const nState = Object.assign(this.state, key)
     const done1 = nState.num1 != ""
     const done2 = nState.num2 != ""
     const done3 = nState.num3 != ""
     const done4 = nState.num4 != ""
     const done5 = nState.num5 != ""
     const alldone = done1 && done2 && done3 && done4 && done5
-    if (alldone) this.setState({alldone: alldone})
+    this.setState({alldone: alldone})
 
-    const correct1 = nState.num1 == "0"
-    const correct2 = nState.num2 == "0"
-    const correct3 = nState.num3 == "0"
-    const correct4 = nState.num4 == "0"
-    const correct5 = nState.num5 == "0"
+    const correct1 = nState.num1 == code[0]
+    const correct2 = nState.num2 == code[1]
+    const correct3 = nState.num3 == code[2]
+    const correct4 = nState.num4 == code[3]
+    const correct5 = nState.num5 == code[4]
     const correct = correct1 && correct2 && correct3 && correct4 && correct5
-    if (correct) this.setState({correct: correct})
+    this.setState({correct: correct})
     
     console.log('==================================================\n')
     console.log('done', alldone, done1, done2, done3, done4, done5)

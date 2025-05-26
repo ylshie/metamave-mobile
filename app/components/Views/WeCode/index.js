@@ -53,6 +53,7 @@ import { MetricsEventBuilder } from '../../../core/Analytics/MetricsEventBuilder
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import DefaultTabBar from 'react-native-scrollable-tab-view/DefaultTabBar';
 import { TouchableOpacity } from 'react-native';
+import storageWrapper from '../../../store/storage-wrapper';
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -257,6 +258,7 @@ class WeSignup extends PureComponent {
     num5: '',
     alldone: false,
     correct: false,
+    wecode: '',
   };
 
   seedwords = null;
@@ -266,6 +268,12 @@ class WeSignup extends PureComponent {
   dataToSync = null;
   mounted = false;
 
+  getPasscode = async () => {
+    const wecode = await storageWrapper.getItem('wecode')
+    this.setState({'wecode': wecode})
+  }
+  a = this.getPasscode()
+  
   warningCallback = () => true;
 
   showNotification = () => {
@@ -347,30 +355,36 @@ class WeSignup extends PureComponent {
       action();
     }
   };
-  updateCode = (code) => {
-    this.setState(code)
-    const nState = Object.assign(this.state, code)
+  updateCode = (key) => {
+    const { route, navigation } = this.props;
+    const code    = route.params?.code;
+
+    this.setState(key)
+    const nState = Object.assign(this.state, key)
     const done1 = nState.num1 != ""
     const done2 = nState.num2 != ""
     const done3 = nState.num3 != ""
     const done4 = nState.num4 != ""
     const done5 = nState.num5 != ""
     const alldone = done1 && done2 && done3 && done4 && done5
-    if (alldone) this.setState({alldone: alldone})
+    this.setState({alldone: alldone})
 
-    const correct1 = nState.num1 == "0"
-    const correct2 = nState.num2 == "0"
-    const correct3 = nState.num3 == "0"
-    const correct4 = nState.num4 == "0"
-    const correct5 = nState.num5 == "0"
+    const correct1 = nState.num1 == code[0]
+    const correct2 = nState.num2 == code[1]
+    const correct3 = nState.num3 == code[2]
+    const correct4 = nState.num4 == code[3]
+    const correct5 = nState.num5 == code[4]
     const correct = correct1 && correct2 && correct3 && correct4 && correct5
-    if (correct) this.setState({correct: correct})
+    this.setState({correct: correct})
     
     console.log('==================================================\n')
+    console.log('code', ' ', code[0], code[1], code[2], code[3], code[4])
     console.log('done', alldone, done1, done2, done3, done4, done5)
+    console.log('correct', correct, correct1, correct2, correct3, correct4, correct5)
     console.log('updateCode', this.state, code, alldone, correct)
     console.log('==================================================\n')
   }
+
   onPressCreate = () => {
     const action = () => {
       const { metrics } = this.props;
@@ -451,9 +465,12 @@ class WeSignup extends PureComponent {
   onChangeTab = () => {}
   
   renderContent = () => {
+    const { route, navigation } = this.props;
     const colors = this.context.colors || mockTheme.colors;
     const styles = createStyles(colors);
-    const {alldone, correct} = this.state;
+    const {alldone, correct, wecode} = this.state;
+    const code    = route.params?.code;
+    //const wecode  = storageWrapper.getItem('wecode')
     
     console.log("========================================\n")
     console.log("========================================\n")
@@ -475,12 +492,12 @@ class WeSignup extends PureComponent {
             marginTop: 30,
             marginBottom: 10,
           }}>
-            <Text style={{
+            <Text style={{ 
               color: '#000000',
               fontSize: 30,
               lineHeight: 35,
               fontWeight: '700',
-            }}>輸入驗證碼</Text>
+            }}>輸入驗證碼 [{code}] [{wecode}] </Text>
           </View>
           
           <View style={{
@@ -591,7 +608,7 @@ class WeSignup extends PureComponent {
     const { existingUser } = this.state;
     const colors = this.context.colors || mockTheme.colors;
     const styles = createStyles(colors);
-
+    
     return (
       <View
         style={baseStyles.flexGrow}

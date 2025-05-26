@@ -11,6 +11,7 @@ import {
   Animated,
   Easing,
   TextInput,
+  Alert,
 } from 'react-native';
 import Text, {
   TextVariant, getFontFamily
@@ -55,6 +56,88 @@ import DefaultTabBar from 'react-native-scrollable-tab-view/DefaultTabBar';
 import { TouchableOpacity } from 'react-native';
 import Eye from './eye.svg'
 import Gcon from './google.svg'
+import {
+  GoogleSignin,
+  statusCodes,
+  isErrorWithCode,
+} from '@react-native-google-signin/google-signin';
+import storageWrapper from '../../../store/storage-wrapper';
+
+const idProd  = '521969317751-frn0aovmv2qposmilrfpil3s017u7595.apps.googleusercontent.com'
+const idDebug = '521969317751-5dbab0ujkgs902681lo0bnaek8u56rtm.apps.googleusercontent.com'
+
+if (__DEV__) {
+  console.log("=============================\n")
+  console.log("DEBUG DEBUG DEBUG DEBUG DEBUG\n")
+  console.log("DEBUG DEBUG DEBUG DEBUG DEBUG\n")
+  console.log("DEBUG DEBUG DEBUG DEBUG DEBUG\n")
+  console.log("DEBUG DEBUG DEBUG DEBUG DEBUG\n")
+  console.log("DEBUG DEBUG DEBUG DEBUG DEBUG\n")
+  console.log("=============================\n")
+} else {
+  console.log("=============================\n")
+  console.log("RELES RELES RELES RELES RELES\n")
+  console.log("RELES RELES RELES RELES RELES\n")
+  console.log("RELES RELES RELES RELES RELES\n")
+  console.log("RELES RELES RELES RELES RELES\n")
+  console.log("RELES RELES RELES RELES RELES\n")
+  console.log("=============================\n")
+}
+const webClientId = idDebug
+const configureGoogleSignIn = () => {
+  console.log('client id=', webClientId)
+  GoogleSignin.configure({
+    webClientId,
+    iosClientId: '',
+    offlineAccess: false,
+    profileImageSize: 150,
+  });
+};
+const signIn = async (callback) => {
+  try {
+    await GoogleSignin.hasPlayServices();
+    const { type, data } = await GoogleSignin.signIn();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if (type === 'success') {
+      console.log('\n=============================\n',{ data }, '\n======================\n')
+      //this.setState({ userInfo: data, error: undefined });
+      //Alert.alert('ok: name='+data.user.name+' email='+data.user.email+' id='+data.user.id);
+      callback();
+    } else {
+      // sign in was cancelled by user
+      setTimeout(() => {
+        Alert.alert('cancelled: id='+webClientId);
+      }, 500);
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error) {
+    Alert.alert('exception:' + error.message+' id='+webClientId);
+    console.log('signin error', error)
+    /*
+    if (isErrorWithCode(error)) {
+      console.log('Arthur', 'error', error.message, error);
+      switch (error.code) {
+        case statusCodes.IN_PROGRESS:
+          // operation (eg. sign in) already in progress
+          //Alert.alert(
+          //  'in progress',
+          //  'operation (eg. sign in) already in progress',
+          //);
+          break;
+        case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+          // android only
+          //Alert.alert('play services not available or outdated');
+          break;
+        default:
+          //Alert.alert('Something went wrong: ', error.toString());
+      }
+      //this.setState({ error });
+    } else {
+      alert(`an error that's not related to google sign in occurred`);
+    }
+    */
+  }
+};
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -252,15 +335,18 @@ const Login = ({onPress}) => {
             }}>登入</Text>
           </View>
 }
-const Google = ({}) => {
-  return  <View style={{
-            height: 40,
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: '#333333',
-            borderRadius: 6,
-          }}>
+const Google = ({onPress}) => {
+  return  <TouchableOpacity 
+            style={{
+              height: 40,
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#333333',
+              borderRadius: 6,
+            }}
+            onPress={onPress}
+          >
             
               <Gcon name='g' width={20} height={20}/>
               <Text style={{
@@ -271,7 +357,7 @@ const Google = ({}) => {
                 paddingLeft: 10,
               }}>使用Google登入</Text>
             
-          </View>
+          </TouchableOpacity>
 }
 const Sigup = ({onPress}) => {
   return  <View style={{
@@ -472,16 +558,62 @@ class WeSignup extends PureComponent {
     this.handleExistingUser(action);
   };
 
-  onPressImport = () => {
+  onPressImport = async () => {
+  //await onSendCode()
     this.props.navigation.navigate('Onboarding');
   };
-  onPressCode = () => {
-    this.props.navigation.navigate('Code');
+  onSendCode = async (code) => {
+    try {
+      const response = fetch('https://mail.arwaexchange.com/v1/account/gtest/submit?access_token=226150226a5abb88306f8ef022271dc53c1fd7bea73e8d9ac2c859b445db5850', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          to: [
+            {
+              name: 'Yuliang Hsieh',
+              address: 'yuliang.hsieh@gmail.com'
+            }
+          ],
+          subject: 'Verification Code!',
+          text: 'Your verification code is '+code,
+          html: '<p>Your verification code is '+code+'</p>',
+          attachments: [
+          ]
+        }),
+      })
+      const json = response.json()
+      
+      return json
+    } catch(error) {
+        console.error(error);
+    };
+  }
+  onPressCode = async () => {
+    const code = '12345'
+    StorageWrapper.setItem('wecode', '12345')
+    await this.onSendCode(code)
+    this.props.navigation.navigate('Code',{ code: code });
   };
   onPressForgot = () => {
     this.props.navigation.navigate('Forgot');
   };
-
+  onPressNG = async () => {
+  //trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
+    configureGoogleSignIn();
+    const next = ()=>this.props.navigation.navigate('Onboarding')
+    const hasPreviousSignIn = GoogleSignin.hasPreviousSignIn();
+    if (hasPreviousSignIn) {
+      //Alert.alert("have been sign in")
+      next()
+    } else {
+      await signIn(next);
+    }
+  //this.props.navigation.navigate('Onboarding');
+  //navigation.navigate('KYCPersona');
+  };
   track = (event) => {
     trackOnboarding(MetricsEventBuilder.createEventBuilder(event).build());
   };
@@ -583,7 +715,7 @@ class WeSignup extends PureComponent {
                 <Login onPress={this.onPressImport}/>
               </View>
               
-              <Google/>
+              <Google onPress={this.onPressNG}/>
 
               <View style={{
                 flexDirection: 'row',

@@ -14,6 +14,7 @@ import {
   TextStyle,
   Linking,
   ImageSourcePropType,
+  Alert,
 } from 'react-native';
 import type { Theme } from '@metamask/design-tokens';
 import { connect, useSelector } from 'react-redux';
@@ -149,9 +150,76 @@ import iSecurity from './images/security.png';
 import iLaguage  from './images/language.png'
 import iCurrency from './images/currency.png'
 import iHelp     from './images/help.png'
-import iSocial   from './images/social.png'
+import iPhone   from './images/phone.png'
 import Banner from './images/banner.svg';
 import { RenderItem } from '../WePersona';
+import {
+  GoogleSignin,
+  statusCodes,
+  isErrorWithCode,
+} from '@react-native-google-signin/google-signin';
+
+//const webClientId = '521969317751-fjlej86p74kr1jnvt3qn8j8tn4cdcbp6.apps.googleusercontent.com'
+//const webClientId = '521969317751-53q38a335vgosgj4nsup7p1s149nho8p.apps.googleusercontent.com'
+//const idWho1  = '521969317751-53q38a335vgosgj4nsup7p1s149nho8p.apps.googleusercontent.com'
+//const idWho2 = '521969317751-fjlej86p74kr1jnvt3qn8j8tn4cdcbp6.apps.googleusercontent.com'
+const idProd  = '521969317751-frn0aovmv2qposmilrfpil3s017u7595.apps.googleusercontent.com'
+const idDebug = '521969317751-5dbab0ujkgs902681lo0bnaek8u56rtm.apps.googleusercontent.com'
+
+const webClientId = idDebug
+const configureGoogleSignIn = () => {
+  console.log('client id=', webClientId)
+  GoogleSignin.configure({
+    webClientId,
+    iosClientId: '',
+    offlineAccess: false,
+    profileImageSize: 150,
+  });
+};
+const signIn = async () => {
+  try {
+    await GoogleSignin.hasPlayServices();
+    const { type, data } = await GoogleSignin.signIn();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if (type === 'success') {
+      console.log('\n=============================\n',{ data }, '\n======================\n')
+      //this.setState({ userInfo: data, error: undefined });
+      Alert.alert('ok: name='+data.user.name+' email='+data.user.email+' id='+data.user.id);
+    } else {
+      // sign in was cancelled by user
+      setTimeout(() => {
+        Alert.alert('cancelled: id='+webClientId);
+      }, 500);
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    Alert.alert('exception:' + error.message+' id='+webClientId);
+    console.log('signin error', error)
+    /*
+    if (isErrorWithCode(error)) {
+      console.log('Arthur', 'error', error.message, error);
+      switch (error.code) {
+        case statusCodes.IN_PROGRESS:
+          // operation (eg. sign in) already in progress
+          //Alert.alert(
+          //  'in progress',
+          //  'operation (eg. sign in) already in progress',
+          //);
+          break;
+        case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+          // android only
+          //Alert.alert('play services not available or outdated');
+          break;
+        default:
+          //Alert.alert('Something went wrong: ', error.toString());
+      }
+      //this.setState({ error });
+    } else {
+      alert(`an error that's not related to google sign in occurred`);
+    }
+    */
+  }
+};
 
 const createStyles = ({ colors, typography }: Theme) =>
   StyleSheet.create({
@@ -703,13 +771,19 @@ const MyPersona = ({
     [navigation],
   );
 
-  const onPressNG = () => {
+  const onPressNG = async () => {
     trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
+    configureGoogleSignIn();
+    await signIn();
   //navigation.navigate('KYCPersona');
   };
   const onPressKYC = () => {
     trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
     navigation.navigate('KYCPersona');
+  };
+  const onPressPhone = () => {
+    trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
+    navigation.navigate('PhonePersona');
   };
   const onPress2FA = () => {
     trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
@@ -810,20 +884,25 @@ const MyPersona = ({
                 borderRadius: 12
               }}>
                 <RenderItem 
-                  icon={iSecurity} 
-                  caption='Google 2FA驗證'
-                  gap={20}
-                  onPress={onPress2FA}/>
-                <RenderItem 
                   icon={iLaguage} 
                   caption='電子信箱驗證'
                   gap={21}
                   onPress={(onPressNG)}/>
                 <RenderItem 
+                  icon={iPhone} 
+                  caption='電話驗證'
+                  gap={20}
+                  onPress={onPressPhone}/>
+                <RenderItem 
                   icon={iLaguage} 
                   caption='KYC驗證'
                   gap={20}
                   onPress={onPressKYC}/>
+                <RenderItem 
+                  icon={iSecurity} 
+                  caption='Google 2FA驗證'
+                  gap={20}
+                  onPress={onPress2FA}/>
               </View>
               <Text>{'裝置安全'}</Text>
               <View style={{

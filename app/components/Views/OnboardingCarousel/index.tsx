@@ -266,7 +266,7 @@ export const OnboardingCarousel: React.FC<OnboardingCarouselProps> = ({
                             OnboardingCarouselSelectorIDs.APP_START_TIME_ID
                           }
                         >
-                          {appStartTime}
+                          {/* appStartTime */}
                         </Text>
                       )}
                       <Text style={styles.subtitle}>

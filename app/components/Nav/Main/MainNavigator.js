@@ -39,6 +39,8 @@ import AddAsset from '../../Views/AddAsset';
 import Collectible from '../../Views/Collectible';
 import Send from '../../Views/confirmations/legacy/Send';
 import SendTo from '../../Views/confirmations/legacy/SendFlow/WeSendTo'; // [Arthur]
+import SendOption from '../../Views/confirmations/legacy/SendFlow/WeSendOption'; // [Arthur]
+import WeTransfer from '../../Views/confirmations/legacy/SendFlow/WeTransfer'; // [Arthur]
 import { RevealPrivateCredential } from '../../Views/RevealPrivateCredential';
 import WalletConnectSessions from '../../Views/WalletConnectSessions';
 import OfflineMode from '../../Views/OfflineMode';
@@ -775,6 +777,16 @@ const NftDetailsFullImageModeView = (props) => (
 
 const SendFlowView = () => (
   <Stack.Navigator>
+    <Stack.Screen
+      name="SendOption"
+      component={SendOption}
+      options={SendTo.navigationOptions}
+    />
+    <Stack.Screen
+      name="WeTransfer"
+      component={WeTransfer}
+      options={SendTo.navigationOptions}
+    />
     <Stack.Screen
       name="SendTo"
       component={SendTo}

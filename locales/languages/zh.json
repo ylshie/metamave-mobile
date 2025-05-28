@@ -1334,6 +1334,7 @@
     "change_password": "更改密码"
   },
   "asset_overview": {
+    "we_transfer": "轉帳",
     "we_send": "支付",
     "we_receive": "收款",
     "we_swap": "兌換",

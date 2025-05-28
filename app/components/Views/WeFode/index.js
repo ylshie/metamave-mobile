@@ -301,7 +301,7 @@ class WeSignup extends PureComponent {
     this.props.disableNewPrivacyPolicyToast();
 
     InteractionManager.runAfterInteractions(() => {
-      PreventScreenshot.forbid();
+    //PreventScreenshot.forbid(); // Arthur
       if (this.props.route.params?.delete) {
         this.props.setLoading(strings('onboarding.delete_current'));
         setTimeout(() => {
@@ -551,6 +551,7 @@ class WeSignup extends PureComponent {
                   type={'normal'}
                   onPress={this.onPressImport}
                   testID={OnboardingSelectorIDs.IMPORT_SEED_BUTTON}
+                  isEnabled={correct}
                 >
                   {'Verify'}
                 </StyledButton>

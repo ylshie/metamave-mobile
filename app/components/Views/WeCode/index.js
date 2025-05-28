@@ -259,6 +259,8 @@ class WeSignup extends PureComponent {
     alldone: false,
     correct: false,
     wecode: '',
+    email: '',
+    pass: '',
   };
 
   seedwords = null;
@@ -309,7 +311,7 @@ class WeSignup extends PureComponent {
     this.props.disableNewPrivacyPolicyToast();
 
     InteractionManager.runAfterInteractions(() => {
-      PreventScreenshot.forbid();
+    //PreventScreenshot.forbid(); // Arthur
       if (this.props.route.params?.delete) {
         this.props.setLoading(strings('onboarding.delete_current'));
         setTimeout(() => {
@@ -408,7 +410,14 @@ class WeSignup extends PureComponent {
     this.handleExistingUser(action);
   };
 
-  onPressImport = () => {
+  onPressNext = () => {
+    const { route, navigation } = this.props;
+    const email   = route.params?.email;
+    const pass    = route.params?.pass;
+
+    StorageWrapper.setItem('account', email)
+    StorageWrapper.setItem('password', pass)
+
     this.props.navigation.navigate('Onboarding');
   };
 
@@ -466,11 +475,12 @@ class WeSignup extends PureComponent {
   
   renderContent = () => {
     const { route, navigation } = this.props;
-    const colors = this.context.colors || mockTheme.colors;
-    const styles = createStyles(colors);
+    const colors  = this.context.colors || mockTheme.colors;
+    const styles  = createStyles(colors);
     const {alldone, correct, wecode} = this.state;
     const code    = route.params?.code;
-    //const wecode  = storageWrapper.getItem('wecode')
+    const email   = route.params?.email;
+    const pass    = route.params?.pass;
     
     console.log("========================================\n")
     console.log("========================================\n")
@@ -497,7 +507,7 @@ class WeSignup extends PureComponent {
               fontSize: 30,
               lineHeight: 35,
               fontWeight: '700',
-            }}>輸入驗證碼 [{code}] [{wecode}] </Text>
+            }}>輸入驗證碼</Text>
           </View>
           
           <View style={{
@@ -510,7 +520,7 @@ class WeSignup extends PureComponent {
               fontWeight: '400',
             }}>
               你將收到驗證碼透過”電子信箱方式 ” 
-            code to your Email Jelly2232@gmail.com
+            code to your Email [{email}]
             </Text>
           </View>
           
@@ -564,8 +574,9 @@ class WeSignup extends PureComponent {
               this.state.alldone
               ? <StyledButton
                   type={'normal'}
-                  onPress={this.onPressImport}
+                  onPress={this.onPressNext}
                   testID={OnboardingSelectorIDs.IMPORT_SEED_BUTTON}
+                  isEnabled={correct}
                 >
                   {'Next'}
                 </StyledButton>

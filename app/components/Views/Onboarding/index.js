@@ -236,7 +236,7 @@ class Onboarding extends PureComponent {
     this.props.disableNewPrivacyPolicyToast();
 
     InteractionManager.runAfterInteractions(() => {
-      PreventScreenshot.forbid();
+    //PreventScreenshot.forbid(); // Arthur
       if (this.props.route.params?.delete) {
         this.props.setLoading(strings('onboarding.delete_current'));
         setTimeout(() => {

@@ -62,9 +62,21 @@ import {
   isErrorWithCode,
 } from '@react-native-google-signin/google-signin';
 import storageWrapper from '../../../store/storage-wrapper';
+import { verify } from 'crypto';
+import { randomInt } from 'react-native-quick-crypto';
+import { wzExist, wzLogin, wzMail } from './account';
+//import otpGenerator from 'otp-generator'
 
 const idProd  = '521969317751-frn0aovmv2qposmilrfpil3s017u7595.apps.googleusercontent.com'
 const idDebug = '521969317751-5dbab0ujkgs902681lo0bnaek8u56rtm.apps.googleusercontent.com'
+
+const crypto = require('crypto')
+
+
+const digits = '0123456789'
+const lowerCaseAlphabets = 'abcdefghijklmnopqrstuvwxyz'
+const upperCaseAlphabets = lowerCaseAlphabets.toUpperCase()
+const specialChars = '#!&@'
 
 if (__DEV__) {
   console.log("=============================\n")
@@ -138,6 +150,42 @@ const signIn = async (callback) => {
     */
   }
 };
+
+export const generateInviteCode = () => {
+  const option = {
+    lowerCaseAlphabets: false,
+    upperCaseAlphabets: true, 
+    specialChars: false
+  }
+  const code = generateMyOTP(5, option);
+  
+  return code
+}
+
+export const generateMyOTP = (length, options) => {
+  length = length || 10
+  const generateOptions = options || {}
+
+  generateOptions.digits = Object.prototype.hasOwnProperty.call(generateOptions, 'digits') ? options.digits : true
+  generateOptions.lowerCaseAlphabets = Object.prototype.hasOwnProperty.call(generateOptions, 'lowerCaseAlphabets') ? options.lowerCaseAlphabets : true
+  generateOptions.upperCaseAlphabets = Object.prototype.hasOwnProperty.call(generateOptions, 'upperCaseAlphabets') ? options.upperCaseAlphabets : true
+  generateOptions.specialChars = Object.prototype.hasOwnProperty.call(generateOptions, 'specialChars') ? options.specialChars : true
+
+  const allowsChars = ((generateOptions.digits || '') && digits) +
+    ((generateOptions.lowerCaseAlphabets || '') && lowerCaseAlphabets) +
+    ((generateOptions.upperCaseAlphabets || '') && upperCaseAlphabets) +
+    ((generateOptions.specialChars || '') && specialChars)
+  let password = ''
+  while (password.length < length) {
+  //const charIndex = crypto.randomInt(0, allowsChars.length)
+    const charIndex = randomInt(0, allowsChars.length)
+    if (password.length === 0 && generateOptions.digits === true && allowsChars[charIndex] === '0') {
+      continue
+    }
+    password += allowsChars[charIndex]
+  }
+  return password
+}
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -251,7 +299,7 @@ const MyInput = (hint) => (
       }}
   />
 )
-const PureInput = ({hint}) => {
+const PureInput = ({hint, onChangeText}) => {
   return (
     <View style={{
       width: '100%',
@@ -262,17 +310,22 @@ const PureInput = ({hint}) => {
       paddingLeft: 8,
       ...styleInput
     }}>
-      <TextInput style={{
-        fontSize: 14,
-        fontWeight: '400',
-      }}
-                secureTextEntry={false}
-                placeholder={hint}
-                placeholderTextColor={'#808080'}/>
+      <TextInput 
+        style={{
+          fontSize: 14,
+          fontWeight: '400',
+        }}
+        autoCapitalize={'none'}
+        secureTextEntry={false}
+        placeholder={hint}
+        placeholderTextColor={'#808080'}
+        onChangeText={onChangeText}
+      />
     </View>
   )
 }
-const PassInput = ({hint}) => {
+
+const PassInput = ({hint, onChangeText}) => {
   const [hide, setHide] = useState(true)
   const onPress = () => {
     console.log("========>", hide)
@@ -296,6 +349,7 @@ const PassInput = ({hint}) => {
         secureTextEntry={hide}
         placeholder={hint}
         placeholderTextColor={'#808080'}
+        onChangeText={onChangeText}
       />
       <TouchableOpacity onPress={onPress}>
         <Eye name='eye' width={20} height={20}/>
@@ -444,6 +498,14 @@ class WeSignup extends PureComponent {
     loading: false,
     existingUser: false,
     hidePass: true,
+    account: '',
+    password: '',
+    userEmail: '',
+    userPass: '',
+    verifyPasss: '',
+    addEmail: '',
+    addPass: '',
+    addInvite: '',
   };
 
   seedwords = null;
@@ -481,14 +543,23 @@ class WeSignup extends PureComponent {
     );
   };
 
+  readAccount = async () => {
+    const account = await storageWrapper.getItem('account')
+    const password= await storageWrapper.getItem('password')
+
+    if (account) this.setState({account: account})
+    if (password) this.setState({password: password})
+  }
+  
   componentDidMount() {
+    this.readAccount();
     this.updateNavBar();
     this.mounted = true;
     this.checkIfExistingUser();
     this.props.disableNewPrivacyPolicyToast();
 
     InteractionManager.runAfterInteractions(() => {
-      PreventScreenshot.forbid();
+    //PreventScreenshot.forbid(); // Arthur
       if (this.props.route.params?.delete) {
         this.props.setLoading(strings('onboarding.delete_current'));
         setTimeout(() => {
@@ -558,13 +629,50 @@ class WeSignup extends PureComponent {
     this.handleExistingUser(action);
   };
 
-  onPressImport = async () => {
-  //await onSendCode()
-    this.props.navigation.navigate('Onboarding');
-  };
-  onSendCode = async (code) => {
+  onPressLogin = async () => {
+    const okAccount = this.state.account == this.state.userEmail
+    const okPassword= this.state.password == this.state.userPass
+
     try {
-      const response = fetch('https://mail.arwaexchange.com/v1/account/gtest/submit?access_token=226150226a5abb88306f8ef022271dc53c1fd7bea73e8d9ac2c859b445db5850', {
+      const res = await wzLogin(this.state.userEmail, this.state.userPass)
+      StorageWrapper.setItem('accessToken', res.data.accessToken)
+      StorageWrapper.setItem('refreshToken', res.data.refreshToken)
+      StorageWrapper.setItem('accessTokenExpiresAt', res.data.accessTokenExpiresAt)
+      StorageWrapper.setItem('refreshTokenExpiresAt', res.data.refreshTokenExpiresAt)
+      StorageWrapper.setItem('account', this.state.userEmail)
+      if (res.ok) {
+        this.props.navigation.navigate('Onboarding');
+      } else {
+        Alert.alert("Login failed")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    /*
+    console.log("okAccount", okAccount, okAccount)
+    if (okAccount && okPassword) {
+      this.props.navigation.navigate('Onboarding');
+    } else {
+      if (okAccount) {
+        if (okPassword) {
+          Alert.alert("Incorrect State")
+        } else {
+          Alert.alert("Wrong password")
+        }
+      } else {
+        Alert.alert("Incorrect account")
+      }
+    }
+    */
+  };
+  onSendCode = async (email, code) => {
+    const subject = 'WeZan Verification Code!'
+    const text    = 'Your verification code is '+code
+    const html    = '<p>Your verification code is '+code+'</p>'
+    await wzMail(email, subject, text, html)
+    /*
+    try {
+      const res = await fetch('https://mail.arwaexchange.com/v1/account/gtest/submit?access_token=226150226a5abb88306f8ef022271dc53c1fd7bea73e8d9ac2c859b445db5850', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -573,29 +681,63 @@ class WeSignup extends PureComponent {
         body: JSON.stringify({
           to: [
             {
-              name: 'Yuliang Hsieh',
-              address: 'yuliang.hsieh@gmail.com'
+            //name: 'Yuliang Hsieh',
+              address: email, //'yuliang.hsieh@gmail.com'
             }
           ],
-          subject: 'Verification Code!',
+          subject: 'WeZan Verification Code!',
           text: 'Your verification code is '+code,
           html: '<p>Your verification code is '+code+'</p>',
           attachments: [
           ]
         }),
       })
-      const json = response.json()
-      
+      //console.log("res=", response)
+      const json = await res.json()
+      console.log("sendcode:", json)
       return json
     } catch(error) {
         console.error(error);
     };
+    */
   }
+  
   onPressCode = async () => {
-    const code = '12345'
-    StorageWrapper.setItem('wecode', '12345')
-    await this.onSendCode(code)
-    this.props.navigation.navigate('Code',{ code: code });
+    const option = {
+      lowerCaseAlphabets: false,
+      upperCaseAlphabets: false, 
+      specialChars: false
+    }
+    console.log("Check exist")
+    try {
+      const exist = await wzExist(this.state.addEmail)
+      console.log('[Account] exist', this.state.addEmail, exist)
+      if (exist.ret) {
+        Alert.alert('Account existed')
+        return
+      } else {
+
+      }
+    //const otpGenerator = require('otp-generator')
+    //const xcode = otpGenerator.generate(5, option);
+      const id    = generateInviteCode()
+      const code  = generateMyOTP(5, option);
+    //const code = '12345'
+      StorageWrapper.setItem('wecode', '12345')
+      StorageWrapper.setItem('addEmail', this.state.addEmail)
+      StorageWrapper.setItem('addPass', this.state.addPass)
+      await this.onSendCode(this.state.addEmail, code)
+      console.log('send code', this.state.addEmail, code)
+      this.props.navigation.navigate('Code',{ 
+        code: code,
+        id: id, 
+        email: this.state.addEmail, 
+        pass: this.state.addPass,
+        invite: this.state.addInvite
+      });
+    } catch (error) {
+      Alert.alert("Errror", error.message)
+    }
   };
   onPressForgot = () => {
     this.props.navigation.navigate('Forgot');
@@ -696,12 +838,18 @@ class WeSignup extends PureComponent {
                 marginTop: 10,
                 marginBottom: 20,
               }}>
-                <PureInput hint={'輸入您的Email或電話號碼'}/>
+                <PureInput 
+                  hint={'輸入您的Email或電話號碼'}
+                  onChangeText={(text)=>this.setState({userEmail: text})}
+                />
               </View>
               <View style={{
                 marginBottom: 20,
               }}>
-                <PassInput hint={'輸入您的密碼'}/>
+                <PassInput 
+                  hint={'輸入您的密碼'}
+                  onChangeText={(text)=>this.setState({userPass: text})}
+                />
               </View>
               <View style={{
                 justifyContent: 'flex-end'
@@ -712,7 +860,7 @@ class WeSignup extends PureComponent {
               <View style={{
                 marginBottom: 20,
               }}>
-                <Login onPress={this.onPressImport}/>
+                <Login onPress={this.onPressLogin}/>
               </View>
               
               <Google onPress={this.onPressNG}/>
@@ -739,17 +887,26 @@ class WeSignup extends PureComponent {
                 marginTop: 10,
                 marginBottom: 20,
               }}>
-                <TextInput style={styleInput} placeholder={'輸入您的Email或電話號碼'}/>
+                <PureInput 
+                  hint={'輸入您的Email或電話號碼'}
+                  onChangeText={(text)=>this.setState({addEmail: text})}
+                />
               </View>
               <View style={{
                 marginBottom: 20,
               }}>
-                <PassInput hint={'建立您的密碼必須8位數以上'}/>
+                <PassInput 
+                  hint={'建立您的密碼必須8位數以上'}
+                  onChangeText={(text)=>this.setState({addPass: text})}
+                />
               </View>
               <View style={{
                 marginBottom: 20,
               }}>
-                <PassInput hint={'再次輸入您建立的密碼'}/>
+                <PassInput 
+                  hint={'再次輸入您建立的密碼'}
+                  onChangeText={(text)=>this.setState({verifyPass: text})}
+                />
               </View>
               <View style={{
                 marginBottom: 20,
@@ -759,7 +916,10 @@ class WeSignup extends PureComponent {
               <View style={{
                 marginBottom: 20,
               }}>
-                <TextInput style={styleInput} placeholder={'若無邀請碼直接跳過'}/>
+                <TextInput 
+                  style={styleInput} 
+                  placeholder={'若無邀請碼直接跳過'}
+                  onChangeText={(text)=>this.setState({addInvite: text})}/>
               </View>
               <Sigup onPress={this.onPressCode}/>
               

@@ -90,6 +90,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { BIOMETRY_TYPE } from 'react-native-keychain';
 //import FOX_LOGO from '../../../images/branding/fox.png';
 import FOX_LOGO from '../../../images/branding/wezan.png';
+import { wzRefresh } from '../WeSignup/account';
 
 /**
  * View where returning users can authenticate
@@ -132,6 +133,10 @@ const Login: React.FC = () => {
     Authentication.lockApp();
     return false;
   };
+  const [token,   setToken]   = useState<string>('')
+  const [expire,  setExpire]  = useState<string>('')
+  const [refresh, setRefresh] = useState<string>('')
+  const [account, setAccount] = useState<string>('')
 
   useEffect(() => {
     trace({
@@ -243,8 +248,47 @@ const Login: React.FC = () => {
     setBiometryChoice(newBiometryChoice);
   };
 
+  useEffect(()=> {
+    const QueryToken = async () => {
+      const token   = await StorageWrapper.getItem('accessToken');
+      const expire  = await StorageWrapper.getItem('accessTokenExpiresAt');
+      const refresh = await StorageWrapper.getItem('refreshToken');
+      const account = await StorageWrapper.getItem('account');
+      console.log('QueryCode', token)
+      setToken(token)
+      setExpire(expire)
+      setRefresh(refresh)
+      setAccount(account)
+    }
+    QueryToken()
+  }, [token])
+
+  const checkExpire = () => {
+    if (expire == '') return true
+    
+    const limit = new Date(expire)
+    return ((Date.now() + 300) > limit.getTime()) 
+  }
+  const refreshToken = async () => {
+    console.log("refreshToken", refresh)
+    const res = await wzRefresh(refresh)
+    if (res.ok) {
+      console.log("refreshToken", 'new token', res.data)
+      StorageWrapper.setItem('accessToken',  res.data.accessToken)
+      StorageWrapper.setItem('refreshToken', res.data.refreshToken)
+      StorageWrapper.setItem('accessTokenExpiresAt',  res.data.accessTokenExpiresAt)
+      StorageWrapper.setItem('refreshTokenExpiresAt', res.data.refreshTokenExpiresAt)
+    } else {
+      Alert.alert('Refresh token failed')
+    }
+  }
   const onLogin = async () => {
     endTrace({ name: TraceName.LoginUserInteraction });
+    if (checkExpire()) {
+      await refreshToken()
+    } else {
+      console.log("onLogin", 'no need to refresh token')
+    }
 
     try {
       const locked = !passwordRequirementsMet(password);

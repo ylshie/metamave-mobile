@@ -67,6 +67,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { RenderBlock } from '../WeSendOption';
 import I_Online from './images/online.svg'
 import I_Internal from './images/internal.svg'
+import { MyToast } from '../WeSendOption';
 const dummy = () => true;
 
 const RenderItem = ({caption, foot, icon}) => {
@@ -191,6 +192,7 @@ class WeSendFlow extends PureComponent {
     confusableCollection: [],
     inputWidth: { width: '99%' },
     showAmbiguousAcountWarning: false,
+    showToast: false,
   };
 
   updateNavBar = () => {
@@ -502,7 +504,8 @@ class WeSendFlow extends PureComponent {
   };
 
   onPressNothing = async () => {
-
+    this.setState({showToast: true})
+    setTimeout(()=>this.setState({showToast: false}), 2000)
   }
   onPressOnline = async () => {
     const { navigation } = this.props;
@@ -556,6 +559,7 @@ class WeSendFlow extends PureComponent {
     const explanations =
       displayConfusableWarning &&
       getConfusablesExplanations(confusableCollection);
+    const {showToast} = this.state
 
     return (
       <SafeAreaView
@@ -567,32 +571,47 @@ class WeSendFlow extends PureComponent {
         {...generateTestId(Platform, SendViewSelectorsIDs.CONTAINER_ID)}
       >
         <View style={{
-                borderRadius: 20,
-                overflow: 'hidden',
+                position: 'relative',
               }}
         >
-          <RenderBlock
-            background={['#64C5E9', '#126AA8']}
-            onPress={this.onPressOnline}
-          >
-            <RenderItem
-              color={'#3D3D3D'} 
-              caption={'鏈上轉帳'}
-              foot={'支援多鏈跨平台轉帳'}
-              icon={<I_Online name='balance' width={100} height={100}/>}
-            />
-          </RenderBlock>
-          <RenderBlock
-            background={['#3069DC', '#1C3D81']}
-            onPress={this.onPressNothing}
-          >
-            <RenderItem 
-              color={'#3D3D3D'} 
-              caption={'內部轉帳'}
-              foot={'0手續費,及時轉帳'}
-              icon={<I_Internal name='balance' width={100} height={100}/>}
-            />
-          </RenderBlock>
+          <View style={{
+            borderRadius: 20,
+            overflow: 'hidden',
+          }}>
+            <RenderBlock
+              background={['#64C5E9', '#126AA8']}
+              onPress={this.onPressOnline}
+            >
+              <RenderItem
+                color={'#3D3D3D'} 
+                caption={'鏈上轉帳'}
+                foot={'支援多鏈跨平台轉帳'}
+                icon={<I_Online name='balance' width={100} height={100}/>}
+              />
+            </RenderBlock>
+          </View>
+          <View style={{
+            borderRadius: 20,
+            overflow: 'hidden',
+            marginTop: 20,
+          }}>
+            <RenderBlock
+              background={['#3069DC', '#1C3D81']}
+              onPress={this.onPressNothing}
+            >
+              <RenderItem 
+                color={'#3D3D3D'} 
+                caption={'內部轉帳'}
+                foot={'0手續費,及時轉帳'}
+                icon={<I_Internal name='balance' width={100} height={100}/>}
+              />
+            </RenderBlock>
+          </View>
+          {
+            showToast
+            ? <MyToast text={'近期開放'}/>
+            : <></>
+          }
         </View>
       </SafeAreaView>
     );

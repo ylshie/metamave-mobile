@@ -11,6 +11,7 @@ import {
   Animated,
   Easing,
   TextInput,
+  Alert,
 } from 'react-native';
 import Text, {
   TextVariant,
@@ -53,6 +54,10 @@ import { MetricsEventBuilder } from '../../../core/Analytics/MetricsEventBuilder
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import DefaultTabBar from 'react-native-scrollable-tab-view/DefaultTabBar';
 import { TouchableOpacity } from 'react-native';
+import storageWrapper from '../../../store/storage-wrapper';
+import { text } from 'stream/consumers';
+import { generateMyOTP } from '../WeSignup';
+import { wzMail } from '../WeSignup/account';
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -215,6 +220,9 @@ class WeSignup extends PureComponent {
     warningModalVisible: false,
     loading: false,
     existingUser: false,
+    userEmail: '',
+    account: '',
+    password: '',
   };
 
   seedwords = null;
@@ -252,14 +260,23 @@ class WeSignup extends PureComponent {
     );
   };
 
+  readAccount = async () => {
+    const account = await storageWrapper.getItem('account')
+    const password= await storageWrapper.getItem('password')
+
+    if (account) this.setState({account: account})
+    if (password) this.setState({password: password})
+  }
+
   componentDidMount() {
+    this.readAccount();
     this.updateNavBar();
     this.mounted = true;
     this.checkIfExistingUser();
     this.props.disableNewPrivacyPolicyToast();
 
     InteractionManager.runAfterInteractions(() => {
-      PreventScreenshot.forbid();
+    //PreventScreenshot.forbid(); // Arthur
       if (this.props.route.params?.delete) {
         this.props.setLoading(strings('onboarding.delete_current'));
         setTimeout(() => {
@@ -329,7 +346,12 @@ class WeSignup extends PureComponent {
     this.handleExistingUser(action);
   };
 
-  onSendCode = async (code) => {
+  onSendCode = async (email, code) => {
+    const subject = 'WeZan Verification Code!'
+    const text    = 'Your verification code is '+code
+    const html    = '<p>Your verification code is '+code+'</p>'
+    await wzMail(email, subject, text, html)
+    /*
     try {
       const response = fetch('https://mail.arwaexchange.com/v1/account/gtest/submit?access_token=226150226a5abb88306f8ef022271dc53c1fd7bea73e8d9ac2c859b445db5850', {
         method: 'POST',
@@ -340,31 +362,51 @@ class WeSignup extends PureComponent {
         body: JSON.stringify({
           to: [
             {
-              name: 'Yuliang Hsieh',
-              address: 'yuliang.hsieh@gmail.com'
+            //name: 'Yuliang Hsieh',
+              address: email, //'yuliang.hsieh@gmail.com'
             }
           ],
-          subject: 'Verification Code!',
+          subject: 'WeZan: Verification Code to reset password!',
           text: 'Your verification code is '+code,
           html: '<p>Your verification code is '+code+'</p>',
           attachments: [
           ]
         }),
       })
-      const json = response.json()
+      const json = await response.json()
       
       return json
     } catch(error) {
         console.error(error);
     };
+    */
   }
   onPressImport = () => {
     this.props.navigation.navigate('Onboarding');
   };
   onPressVerify = async () => {
-    const code = '12345'
-    await this.onSendCode(code)
-    this.props.navigation.navigate('Fode',{ code: code });
+    if (this.state.userEmail == '') {
+      Alert.alert("Please input your email")
+      return
+    }
+    if (this.state.account == '') {
+      Alert.alert("You don't create account yet")
+      return
+    }
+    if (this.state.userEmail != this.state.account) {
+      Alert.alert("Account not existed")
+      return
+    }
+    //const code = '12345'
+    const option = {
+      lowerCaseAlphabets: false,
+      upperCaseAlphabets: false, 
+      specialChars: false
+    }
+    const code = generateMyOTP(5, option);
+    await this.onSendCode(this.state.account, code)
+    console.log('send code', this.state.account, code)
+    this.props.navigation.navigate('Fode',{ code: code, email: this.state.account});
   };
 
   track = (event) => {
@@ -472,7 +514,10 @@ class WeSignup extends PureComponent {
               fontSize: 14,
               fontWeight: '400',
             }}>電子信箱</Text>
-            <TextInput style={styleInput} placeholder={'輸入您的Email或電話號碼'}/>
+            <TextInput 
+              style={styleInput} 
+              placeholder={'輸入您的Email或電話號碼'}
+              onChangeText={(text)=>this.setState({userEmail: text})}/>
           </View>
           
           <TouchableOpacity

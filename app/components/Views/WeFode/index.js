@@ -398,7 +398,9 @@ class WeSignup extends PureComponent {
   };
 
   onPressImport = () => {
-    this.props.navigation.navigate('Reset');
+    const { route } = this.props;
+    const email   = route.params?.email;
+    this.props.navigation.navigate('Reset', { email: email });
   };
 
   track = (event) => {

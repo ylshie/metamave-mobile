@@ -11,6 +11,7 @@ import {
   Animated,
   Easing,
   TextInput,
+  Alert,
 } from 'react-native';
 import Text, {
   TextVariant,
@@ -54,6 +55,9 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import DefaultTabBar from 'react-native-scrollable-tab-view/DefaultTabBar';
 import { TouchableOpacity } from 'react-native';
 import Eye from './eye.svg'
+import { text } from 'stream/consumers';
+import storageWrapper from '../../../store/storage-wrapper';
+import { wzPass } from '../WeSignup/account';
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -152,7 +156,7 @@ const MyInput = (hint) => (
   />
 )
 
-const PassInput = ({hint}) => {
+const PassInput = ({hint, onChangeText}) => {
   const [hide, setHide] = useState(true)
   const onPress = () => {
     console.log("========>", hide)
@@ -174,6 +178,7 @@ const PassInput = ({hint}) => {
         fontSize: 14,
         fontWeight: '400',
       }}
+      onChangeText={onChangeText}
                 secureTextEntry={hide}
                 placeholder={hint}
                 placeholderTextColor={'#808080'}/>
@@ -248,6 +253,8 @@ class WeSignup extends PureComponent {
     warningModalVisible: false,
     loading: false,
     existingUser: false,
+    newPass: '',
+    verifyPass: '',
   };
 
   seedwords = null;
@@ -292,7 +299,7 @@ class WeSignup extends PureComponent {
     this.props.disableNewPrivacyPolicyToast();
 
     InteractionManager.runAfterInteractions(() => {
-      PreventScreenshot.forbid();
+    //PreventScreenshot.forbid(); // Arthur
       if (this.props.route.params?.delete) {
         this.props.setLoading(strings('onboarding.delete_current'));
         setTimeout(() => {
@@ -362,7 +369,16 @@ class WeSignup extends PureComponent {
     this.handleExistingUser(action);
   };
 
-  onPressImport = () => {
+  onPressImport = async () => {
+    if (this.state.newPass != this.state.verifyPass) {
+      Alert.alert('Two passwords are not same')
+      return
+    }
+    const { route } = this.props;
+    const email   = route.params?.email;
+    const res = await wzPass(email, this.state.newPass)
+    console.log('reset', res)
+    storageWrapper.setItem('password', this.state.newPass)
     this.props.navigation.navigate('SignUp');
   };
 
@@ -467,7 +483,10 @@ class WeSignup extends PureComponent {
               fontWeight: '400',
               lineHeight: 20,
             }}>New password</Text>
-            <PassInput hint={'must be 8 characters'} />
+            <PassInput 
+              hint={'must be 8 characters'}
+              onChangeText={(text)=>this.setState({newPass: text})}
+            />
           </View>
           
           <View style={{
@@ -483,7 +502,10 @@ class WeSignup extends PureComponent {
               fontWeight: '400',
               lineHeight: 20,
             }}>Confirm new password</Text>
-            <PassInput hint={'repeat password'} />
+            <PassInput 
+              hint={'repeat password'}
+              onChangeText={(text)=>this.setState({verifyPass: text})}
+            />
           </View>
           
           <TouchableOpacity 

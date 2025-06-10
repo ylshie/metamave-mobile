@@ -143,7 +143,6 @@ import WeCode from '../../Views/WeCode';
 import WeFode from '../../Views/WeFode';
 import WeForgot from '../../Views/WeForgot';
 import WeReset from '../../Views/WeReset';
-import WeSocial from '../../Views/WeSocial';
 
 const clearStackNavigatorOptions = {
   headerShown: false,

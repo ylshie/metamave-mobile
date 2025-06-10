@@ -371,7 +371,7 @@ const AccountBackupStep1B = (props) => {
               hitSlop={{ top: 10, left: 10, bottom: 10, right: 10 }}
             >
               <Text style={styles.learnMoreText}>
-                {strings('account_backup_step_1B.learn_more')}
+                {/*strings('account_backup_step_1B.learn_more')*/}
               </Text>
             </TouchableOpacity>
           </View>

@@ -182,7 +182,7 @@ class ProtectYourWalletModal extends PureComponent {
 
           <TouchableOpacity onPress={this.onLearnMore}>
             <Text style={styles.learnMoreText}>
-              {strings('protect_wallet_modal.action')}
+              {/* strings('protect_wallet_modal.action') */}
             </Text>
           </TouchableOpacity>
         </View>

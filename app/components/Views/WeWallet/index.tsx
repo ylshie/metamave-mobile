@@ -800,6 +800,26 @@ const MyWallet = ({
     ///: END:ONLY_INCLUDE_IF
   ]);
 
+  const onPressFriend = useCallback(() => {
+    navigate('WeFriend');
+
+    trackEvent(
+      createEventBuilder(MetaMetricsEvents.RECEIVE_BUTTON_CLICKED)
+        .addProperties({
+          text: 'Receive',
+          tokenSymbol: '',
+          location: 'TabBar',
+          chain_id: getDecimalChainId(chainId),
+        })
+        .build(),
+    );
+  }, [
+    navigate,
+    trackEvent,
+    chainId,
+    createEventBuilder,
+  ]);
+
   const onReceive = useCallback(() => {
     /*  // [Arthur]
     closeBottomSheetAndNavigate(() => {
@@ -981,7 +1001,7 @@ const MyWallet = ({
               <WalletAction
                 actionType={WalletActionType.WeReceive}
                 iconName={IconName.Received}
-                onPress={onReceive}
+                onPress={onSend}
                 actionID={WalletActionsBottomSheetSelectorsIDs.RECEIVE_BUTTON}
                 iconStyle={styleActions.styles.icon}
                 iconSize={AvatarSize.Md}
@@ -1000,7 +1020,7 @@ const MyWallet = ({
               <WalletAction
                 actionType={WalletActionType.WeCashout}
                 iconName={IconName.Received}
-                onPress={onReceive}
+                onPress={onSend}
                 actionID={WalletActionsBottomSheetSelectorsIDs.RECEIVE_BUTTON}
                 iconStyle={styleActions.styles.icon}
                 iconSize={AvatarSize.Md}
@@ -1024,12 +1044,12 @@ const MyWallet = ({
               <WalletAction
                 actionType={WalletActionType.WeFriend}
                 iconName={IconName.WeFriend}
-                onPress={onNothing}
+                onPress={onPressFriend}
                 actionID={WalletActionsBottomSheetSelectorsIDs.RECEIVE_BUTTON}
                 iconStyle={styleActions.styles.icon}
                 iconSize={AvatarSize.Md}
                 disabled={false}
-              />
+              /> 
               <WalletAction
                 actionType={WalletActionType.WeSocial}
                 iconName={IconName.WeSocial}

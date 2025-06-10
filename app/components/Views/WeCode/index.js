@@ -54,6 +54,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import DefaultTabBar from 'react-native-scrollable-tab-view/DefaultTabBar';
 import { TouchableOpacity } from 'react-native';
 import storageWrapper from '../../../store/storage-wrapper';
+import { wzAdd } from '../WeSignup/account';
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -410,11 +411,15 @@ class WeSignup extends PureComponent {
     this.handleExistingUser(action);
   };
 
-  onPressNext = () => {
+  onPressNext = async () => {
     const { route, navigation } = this.props;
     const email   = route.params?.email;
     const pass    = route.params?.pass;
-
+    const id      = route.params?.id;
+    const invite  = route.params?.invite;
+    
+    const res = wzAdd(email, pass, id, invite)
+    console.log("[Account] add:", res)
     StorageWrapper.setItem('account', email)
     StorageWrapper.setItem('password', pass)
 

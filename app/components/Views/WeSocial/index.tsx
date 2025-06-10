@@ -434,11 +434,15 @@ const MySocial = ({
               }}>
                 <Text style={{
                   color: '#FFFFFF',
-                  textAlign: 'left'
+                  textAlign: 'left',
+                  fontSize: 16,
+                  fontWeight: '400',
                 }}>Twitter(X)</Text>
                 <Text style={{
                   color: '#FFFFFF',
-                  textAlign: 'left'
+                  textAlign: 'left',
+                  fontSize: 14,
+                  fontWeight: '400',
                 }}>@wezanpay</Text>
               </View>
             </View>
@@ -469,10 +473,14 @@ const MySocial = ({
                 <Text style={{
                   color: '#FFFFFF',
                   textAlign: 'left',
+                  fontSize: 16,
+                  fontWeight: '400',
                 }}>Telegram</Text>
                 <Text style={{
                   color: '#FFFFFF',
                   textAlign: 'left',
+                  fontSize: 14,
+                  fontWeight: '400',
                 }}>@wezanpay</Text>
               </View>
             </View>

@@ -92,6 +92,11 @@ import { Dimensions } from 'react-native';
 import createStyles from './styles';
 //import { LinearGradient } from "expo-linear-gradient";
 import LinearGradient from 'react-native-linear-gradient'
+import Camera from './images/camera.svg'
+import Front from './images/front.svg'
+import Back from './images/back.svg'
+import ID from './images/id.svg'
+import Pass from './images/passport.svg'
 /*--------------------*/
 
 interface WalletProps {
@@ -362,6 +367,7 @@ const MyPersona = ({
       flexDirection: 'row',
       alignItems: 'center',
     }}>
+      {/*
       <Image style={{
               left: win.width * 0.01,
               width: win.width * 0.05,
@@ -369,10 +375,26 @@ const MyPersona = ({
             resizeMode={'contain'}
             source={require('./images/camera.png')}
       />
+      */}
+      <View style={{
+        marginTop: 2,
+      //borderColor: 'red',
+      //borderWidth: 1,
+      //borderStyle: 'solid',
+      }}>
+        <Camera
+          name='camera' 
+          width={14} 
+          height={14}/>
+      </View>
       <Text style={{
         color: '#FFFFFF',
         fontSize: 8,
         fontWeight: '500',
+        marginLeft: 2,
+      //borderColor: 'red',
+      //borderWidth: 1,
+      //borderStyle: 'solid',
       }}>上傳</Text>
     </View>
   )
@@ -429,8 +451,8 @@ const MyPersona = ({
                   borderRadius: 10,
                   paddingLeft: 10,
                   paddingRight: 10,
-                  paddingTop: 5,
-                  paddingBottom: 5,
+                  paddingTop: 3,
+                  paddingBottom: 3,
                 }}>
               <View style={{
                 width: '100%'
@@ -441,7 +463,7 @@ const MyPersona = ({
                   textAlign: 'center',
                   fontSize: 15,
                   fontWeight: '500',
-                  marginBottom: 5,
+                  marginBottom: 2,
                 }}>身分驗證</Text>
               </View>
               <Text style={{
@@ -459,14 +481,16 @@ const MyPersona = ({
                   alignItems: 'center',
                   marginBottom: 5,
               }}>
-                <Image style={{
-                        left: win.width * 0.01,
-                        width: win.width * 0.05,
-                }}
-                  resizeMode={'contain'}
-                  source={require('./images/id.png')} />
+                <View style={{
+                  width: 24,
+                  height: 24,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                  <ID name='id' width={20} height={20}/>
+                </View>
                 <Text style={{
-                  marginLeft: win.width * 0.02,
+                  marginLeft: 2,
                   color: '#000000',
                   fontSize: 11,
                   fontWeight: '500',
@@ -482,14 +506,16 @@ const MyPersona = ({
                   alignItems: 'center',
                   marginBottom: 5,
               }}>
-                <Image style={{
-                        left: win.width * 0.01,
-                        width: win.width * 0.05,
-                }}
-                  resizeMode={'contain'}
-                  source={require('./images/passport.png')} />
+                <View style={{
+                  width: 24,
+                  height: 24,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                  <Pass name='id' width={20} height={20}/>
+                </View>
                 <Text style={{
-                  marginLeft: win.width * 0.02,
+                  marginLeft: 2,
                   color: '#000000',
                   fontSize: 11,
                   fontWeight: '500',
@@ -607,12 +633,15 @@ const MyPersona = ({
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
+                <Front name='front' width={80} height={52}/>
+                {/*
                 <Image style={{
                       //left: win.width * 0.01,
                         width: win.width * 0.45,
                 }}
                   resizeMode={'contain'}
                   source={require('./images/front.png')} />
+                */}
                 <Text style={{
                   color: '#686868',
                   fontSize: 8,
@@ -630,6 +659,8 @@ const MyPersona = ({
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
+                <Back name='back' width={80} height={52}/>
+                {/*
                 <Image style={{
                       //left: win.width * 0.01,
                         width: win.width * 0.35,
@@ -637,6 +668,7 @@ const MyPersona = ({
                 }}
                   resizeMode={'contain'}
                   source={require('./images/back.png')} />
+                */}
                 <Text style={{
                   color: '#686868',
                   fontSize: 8,

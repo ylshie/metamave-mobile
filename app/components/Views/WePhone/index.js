@@ -430,48 +430,64 @@ class WeSignup extends PureComponent {
           }}>
             <this.Title title={'請輸入您的電話號碼'}/>
           </View>
-          {/*
-          <View style={{
-            marginTop: 10,
-            marginBottom: 30,
-          }}>
-            <this.SubTitle caption={'不用擔心！請輸入與您的帳戶關聯的電子郵件使用驗證碼找回帳戶'}/>
-          </View>
-          */}
+
           <View style={{
             marginTop: 10,
             marginBottom: 30,
             flexDirection: 'row',
           }}>
-            <TextInput 
-              style={{
-                width: '30%',
-                ...styleInput
-              }} 
-              placeholder={''}
-              onChangeText={(text)=> {
-                console.log("=======\n", text, "\n========\n")
-                this.setState({country: text})
-              }}
-              keyboardType='numeric'
-            />
+            <View style={{
+              width: '30%',
+              flexDirection: 'row',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              padding: 0,
+              ...styleInput
+            }}>
+              <Text style={{
+                //borderColor: 'red',
+                //borderStyle: 'solid',
+                //borderWidth: 1,
+                  fontSize: 18,
+                  lineHeight: 24,
+                  padding: 5,
+                }}
+              >+
+              </Text>
+              <TextInput
+                style={{
+                //borderColor: 'red',
+                //borderStyle: 'solid',
+                //borderWidth: 1,
+                  fontSize: 18,
+                  lineHeight: 24,
+                  padding: 5,
+                }}
+                placeholder={''}
+                onChangeText={(text)=> this.setState({country: text})}
+                keyboardType='numeric'
+              />
+            </View>
             <Text style={{
               width: '5%',
             }}>
               &nbsp;&nbsp;&nbsp;
             </Text>
-            <TextInput 
-              style={{
-                width: '66%',
-                ...styleInput
-              }} 
-              placeholder={''}
-              onChangeText={(text)=> {
-                console.log("=======\n", text, "\n========\n")
-                this.setState({phone: text})
-              }}
-              keyboardType='numeric'
-            />
+            <View style={{
+              width: '66%',
+              ...styleInput
+            }}>
+              <TextInput
+                style={{
+                  fontSize: 18,
+                  lineHeight: 24,
+                  padding: 5,
+                }}
+                placeholder={''}
+                onChangeText={(text)=> this.setState({phone: text})}
+                keyboardType='numeric'
+              />
+            </View>
           </View>
           
           <TouchableOpacity

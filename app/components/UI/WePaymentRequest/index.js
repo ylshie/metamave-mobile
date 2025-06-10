@@ -455,6 +455,7 @@ class PaymentRequest extends PureComponent {
       this.goToAmountInput(receiveAsset);
     }
   //  [Arthur]
+  /*
     const userTokens = this.props.tokens.map((token) => {
       const contract = tokenList.find(
         (contractToken) => contractToken.address === token.address,
@@ -462,6 +463,9 @@ class PaymentRequest extends PureComponent {
       if (contract) return contract;
       return token;
     });
+    */
+    const userTokens = tokenList.filter((value) => 
+      value.symbol === 'DAI' || value.symbol === 'USDC' || value.symbol === 'USDT')  // [Arthur]
     this.setState({selectedAsset: userTokens[0]})
     // TODO: Fuse will only be updated once on mount. When we convert this component to hooks, we can utilize useEffect to update fuse.
     // Update fuse collection with token list
@@ -572,7 +576,7 @@ class PaymentRequest extends PureComponent {
     } else {
       results = [{ ...defaultEth, symbol: getTicker(ticker), name: '' }];
     }
-
+    
     const userTokens = tokens.map((token) => {
       const contract = tokenList.find(
         (contractToken) => contractToken.address === token.address,
@@ -682,6 +686,7 @@ class PaymentRequest extends PureComponent {
     //);
     const colors = this.context.colors || mockTheme.colors;
     const styles = createStyles(colors);
+    /*
     const userTokens = tokens.map((token) => {
       const contract = tokenList.find(
         (contractToken) => contractToken.address === token.address,
@@ -689,7 +694,9 @@ class PaymentRequest extends PureComponent {
       if (contract) return contract;
       return token;
     });
-
+    */
+    const userTokens = tokenList.filter((value) => 
+      value.symbol === 'DAI' || value.symbol === 'USDC' || value.symbol === 'USDT')  // [Arthur]
     const selectItem = (item) => {
       this.goToAmountInput2(item)
       this.toggleAssetsModal()

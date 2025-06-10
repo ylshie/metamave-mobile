@@ -383,6 +383,10 @@ const MyPersona = ({
     trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
     navigation.navigate('SocialPersona');
   }
+  const onPressFriend = () => {
+    trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
+    navigation.navigate('FriendPersona');
+  }
   const onPressMember = () => {
     trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
     navigation.navigate('MemberPersona');

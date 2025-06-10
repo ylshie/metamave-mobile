@@ -1,4 +1,5 @@
 import React, { Fragment, PureComponent } from 'react';
+import { useContext } from 'react';
 import { View, ScrollView, Alert, Platform, BackHandler } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -70,14 +71,39 @@ import I_Recieve from './images/receive.svg'
 import I_Balance from './images/balance.svg'
 import I_Transfer from './images/transfer.svg'
 import I_Red from './images/red.svg'
-/*
+
 import { 
   ToastContext,
   ToastVariants,
 } from '../../../../../../component-library/components/Toast';
-*/
+
 const dummy = () => true;
 
+export const MyToast = ({text}) => {
+  return  <View style={{
+            position: 'absolute',
+            left: '0%',
+            top: '0%',
+            width: '100%',
+            height: '100%',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+            <View style={{
+              backgroundColor: '#717171',
+              padding: 10,
+            }}>
+              <Text style={{
+                color: '#FFFFFF',
+                fontSize: 24,
+                fontWeight: '400',
+                lineHeight: 28,
+              }}>
+                {text}
+              </Text>
+            </View>
+          </View>
+}
 export const RenderBlock = ({background, children, onPress}) => {
   return  <TouchableOpacity
             style={{
@@ -253,6 +279,7 @@ class WeSendFlow extends PureComponent {
     confusableCollection: [],
     inputWidth: { width: '99%' },
     showAmbiguousAcountWarning: false,
+    showToast: false,
   };
 
   updateNavBar = () => {
@@ -404,19 +431,10 @@ class WeSendFlow extends PureComponent {
   };
 
   onPressNothing = async () => {
-    /*
-    toastRef?.current?.showToast({
-      variant: ToastVariants.Network,
-      labelOptions: [
-        {
-          label: `[Arthur]`,
-          isBold: true,
-        },
-        { label: strings('toast.now_active') },
-      ],
-    //networkImageSource: networkImage,
-    });
-    */
+   this.setState({showToast: true})
+   setTimeout(()=>{
+    this.setState({showToast: false})
+   }, 2000)
   }
   onPressTransfer = async () => {
     const { setRecipient, navigation, providerType } = this.props;
@@ -424,6 +442,14 @@ class WeSendFlow extends PureComponent {
     navigation.navigate('WeTransfer');
   };
 
+  onPressReceive = async () => {
+    const { setRecipient, navigation, providerType } = this.props;
+    
+    navigation.navigate('PaymentRequestView', {
+      screen: 'PaymentRequest',
+    });
+  };
+  
   onToInputFocus = () => {
     const { toInputHighlighted } = this.state;
     this.setState({ toInputHighlighted: !toInputHighlighted });
@@ -630,6 +656,7 @@ class WeSendFlow extends PureComponent {
     const explanations =
       displayConfusableWarning &&
       getConfusablesExplanations(confusableCollection);
+    const {showToast} = this.state
 
     return (
       <SafeAreaView
@@ -641,6 +668,7 @@ class WeSendFlow extends PureComponent {
         {...generateTestId(Platform, SendViewSelectorsIDs.CONTAINER_ID)}
       >
         <View style={{
+                position: 'relative',
                 borderRadius: 20,
                 overflow: 'hidden',
               }}
@@ -669,7 +697,7 @@ class WeSendFlow extends PureComponent {
           </RenderBlock>
           <RenderBlock
             background={['#64C5E9', '#126AA8']}
-            onPress={this.onPressNothing}
+            onPress={this.onPressReceive}
           >
             <RenderItem 
               color={'#FFFFFF'} 
@@ -689,7 +717,13 @@ class WeSendFlow extends PureComponent {
               icon={<I_Red name='red' width={100} height={100}/>}
             />
           </RenderBlock>
+          {
+            showToast
+            ? <MyToast text={'近期開放'}/>
+            : <></>
+          }
         </View>
+        
       </SafeAreaView>
     );
   };

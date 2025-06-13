@@ -65,7 +65,8 @@ export const Task = ({icon, title, foot, percent}: {icon: ReactNode, title: stri
     return  <Frame>
               <View style={{
                 width: '100%',
-                flexDirection: 'row'
+                flexDirection: 'row',
+                flexWrap: 'wrap'
               }}>
                 {icon}
                 <View style={{

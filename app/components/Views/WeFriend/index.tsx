@@ -15,6 +15,7 @@ import {
   ImageSourcePropType,
   ScrollView,
   DimensionValue,
+  TouchableOpacity,
 } from 'react-native';
 
 import { connect, useSelector } from 'react-redux';
@@ -118,6 +119,7 @@ import { Task } from './task';
 import { Step } from './step';
 import StorageWrapper from '../../../store/storage-wrapper';
 import { wzInfo } from '../WeSignup/account';
+import useCopyClipboard from '../Notifications/Details/hooks/useCopyClipboard';
 /*--------------------*/
 
 interface WalletProps {
@@ -509,6 +511,7 @@ const MySocial = ({
       {children}
     </View>
   )
+  const copyToClipboard = useCopyClipboard();
   const renderContent = useCallback(() => {
     const assets = tokensByChainIdAndAddress
       ? [...tokensByChainIdAndAddress]
@@ -594,12 +597,16 @@ const MySocial = ({
             <Field>
               <Name caption='推廣碼:'/>
               <Value caption={code}/>
-              <Copy name='copy' width={20} height={20}/>
+              <TouchableOpacity onPress={()=>copyToClipboard(code)}>
+                <Copy name='copy' width={20} height={20}/>
+              </TouchableOpacity>
             </Field>
             <Field>
               <Name caption='邀請連結:'/>
               <Value caption={'promote.wezan/'+code}/>
-              <Copy name='copy' width={20} height={20}/>
+              <TouchableOpacity onPress={()=>copyToClipboard('promote.wezan/'+code)}>
+                <Copy name='copy' width={20} height={20}/>
+              </TouchableOpacity>
             </Field>
             <Field>
               <Name caption='總邀請人數'/>

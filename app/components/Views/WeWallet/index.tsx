@@ -5,7 +5,8 @@ import React, {
   useCallback,
   useContext,
   useMemo,
-  FC
+  FC,
+  useState
 } from 'react';
 import {
   ActivityIndicator,
@@ -149,6 +150,8 @@ import { SvgProps } from 'react-native-svg';
 import usda from './usda.svg'
 import xgame from './xgame.svg'
 import { Dimensions } from 'react-native';
+import { chain, forEach } from 'lodash';
+import { Catt } from './catt';
 /*--------------------*/
 
 const createStyles = ({ colors, typography }: Theme) =>
@@ -230,6 +233,7 @@ const MyWallet = ({
   const styles = createStyles(theme);
   const styleActions = useStyles(styleSheet, {});
   const { colors } = theme;
+  const [done, setDone] = useState(false)
 
   const networkConfigurations = useSelector(selectNetworkConfigurations);
   const evmNetworkConfigurations = useSelector(
@@ -407,6 +411,39 @@ const MyWallet = ({
      */
   let receiveAsset: object;
   let metrics: object;
+
+  const addWezanToken = async () => {
+    try {
+    //const chain   = '0xa4b1'
+    //const address = '0x36D5E58F99C5e1468FFD447E5f6E8B05d7DCdFa4'
+      const chain_id  = Catt.chainid
+      const { TokensController } = Engine.context;
+      const alltokens = TokensController.state.allTokens
+      
+      //console.log('===addWezanToken===', TokensController.state)
+      //if (alltokens[chain]) 
+      {
+        const list = alltokens[chain_id]
+        if (done) return;
+      //console.log('====List===', list) 
+        /*
+        const found = list[address]
+        console.log('=== Found ====', found)
+        if (found) {
+          return
+        }
+        */
+        
+        const added = await TokensController.addToken(Catt);
+      //console.log('===addToken===', added)
+        setDone(true)
+      }
+      
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
+  addWezanToken()
 
   /**
    * Shows Nft auto detect modal if the user is on mainnet, never saw the modal and have nft detection off
@@ -820,6 +857,27 @@ const MyWallet = ({
     createEventBuilder,
   ]);
 
+  const onPressSocial = useCallback(() => {
+  //navigate(Routes.SETTINGS_VIEW, {screen: 'SocialPersona'});
+    navigate('WeSocial');
+
+    trackEvent(
+      createEventBuilder(MetaMetricsEvents.RECEIVE_BUTTON_CLICKED)
+        .addProperties({
+          text: 'Receive',
+          tokenSymbol: '',
+          location: 'TabBar',
+          chain_id: getDecimalChainId(chainId),
+        })
+        .build(),
+    );
+  }, [
+    navigate,
+    trackEvent,
+    chainId,
+    createEventBuilder,
+  ]);
+
   const onReceive = useCallback(() => {
     /*  // [Arthur]
     closeBottomSheetAndNavigate(() => {
@@ -871,6 +929,15 @@ const MyWallet = ({
     createEventBuilder,
   ]);
 
+  const onPressPoint = useCallback(() => {
+    trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
+    navigate('WePoint');
+  },[
+    navigate,
+    trackEvent,
+    createEventBuilder,
+  ])
+
   const goToSwaps = useCallback(() => {
     /*
     closeBottomSheetAndNavigate(() => {
@@ -908,7 +975,7 @@ const MyWallet = ({
     chainId,
     createEventBuilder,
   ]);
-
+  
   const onPressSwaps = useCallback(() => {
     ///: BEGIN:ONLY_INCLUDE_IF(keyring-snaps)
     if (chainId === SolScope.Mainnet) {
@@ -1035,7 +1102,7 @@ const MyWallet = ({
               <WalletAction
                 actionType={WalletActionType.WePoint}
                 iconName={IconName.WePoint}
-                onPress={onNothing}
+                onPress={onPressPoint}
                 iconStyle={sendIconStyle}
                 actionID={WalletActionsBottomSheetSelectorsIDs.SEND_BUTTON}
                 iconSize={AvatarSize.Md}
@@ -1053,7 +1120,7 @@ const MyWallet = ({
               <WalletAction
                 actionType={WalletActionType.WeSocial}
                 iconName={IconName.WeSocial}
-                onPress={onNothing}
+                onPress={onPressSocial}
                 actionID={WalletActionsBottomSheetSelectorsIDs.SWAP_BUTTON}
                 //iconStyle={styles.icon}
                 iconStyle={styleActions.styles.icon}

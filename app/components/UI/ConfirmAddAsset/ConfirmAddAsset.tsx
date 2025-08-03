@@ -220,6 +220,7 @@ const ConfirmAddAsset = () => {
             },
             {
               onPress: () => {
+                console.log('===ARTHUR==', 'call addTokenList')
                 addTokenList();
               },
               label: strings('swaps.Import'),

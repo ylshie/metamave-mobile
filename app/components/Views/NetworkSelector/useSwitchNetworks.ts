@@ -104,6 +104,7 @@ export function useSwitchNetworks({
     async (networkConfiguration: NetworkConfiguration) => {
       if (!networkConfiguration) return;
 
+      console.log('===ARHUR===', 'onSetRpcTarget', networkConfiguration)
       const { MultichainNetworkController, SelectedNetworkController } = Engine.context;
       const {
         name: nickname,
@@ -115,6 +116,7 @@ export function useSwitchNetworks({
       const networkConfigurationId = rpcEndpoints[defaultRpcEndpointIndex].networkClientId;
 
       if (domainIsConnectedDapp && isMultichainV1Enabled()) {
+        console.log('===ARHUR===', 'setNetworkClientIdForDomain', origin, networkConfiguration)
         SelectedNetworkController.setNetworkClientIdForDomain(origin, networkConfigurationId);
       } else {
         trace({
@@ -124,6 +126,7 @@ export function useSwitchNetworks({
         });
         const { networkClientId } = rpcEndpoints[defaultRpcEndpointIndex];
         try {
+          console.log('===ARHUR===', 'setActiveNetwork', networkClientId)
           await MultichainNetworkController.setActiveNetwork(networkClientId);
         } catch (error) {
           Logger.error(new Error(`Error in setActiveNetwork: ${error}`));
@@ -163,6 +166,7 @@ export function useSwitchNetworks({
    */
   const onNetworkChange = useCallback(
     async (type: InfuraNetworkType) => {
+      console.log('===ARHUR===', 'onNetworkChange')
       trace({
         name: TraceName.SwitchBuiltInNetwork,
         parentContext: parentSpan,

@@ -64,11 +64,9 @@ import {
 import storageWrapper from '../../../store/storage-wrapper';
 import { verify } from 'crypto';
 import { randomInt } from 'react-native-quick-crypto';
-import { wzExist, wzLogin, wzMail } from './account';
+import { wzExist, wzLogin, wzMail, wzAddGcount } from './account';
 //import otpGenerator from 'otp-generator'
-
-const idProd  = '521969317751-frn0aovmv2qposmilrfpil3s017u7595.apps.googleusercontent.com'
-const idDebug = '521969317751-5dbab0ujkgs902681lo0bnaek8u56rtm.apps.googleusercontent.com'
+import { configureGoogleSignIn, signIn } from './account';
 
 const crypto = require('crypto')
 
@@ -95,61 +93,6 @@ if (__DEV__) {
   console.log("RELES RELES RELES RELES RELES\n")
   console.log("=============================\n")
 }
-const webClientId = idDebug
-const configureGoogleSignIn = () => {
-  console.log('client id=', webClientId)
-  GoogleSignin.configure({
-    webClientId,
-    iosClientId: '',
-    offlineAccess: false,
-    profileImageSize: 150,
-  });
-};
-const signIn = async (callback) => {
-  try {
-    await GoogleSignin.hasPlayServices();
-    const { type, data } = await GoogleSignin.signIn();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if (type === 'success') {
-      console.log('\n=============================\n',{ data }, '\n======================\n')
-      //this.setState({ userInfo: data, error: undefined });
-      //Alert.alert('ok: name='+data.user.name+' email='+data.user.email+' id='+data.user.id);
-      callback();
-    } else {
-      // sign in was cancelled by user
-      setTimeout(() => {
-        Alert.alert('cancelled: id='+webClientId);
-      }, 500);
-    }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error) {
-    Alert.alert('exception:' + error.message+' id='+webClientId);
-    console.log('signin error', error)
-    /*
-    if (isErrorWithCode(error)) {
-      console.log('Arthur', 'error', error.message, error);
-      switch (error.code) {
-        case statusCodes.IN_PROGRESS:
-          // operation (eg. sign in) already in progress
-          //Alert.alert(
-          //  'in progress',
-          //  'operation (eg. sign in) already in progress',
-          //);
-          break;
-        case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
-          // android only
-          //Alert.alert('play services not available or outdated');
-          break;
-        default:
-          //Alert.alert('Something went wrong: ', error.toString());
-      }
-      //this.setState({ error });
-    } else {
-      alert(`an error that's not related to google sign in occurred`);
-    }
-    */
-  }
-};
 
 export const generateInviteCode = () => {
   const option = {
@@ -634,12 +577,15 @@ class WeSignup extends PureComponent {
     const okPassword= this.state.password == this.state.userPass
 
     try {
-      const res = await wzLogin(this.state.userEmail, this.state.userPass)
+      const res = await wzLogin("M:"+this.state.userEmail, this.state.userPass)
+      console.log("wzLogin", 'res=', res)
       StorageWrapper.setItem('accessToken', res.data.accessToken)
       StorageWrapper.setItem('refreshToken', res.data.refreshToken)
       StorageWrapper.setItem('accessTokenExpiresAt', res.data.accessTokenExpiresAt)
       StorageWrapper.setItem('refreshTokenExpiresAt', res.data.refreshTokenExpiresAt)
+      StorageWrapper.setItem('type', 'mail')
       StorageWrapper.setItem('account', this.state.userEmail)
+      StorageWrapper.setItem('token', this.state.userPass)
       if (res.ok) {
         this.props.navigation.navigate('Onboarding');
       } else {
@@ -710,7 +656,7 @@ class WeSignup extends PureComponent {
     }
     console.log("Check exist")
     try {
-      const exist = await wzExist(this.state.addEmail)
+      const exist = await wzExist("M", this.state.addEmail)
       console.log('[Account] exist', this.state.addEmail, exist)
       if (exist.ret) {
         Alert.alert('Account existed')
@@ -742,17 +688,44 @@ class WeSignup extends PureComponent {
   onPressForgot = () => {
     this.props.navigation.navigate('Forgot');
   };
-  onPressNG = async () => {
-  //trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
+  onPressGoogle = async () => {
     configureGoogleSignIn();
-    const next = ()=>this.props.navigation.navigate('Onboarding')
+    const next = async ()=>{
+      await GoogleSignin.signInSilently()
+      const data  = GoogleSignin.getCurrentUser()
+      const token = await GoogleSignin.getTokens()
+      const exist = await wzExist("G", data.user.email)
+      console.log("onPressGoogle", "==wzExist==", exist)
+      if (exist) {
+        console.log("onPressGoogle", "wzExist exist", exist)
+      } else {
+        console.log("user", data, "token", token)
+        console.log("onPressGoogle", "before wzAddGcount")
+        const res = await wzAddGcount(data.user.email, data.user.id, data.idToken)
+        console.log("onPressGoogle", "wzAddGcount", res)
+      }
+      const res   = await wzLogin("G:"+data.user.email, data.idToken)
+      console.log("wzLogin", 'res=', res)
+      StorageWrapper.setItem('accessToken', res.data.accessToken)
+      StorageWrapper.setItem('refreshToken', res.data.refreshToken)
+      StorageWrapper.setItem('accessTokenExpiresAt', res.data.accessTokenExpiresAt)
+      StorageWrapper.setItem('refreshTokenExpiresAt', res.data.refreshTokenExpiresAt)
+      StorageWrapper.setItem('type', 'google')
+      StorageWrapper.setItem('account',  data.user.email)
+      StorageWrapper.setItem('token', data.idToken)
+
+      console.log("before Onboarding")
+      this.props.navigation.navigate('Onboarding')
+      console.log("after Onboarding")
+    }
     const hasPreviousSignIn = GoogleSignin.hasPreviousSignIn();
     if (hasPreviousSignIn) {
-      //Alert.alert("have been sign in")
-      next()
+    //Alert.alert("have been sign in")
+      await next()
     } else {
-      await signIn(next);
+      await signIn(next)
     }
+    console.log("after next")
   //this.props.navigation.navigate('Onboarding');
   //navigation.navigate('KYCPersona');
   };
@@ -863,7 +836,7 @@ class WeSignup extends PureComponent {
                 <Login onPress={this.onPressLogin}/>
               </View>
               
-              <Google onPress={this.onPressNG}/>
+              <Google onPress={this.onPressGoogle}/>
 
               <View style={{
                 flexDirection: 'row',

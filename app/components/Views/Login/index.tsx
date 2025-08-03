@@ -24,7 +24,7 @@ import { strings } from '../../../../locales/i18n';
 import FadeOutOverlay from '../../UI/FadeOutOverlay';
 import setOnboardingWizardStepUtil from '../../../actions/wizard';
 import { setAllowLoginWithRememberMe as setAllowLoginWithRememberMeUtil } from '../../../actions/security';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   passcodeType,
   updateAuthTypeStorageFlags,
@@ -90,8 +90,12 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { BIOMETRY_TYPE } from 'react-native-keychain';
 //import FOX_LOGO from '../../../images/branding/fox.png';
 import FOX_LOGO from '../../../images/branding/wezan.png';
-import { wzRefresh } from '../WeSignup/account';
-
+import { configureGoogleSignIn, wzRefresh } from '../WeSignup/account';
+import Engine from '../../../core/Engine';
+import { selectEvmNetworkConfigurationsByChainId } from '../../../selectors/networkController';
+//import { MultichainNetworkController } from '@metamask/multichain-network-controller';
+import { checkGoogle } from '../WeSignup/account';
+import { Catt } from '../WeWallet/catt';
 /**
  * View where returning users can authenticate
  */
@@ -250,11 +254,19 @@ const Login: React.FC = () => {
 
   useEffect(()=> {
     const QueryToken = async () => {
+    //console.log('=== QueryCode ===')
+      try {
+        configureGoogleSignIn()
+        await checkGoogle()
+      } catch ( error ) {
+        console.log('===error===', error)
+      }
+    //await checkGoogle()
       const token   = await StorageWrapper.getItem('accessToken');
       const expire  = await StorageWrapper.getItem('accessTokenExpiresAt');
       const refresh = await StorageWrapper.getItem('refreshToken');
       const account = await StorageWrapper.getItem('account');
-      console.log('QueryCode', token)
+    //console.log('=== QueryCode ===', token)
       setToken(token)
       setExpire(expire)
       setRefresh(refresh)
@@ -264,13 +276,17 @@ const Login: React.FC = () => {
   }, [token])
 
   const checkExpire = () => {
+    console.log('expire=[', expire, ']')
     if (expire == '') return true
+    if (expire == undefined) return true
     
     const limit = new Date(expire)
     return ((Date.now() + 300) > limit.getTime()) 
   }
   const refreshToken = async () => {
-    console.log("refreshToken", refresh)
+    console.log("refreshToken==>", refresh)
+    if (refresh == undefined || refresh == '') return
+    
     const res = await wzRefresh(refresh)
     if (res.ok) {
       console.log("refreshToken", 'new token', res.data)
@@ -289,7 +305,50 @@ const Login: React.FC = () => {
     } else {
       console.log("onLogin", 'no need to refresh token')
     }
+    const chain = Catt.chainid
+    try {
+      //const networkConfigurations = useSelector(
+      //  selectEvmNetworkConfigurationsByChainId,
+      //);
+      //console.log('networkConfigurations', networkConfigurations)
+      //engine?.backgroundState?.NetworkController
+      console.log('===NetworkController===', 1)
+      const { NetworkController } = Engine.context;
+      console.log('===NetworkController===', 2)
+      const config = NetworkController.getNetworkConfigurationByChainId(chain)
+      console.log('===NetworkController===', 3)
+      const { MultichainNetworkController } = Engine.context;
+      console.log('===NetworkController===', 4)
+      const id = config?.rpcEndpoints[0].networkClientId
+      console.log('===NetworkController===', 5)
+    //const networkClientId = 'c4924a29-76b3-445a-8e71-36b0b4c3a1e2'
+      console.log('===NetworkController===', config, id)
 
+      id? await MultichainNetworkController.setActiveNetwork(id):'';
+    } catch (error) {
+      console.log('error', error)
+    }
+    try {
+      const { TokensController } = Engine.context;
+      const tokens = TokensController.state.allTokens
+    //console.log('====List===', tokens) 
+      
+      if (tokens[chain]) {
+        TokensController.addToken(Catt)
+        /*
+        TokensController.addToken({
+          address: '0x36D5E58F99C5e1468FFD447E5f6E8B05d7DCdFa4',
+          symbol: 'Catt',
+          decimals: 18,
+          image: '',
+          name: 'Catt'
+        });
+        */
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
+    
     try {
       const locked = !passwordRequirementsMet(password);
       if (locked) {

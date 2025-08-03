@@ -168,7 +168,7 @@ const idDebug = '521969317751-5dbab0ujkgs902681lo0bnaek8u56rtm.apps.googleuserco
 
 const webClientId = idDebug
 const configureGoogleSignIn = () => {
-  console.log('client id=', webClientId)
+//console.log('client id=', webClientId)
   GoogleSignin.configure({
     webClientId,
     iosClientId: '',

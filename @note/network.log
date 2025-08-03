@@ -1,0 +1,21 @@
+===ARHUR=== onSetRpcTarget {
+"blockExplorerUrls": ["https://bscscan.com"], 
+"chainId": "0x38", 
+"defaultBlockExplorerUrlIndex": 0, 
+"defaultRpcEndpointIndex": 0, 
+"lastUpdatedAt": 1750230838098, 
+"name": "BNB Smart Chain Mainnet", 
+"nativeCurrency": "BNB", 
+"rpcEndpoints": [
+    {   
+        "failoverUrls": [Array], 
+        "name": "BNB Smart Chain Mainnet", 
+        "networkClientId": "70c9294c-5125-4e29-befc-7f04df6a64c9", 
+        "type": "custom", 
+        "url": "https://bsc-dataseed1.binance.org"
+    }
+]}
+LOG  ===ARHUR=== setActiveNetwork 70c9294c-5125-4e29-befc-7f04df6a64c9
+
+===ARHUR=== onSetRpcTarget {"blockExplorerUrls": ["https://arbiscan.io"], "chainId": "0xa4b1", "defaultBlockExplorerUrlIndex": 0, "defaultRpcEndpointIndex": 0, "lastUpdatedAt": 1750230838089, "name": "Arbitrum One", "nativeCurrency": "ETH", "rpcEndpoints": [{"failoverUrls": [Array], "name": "Arbitrum One", "networkClientId": "c4924a29-76b3-445a-8e71-36b0b4c3a1e2", "type": "custom", "url": "https://arbitrum-mainnet.infura.io/v3/2db519c12f574787a412ab22a36e92bb"}]}
+===ARHUR=== setActiveNetwork c4924a29-76b3-445a-8e71-36b0b4c3a1e2

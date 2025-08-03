@@ -4,6 +4,7 @@ const Routes = {
   BROWSER_TAB_HOME: 'BrowserTabHome',
   BROWSER_VIEW: 'BrowserView',
   SETTINGS_VIEW: 'SettingsView',
+  FINANCE_VIEW: 'FinanceView',
   DEPRECATED_NETWORK_DETAILS: 'DeprecatedNetworkDetails',
   RAMP: {
     ID: 'Ramp',
@@ -48,6 +49,9 @@ const Routes = {
     SRP_REVEAL_QUIZ: 'SRPRevealQuiz',
     WALLET_ACTIONS: 'WalletActions',
     WE_ACTIONS: 'WeActions',
+    WE_DONBOX: 'WeDonBox',
+    WE_WAITER: 'WeWaiter',
+    WE_REMBURSE: 'WeRemburse',
     WE_2FA_ACTION: 'We2FAActions',
     NFT_AUTO_DETECTION_MODAL: 'NFTAutoDetectionModal',
     MULTI_RPC_MIGRATION_MODAL: 'MultiRPcMigrationModal',

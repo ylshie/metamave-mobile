@@ -401,6 +401,10 @@ const MyPersona = ({
   const onApply = () => {
     navigation.navigate(Routes.MODAL.ROOT_MODAL_FLOW, {
       screen: Routes.MODAL.WE_ACTIONS,
+      params: {
+        title: '審核中',
+        foot: '預計審核時間24小時請耐心等候'
+      }
     });
   }
   const renderContent = useCallback(() => {

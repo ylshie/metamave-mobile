@@ -1,9 +1,9 @@
 // Third party dependencies.
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Dimensions, View } from 'react-native';
 import { swapsUtils } from '@metamask/swaps-controller';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 // External dependencies.
 import BottomSheet, {
@@ -30,15 +30,30 @@ import { WalletActionType } from '../../UI/WalletAction/WalletAction.types';
 import Text from '../../../component-library/components/Texts/Text';
 import { Image } from 'react-native';
 
-const WeActions = () => {
+const WeWaiter = () => {
   const { styles } = useStyles(styleSheet, {});
   const sheetRef = useRef<BottomSheetRef>(null);
   const { navigate } = useNavigation();
-
+  const route = useRoute()
   const chainId = useSelector(selectChainId);
   //const ticker = useSelector(selectEvmTicker);
   //const dispatch = useDispatch();
   const { trackEvent, createEventBuilder } = useMetrics();
+  const { title, foot, notify} = route.params as {
+    title: string, 
+    foot: string,
+    notify?: ()=>Promise<void> | undefined
+  }
+  
+  async function run() {
+    if (! notify) return
+    await notify()
+    onReceive()
+  }
+
+  useEffect(() => {
+    run()
+  }, [notify])
   
   const closeBottomSheetAndNavigate = useCallback(
     (navigateFunc: () => void) => {
@@ -120,14 +135,14 @@ const WeActions = () => {
             fontWeight: '600',
             textAlign: 'center',
             lineHeight: 30,
-          }}>審核中</Text>
+          }}>{title}</Text>
           <Text style={{
             width: '100%',
             color: '#6B7280',
             fontSize: 15,
             fontWeight: '400',
             textAlign: 'center'
-          }}>預計審核時間24小時請耐心等候</Text>
+          }}>{foot}</Text>
         </View>
         <View style={{
           left: '10%',
@@ -166,4 +181,4 @@ const WeActions = () => {
   );
 };
 
-export default WeActions;
+export default WeWaiter;

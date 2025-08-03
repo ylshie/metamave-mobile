@@ -137,6 +137,9 @@ import { SelectSRPBottomSheet } from '../../Views/SelectSRP/SelectSRPBottomSheet
 import NavigationService from '../../../core/NavigationService';
 import { BorderColor } from '../../UI/Box/box.types';
 import WeActions from '../../Views/WeActions';
+import WeDonBox from '../../Views/WeDonBox';
+import WeWaitter from '../../Views/WeWaiter';
+import WeRemburse from '../../Views/WeRemburse';
 import We2FAAction from '../../Views/We2FAAction';
 import WeSignup from '../../Views/WeSignup'
 import WeCode from '../../Views/WeCode';
@@ -345,6 +348,18 @@ const RootModalFlow = (
     <Stack.Screen
       name={Routes.MODAL.WE_ACTIONS}  // [Arthur]
       component={WeActions}
+    />
+     <Stack.Screen
+      name={Routes.MODAL.WE_DONBOX}  // [Arthur]
+      component={WeDonBox}
+    />
+    <Stack.Screen
+      name={Routes.MODAL.WE_WAITER}  // [Arthur]
+      component={WeWaitter}
+    />
+    <Stack.Screen
+      name={Routes.MODAL.WE_REMBURSE}  // [Arthur]
+      component={WeRemburse}
     />
     <Stack.Screen
       name={Routes.MODAL.WE_2FA_ACTION}  // [Arthur]

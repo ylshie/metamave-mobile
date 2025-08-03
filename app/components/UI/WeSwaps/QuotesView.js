@@ -411,6 +411,7 @@ function SwapsQuotesView({
   shouldUseSmartTransaction,
   isEIP1559Network,
 }) {
+  console.log('======= I AM HERE =======', quotes, quoteValues)
   const navigation = useNavigation();
   /* Get params from navigation */
   const route = useRoute();
@@ -1747,6 +1748,7 @@ function SwapsQuotesView({
         sourceToken.decimals,
       ),
     };
+    console.log('QUOTES_REQUESTED', data, sensitiveData)
     navigation.setParams({ requestedTrade: { ...data, ...sensitiveData } });
     navigation.setParams({ selectedQuote: undefined });
     navigation.setParams({ quoteBegin: Date.now() });
@@ -1937,7 +1939,7 @@ function SwapsQuotesView({
               {(isSwapsNativeAsset(sourceToken) ||
                 (hasEnoughTokenBalance && !hasEnoughEthBalance)) && (
                 <Text link underline small onPress={buyEth}>
-                  {strings('swaps.token_marketplace')}
+                  {/* strings('swaps.token_marketplace') */}
                 </Text>
               )}
             </Alert>
@@ -2434,7 +2436,8 @@ function SwapsQuotesView({
                           },
                         )} `
                       : `${strings('swaps.quotes_include_fee', {
-                          fee: selectedQuote.fee,
+                          fee: selectedQuote.fee? selectedQuote.fee: '',
+                        //fee: 0,
                         })} `}
                     <MaterialCommunityIcons
                       name="information"
@@ -2456,7 +2459,7 @@ function SwapsQuotesView({
         </StyledButton>
         <TouchableOpacity onPress={handleTermsPress} style={styles.termsButton}>
           <Text link centered>
-            {strings('swaps.terms_of_service')}
+            {/*strings('swaps.terms_of_service')*/}
           </Text>
         </TouchableOpacity>
       </View>

@@ -37,6 +37,7 @@ export const useTopTokens = ({ chainId }: UseTopTokensProps): { topTokens: Bridg
   useEffect(() => {
     (async () => {
       const { SwapsController } = Engine.context;
+      console.log('TRACE', 'SwapsController.fetchTopAssetsWithCache')
       try {
         if (chainId && !isCaipChainId(chainId)) {
           // Maintains an internal cache, will fetch if past internal threshold

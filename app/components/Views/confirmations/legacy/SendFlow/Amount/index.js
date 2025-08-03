@@ -109,6 +109,13 @@ import {
 } from '../../../../../../selectors/networkController';
 import { selectContractExchangeRatesByChainId } from '../../../../../../selectors/tokenRatesController';
 import { isNativeToken } from '../../../utils/generic';
+import { TokenListFooter } from '../../../../../UI/Tokens/TokenList/TokenListFooter';
+import { goToAddEvmToken } from '../../../../../UI/Tokens/util';
+import { getDecimalChainId } from '../../../../../../util/networks';
+import { selectEvmTokens } from '../../../../../../selectors/multichain';
+import { selectEvmTokenFiatBalances } from '../../../../../../selectors/multichain';
+import { useSelector } from 'react-redux';
+import Tokens from '../../../../../UI/Tokens';
 
 const KEYBOARD_OFFSET = Device.isSmallDevice() ? 80 : 120;
 
@@ -537,7 +544,17 @@ class Amount extends PureComponent {
       ),
     );
   };
-
+  /*
+  getCatt() {
+    return {
+      name: 'Catt',
+      address: '0x36D5E58F99C5e1468FFD447E5f6E8B05d7DCdFa4',
+      symbol: 'Catt',
+      logo: '../images/eth-logo-new.png',
+      isETH: false,
+    };
+  }
+  */
   componentDidMount = async () => {
     const {
       tokens,
@@ -554,7 +571,7 @@ class Amount extends PureComponent {
     this.updateNavBar();
     navigation.setParams({ providerType, isPaymentRequest });
 
-    this.tokens = [getEther(ticker), ...tokens];
+    this.tokens = [getEther(ticker), ...tokens]; // Arthur
     this.collectibles = this.processCollectibles();
     // Wait until navigation finishes to focus
     InteractionManager.runAfterInteractions(() =>
@@ -812,6 +829,7 @@ class Amount extends PureComponent {
       transactionState: { transaction, transactionTo },
     } = this.props;
 
+    console.log('==ARTHUR==', "Amount:prepareTransaction")
     if (isNativeToken(selectedAsset)) {
       transaction.data = '0x';
       transaction.to = transactionTo;
@@ -1463,6 +1481,27 @@ class Amount extends PureComponent {
     );
   };
 
+  goToAddToken = () => {
+    // add token currently only support on evm
+    const setIsAddTokenEnabled = true
+    const { navigation } = this.props;
+    const { trackEvent, createEventBuilder } = this.props.metrics;
+    const currentChainId = '0xa4ba';
+    
+    goToAddEvmToken({
+      setIsAddTokenEnabled,
+      navigation,
+      trackEvent,
+      createEventBuilder,
+      getDecimalChainId,
+      currentChainId,
+    });
+  };
+  
+  settings = {  // Arthur
+    hideZeroBalanceTokens: false
+  }
+  
   render = () => {
     const { estimatedTotalGas, hasExchangeRate } = this.state;
     const {
@@ -1476,6 +1515,20 @@ class Amount extends PureComponent {
       ? BigNumber(estimatedTotalGas).gt(0)
       : false;
 
+    //const evmTokens = useSelector(selectEvmTokens);
+    //const tokenFiatBalances = useSelector(selectEvmTokenFiatBalances);
+    //const evmTokens = selectEvmTokens(this);
+    //const tokenFiatBalances = selectEvmTokenFiatBalances(this);
+    //const tokenListData = evmTokens;
+    //const tokensWithBalances = 
+    //    tokenListData.map((token, i) => ({
+    //      ...token,
+    //      tokenFiatAmount: isEvmSelected
+    //        ? tokenFiatBalances[i]
+    //        : token.balanceFiat,
+    //    }))
+    //const tokensList = tokensWithBalances;
+      
     return (
       <SafeAreaView
         edges={['bottom']}
@@ -1555,6 +1608,7 @@ class Amount extends PureComponent {
               ? this.renderCollectibleInput()
               : this.renderTokenInput()}
           </View>
+          {/* <Tokens/> */}
         </ScrollView>
 
         <KeyboardAvoidingView

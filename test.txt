@@ -1,0 +1,42 @@
+[MetaMask DEBUG]: Feature flags updated
+ LOG  client id= 521969317751-5dbab0ujkgs902681lo0bnaek8u56rtm.apps.googleusercontent.com
+ LOG  
+=============================
+{
+    "data": {
+        "idToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjBkOGE2NzM5OWU3ODgyYWNhZTdkN2Y2OGIyMjgwMjU2YTc5NmE1ODIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI1MjE5NjkzMTc3NTEtZnJuMGFvdm12MnFwb3NtaWxyZnBpbDNzMDE3dTc1OTUuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI1MjE5NjkzMTc3NTEtNWRiYWIwdWprZ3M5MDI2ODFsbzBibmFlazh1NTZydG0uYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMTI3NTcxODE1ODk3NTMyMjk5NTgiLCJlbWFpbCI6Inl1bGlhbmcuaHNpZWhAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJZdUxpYW5nIEhzaWVoIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0w5YXZuRkd1dkY1WXVaSElmUEdVTnYyQU5HMmx3Und2YklLR3NaelJGZnRxc3dscWJtPXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6Ill1TGlhbmciLCJmYW1pbHlfbmFtZSI6IkhzaWVoIiwiaWF0IjoxNzQ5ODAwODQxLCJleHAiOjE3NDk4MDQ0NDF9.lrxlpUQo4pQ4o1_jjkZ1IFGtbkOjh1z4YYHTxWriLlE_TVH3ouE_9NgYoooUShcfzQWjviP1ad6EwiJ5JW59UhtgLJ82NvPDEWoPfiN5G0Two8w5JrlOyK1mui3jBhuFPFlSIMTaxFGgCu6z-kBSrq6LUgFL7rmrx2DWV_MQ3LBlx8CZaIx8Pqa848funMmsn30bOhZma-i49lm4EL9cEZXxsk3d4zAZ3BWOSuliKgQE6I0DUG-wzquPwhuXcLjX-vVA92H2nPwY3KClU14pKx4b3Mv3K-5My855odmprra3p8LAfjKryL2cnVDA0hoJ93g-fMiVIDweO4O7iDMisg", 
+        "scopes": [
+            "https://www.googleapis.com/auth/userinfo.profile", 
+            "https://www.googleapis.com/auth/userinfo.email", 
+            "openid", 
+            "profile", 
+            "email"
+        ], 
+        "serverAuthCode": null, 
+        "user": {
+            "email": "yuliang.hsieh@gmail.com", 
+            "familyName": "Hsieh", 
+            "givenName": "YuLiang", 
+            "id": "112757181589753229958", 
+            "name": "YuLiang Hsieh", 
+            "photo": "https://lh3.googleusercontent.com/a/ACg8ocL9avnFGuvF5YuZHIfPGUNv2ANG2lwRwvbIKGsZzRFftqswlqbm=s96-c"
+        }
+    }
+} 
+======================
+
+{"data": {
+    "idToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjBkOGE2NzM5OWU3ODgyYWNhZTdkN2Y2OGIyMjgwMjU2YTc5NmE1ODIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI1MjE5NjkzMTc3NTEtZnJuMGFvdm12MnFwb3NtaWxyZnBpbDNzMDE3dTc1OTUuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI1MjE5NjkzMTc3NTEtNWRiYWIwdWprZ3M5MDI2ODFsbzBibmFlazh1NTZydG0uYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMTI3NTcxODE1ODk3NTMyMjk5NTgiLCJlbWFpbCI6Inl1bGlhbmcuaHNpZWhAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJZdUxpYW5nIEhzaWVoIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0w5YXZuRkd1dkY1WXVaSElmUEdVTnYyQU5HMmx3Und2YklLR3NaelJGZnRxc3dscWJtPXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6Ill1TGlhbmciLCJmYW1pbHlfbmFtZSI6IkhzaWVoIiwiaWF0IjoxNzQ5OTIxMjA2LCJleHAiOjE3NDk5MjQ4MDZ9.P5Ln7uDJCkUNuVV8foUj5nPeJDRVkrp1tbgPQvkk9ih-BW9YGaIxuK0zWFYxRhDqY8BREi6NVq_bwFQaFEdkryes0Qs10cF2VZEkKBZOuQNPFGx2ouGqAG5SRfewnrGztYcLsYlmHaUOJwaYtyb7jFaCLgemjiNmi3SH_5NpuQq4zfumVCgxHmitYH_etuhzqsXno5d8Y4RmmTMsRVzgD7QpLfBp64norxWgYgxmXKaboO5wEsgkxz13W1q2Oj0Rtq9Tz2EMFHy3lHOmpZCHnpzKSgl-ixCTE9Ydxiyoqn4aJGDKvA4Kx3Y14RGaBd_Tm0UalOkfwNvYoHOh6DU_Og", 
+    "scopes": [
+        "https://www.googleapis.com/auth/userinfo.profile", 
+        "https://www.googleapis.com/auth/userinfo.email", 
+        "openid", 
+        "profile", 
+        "email"
+    ], 
+    "serverAuthCode": null, 
+    "user": {
+        "email": "yuliang.hsieh@gmail.com", 
+        "familyName": "Hsieh", 
+        "givenName": "YuLiang", 
+        "id": "112757181589753229958", "name": "YuLiang Hsieh", "photo": "https://lh3.googleusercontent.com/a/ACg8ocL9avnFGuvF5YuZHIfPGUNv2ANG2lwRwvbIKGsZzRFftqswlqbm=s96-c"}}}

@@ -342,7 +342,7 @@ class WeSendFlow extends PureComponent {
       <>
         <Text> </Text>
         <Text reset bold link underline onPress={this.goToBuy}>
-          {strings('fiat_on_ramp_aggregator.token_marketplace')}.
+          {/* strings('fiat_on_ramp_aggregator.token_marketplace') */}.
         </Text>
         <Text reset>
           {'\n'}

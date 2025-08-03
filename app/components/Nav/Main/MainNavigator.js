@@ -23,6 +23,13 @@ import Contacts from '../../Views/Settings/Contacts';
 //import Wallet from '../../Views/Wallet';
 import Wallet from '../../Views/WeWallet';      // Arthur
 import Persona from '../../Views/WePersona';    // Arthur
+import WeFinance from '../../Views/WeFinance';  // Arthur
+import WePoint from '../../Views/WePoint';  // Arthur
+import WeSecord from '../../Views/WeSecord';  // Arthur
+import WeSecord00 from '../../Views/WeSecord00';  // Arthur
+import WeStake from '../../Views/WeStake';  // Arthur
+import WeStake00 from '../../Views/WeStake00';  // Arthur
+import WeStake30 from '../../Views/WeStake30';  // Arthur
 import Security from '../../Views/WeSecurity';  // Arthur
 import Language from '../../Views/WeLanguage';  // Arthur
 import Currency from '../../Views/WeCurrency';  // Arthur
@@ -30,6 +37,7 @@ import WeHelp from '../../Views/WeHelp';        // Arthur
 import WeRobot from '../../Views/WeRobot';      // Arthur
 import WeArticle from '../../Views/WeArticle';      // Arthur
 import WeSocial from '../../Views/WeSocial';      // Arthur
+import WeFriend from '../../Views/WeFriend';      // Arthur
 import WeMember from '../../Views/WeMember';      // Arthur
 import WePhone from '../../Views/WePhone';      // Arthur
 import WePode from '../../Views/WePode';      // Arthur
@@ -315,6 +323,13 @@ const PersonaFlow = () => (
       component={WeSocial}
       options={Settings.navigationOptions}
     />
+    {/*
+    <Stack.Screen
+      name="FriendPersona"
+      component={WeFriend}
+      options={Settings.navigationOptions}
+    />
+    */}
     <Stack.Screen
       name="MemberPersona"
       component={WeMember}
@@ -374,6 +389,46 @@ const PersonaFlow = () => (
       name="ArticlePersona"
       component={WeArticle}
       options={GeneralSettings.navigationOptions}
+    />
+  </Stack.Navigator>
+);
+
+const FinanceFlow = () => (
+  <Stack.Navigator initialRouteName={'WeFinance'}>
+    <Stack.Screen
+      name="WeFinance"
+      component={WeFinance}
+      options={Settings.navigationOptions}
+    />
+    <Stack.Screen
+      name="WePoint"
+      component={WePoint}
+      options={Settings.navigationOptions}
+    />
+    <Stack.Screen
+      name="WeStake"
+      component={WeStake}
+      options={Settings.navigationOptions}
+    />
+    <Stack.Screen
+      name="WeStake00"
+      component={WeStake00}
+      options={Settings.navigationOptions}
+    />
+    <Stack.Screen
+      name="WeStake30"
+      component={WeStake30}
+      options={Settings.navigationOptions}
+    />
+    <Stack.Screen
+      name="WeSecord"
+      component={WeSecord}
+      options={Settings.navigationOptions}
+    />
+    <Stack.Screen
+      name="WeSecord00"
+      component={WeSecord00}
+      options={Settings.navigationOptions}
     />
   </Stack.Navigator>
 );
@@ -577,7 +632,7 @@ const HomeTabs = () => {
     finance: {
       tabBarIconKey: TabBarIconKey.WeFinance,
       tabBarLabel: '理財',
-      rootScreenName: Routes.WALLET_VIEW,
+      rootScreenName: Routes.FINANCE_VIEW,
     },
     asset: {
       tabBarIconKey: TabBarIconKey.WeAsset,
@@ -680,9 +735,9 @@ const HomeTabs = () => {
             component={WalletTabModalFlow}
           />
           <Tab.Screen
-            name={Routes.TRANSACTIONS_VIEW}
+            name={Routes.FINANCE_VIEW}
             options={options.finance}
-            component={WalletTabModalFlow}
+            component={FinanceFlow}
           />
           <Tab.Screen
             name={Routes.BROWSER.HOME}
@@ -981,6 +1036,7 @@ const MainNavigator = () => (
       name={Routes.NOTIFICATIONS.VIEW}
       component={NotificationsModeView}
     />
+    <Stack.Screen name="WeSecordT" component={WeSecord}/>
     <Stack.Screen name={Routes.QR_TAB_SWITCHER} component={QRTabSwitcher} />
     <Stack.Screen name="NftDetails" component={NftDetailsModeView} />
     <Stack.Screen
@@ -988,6 +1044,8 @@ const MainNavigator = () => (
       component={NftDetailsFullImageModeView}
     />
     <Stack.Screen name="PaymentRequestView" component={PaymentRequestView} />
+    <Stack.Screen name="WeFriend" component={WeFriend} />
+    <Stack.Screen name="WeSocial" component={WeSocial} />
     <Stack.Screen name={Routes.RAMP.BUY}>
       {() => <RampRoutes rampType={RampType.BUY} />}
     </Stack.Screen>

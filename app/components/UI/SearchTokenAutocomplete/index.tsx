@@ -264,7 +264,9 @@ const SearchTokenAutocomplete = ({
   }, [navigation]);
 
   const addTokenList = useCallback(async () => {
+    console.log('=== ARTHUR ===', 'addTokenList called')
     for (const asset of selectedAssets) {
+      console.log('=== ARTHUR ===', 'addToken', asset)
       await addToken({ ...asset });
     }
 

@@ -1,0 +1,49 @@
+selectedAccount {"address": "0x6b9ea60821bd0214a6e63ca848869528d5a554f9", "id": "dc41f208-2094-4e05-8c80-84262e7d8730", "metadata": {"importTime": 1750158268384, "keyring": {"type": "HD Key Tree"}, "lastSelected": 1750213109556, "name": "Account 1"}, "methods": ["personal_sign", "eth_sign", "eth_signTransaction", "eth_signTypedData_v1", "eth_signTypedData_v3", "eth_signTypedData_v4"], "options": {}, "scopes": ["eip155:0"], "type": "eip155:eoa"}
+ LOG  approveTransaction {"data": "0x095ea7b30000000000000000000000006b9ea60821bd0214a6e63ca848869528d5a554f90000000000000000000000000000000000000000000000000de0b6b3a7640000", "from": "0x6B9eA60821bd0214A6e63cA848869528d5A554F9", "to": "0x36d5e58f99c5e1468ffd447e5f6e8b05d7dcdfa4", "value": "0x0"}
+ LOG  chain_id 0xa4b1 networkClientId afda9616-18ab-4d47-b7b5-c3dcea2a2737
+ LOG  approveTransaction {
+    "result": {"_h": 0, "_i": 0, "_j": null, "_k": null}, 
+    "transactionMeta": {
+        "actionId": undefined, 
+        "batchId": undefined, 
+        "chainId": "0xa4b1", 
+        "dappSuggestedGasFees": undefined, 
+        "defaultGasEstimates": {
+            "estimateType": "medium", 
+            "gas": "0x8899", 
+            "gasPrice": undefined, 
+            "maxFeePerGas": "0xcdfe60", 
+            "maxPriorityFeePerGas": "0x0"
+        }, 
+        "delegationAddress": undefined, 
+        "deviceConfirmedOn": "metamask_mobile", 
+        "disableGasBuffer": undefined, 
+        "gasLimitNoBuffer": "0x8899", 
+        "id": "85bf54c0-4c0d-11f0-a90b-f3aa16fffd06", 
+        "isFirstTimeInteraction": undefined, 
+        "nestedTransactions": undefined, 
+        "networkClientId": "afda9616-18ab-4d47-b7b5-c3dcea2a2737", 
+        "origin": "metamask", 
+        "originalGasEstimate": "0x8899", 
+        "securityAlertResponse": undefined, 
+        "simulationFails": undefined, 
+        "status": "unapproved", 
+        "time": 1750228141068, 
+        "txParams": {
+            "data": "0x095ea7b30000000000000000000000006b9ea60821bd0214a6e63ca848869528d5a554f90000000000000000000000000000000000000000000000000de0b6b3a7640000", 
+            "from": "0x6b9ea60821bd0214a6e63ca848869528d5a554f9", 
+            "gas": "0x8899", 
+            "maxFeePerGas": "0xcdfe60", 
+            "maxPriorityFeePerGas": "0x0", 
+            "to": "0x36d5e58f99c5e1468ffd447e5f6e8b05d7dcdfa4", 
+            "type": "0x2", 
+            "value": "0x0"
+        }, 
+        "type": "approve", 
+        "userEditedGasLimit": false, 
+        "userFeeLevel": "medium", 
+        "verifiedOnBlockchain": false
+    }
+}
+
+ INFO  TRACK event saved {"event": "Transaction Added", "properties": {"chain_id": "0xa4b1", "status": "unapproved", "transaction_internal_id": "85bf54c0-4c0d-11f0-a90b-f3aa16fffd06", "transaction_type": "token_method_approve"}, "type": "track"}

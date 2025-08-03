@@ -513,8 +513,11 @@ class Confirm extends PureComponent {
     const { TransactionController } = Engine.context;
     const transactionParams = this.prepareTransactionToSend();
 
+    //console.log('ARTHUR');
+    Logger.error('==ARTHUR==')
     let result, transactionMeta;
     try {
+      //console.log("==ARTHUR==", "1. addTransaction calling")
       ({ result, transactionMeta } = await TransactionController.addTransaction(
         transactionParams,
         {
@@ -523,6 +526,7 @@ class Confirm extends PureComponent {
           origin: TransactionTypes.MMM,
         },
       ));
+      //console.log("==ARTHUR==", "2. addTransaction called")
     } catch (error) {
       Logger.error(error, 'error while adding transaction (Confirm)');
       navigation.navigate(Routes.WALLET_VIEW);
@@ -825,7 +829,7 @@ class Confirm extends PureComponent {
       ...rawTransaction,
       from,
     };
-
+    console.log("==ARTHUR==", "0. prepareTransactionToSend", transaction)
     return buildTransactionParams({
       gasDataEIP1559,
       gasDataLegacy,
@@ -1043,11 +1047,13 @@ class Confirm extends PureComponent {
       await KeyringController.resetQRKeyringState();
 
       if (shouldUseSmartTransaction) {
+        console.log("== ARTHUR ==", "Smart", transactionMeta)
         await ApprovalController.accept(transactionMeta.id, undefined, {
           waitForResult: false,
         });
         navigation.navigate(Routes.TRANSACTIONS_VIEW);
       } else {
+        console.log("== ARTHUR ==", "Normal", transactionMeta)
         await ApprovalController.accept(transactionMeta.id, undefined, {
           waitForResult: true,
         });
@@ -1529,7 +1535,7 @@ class Confirm extends PureComponent {
                 <TouchableOpacity onPress={errorPress}>
                   <Text style={styles.error}>{errorMessage}</Text>
                   <Text style={[styles.error, styles.underline]}>
-                    {errorLinkText}
+                    {/* errorLinkText */}
                   </Text>
                 </TouchableOpacity>
               ) : (

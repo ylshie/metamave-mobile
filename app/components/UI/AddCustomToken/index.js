@@ -540,7 +540,7 @@ class AddCustomToken extends PureComponent {
         chainId,
       },
     ];
-
+    console.log('===ARTHUR===', 'goToConfirmAddToken')
     this.props.navigation.push('ConfirmAddAsset', {
       selectedAsset,
       networkName,

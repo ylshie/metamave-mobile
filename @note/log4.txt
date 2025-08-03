@@ -1,0 +1,5 @@
+ LOG  expire=[ 2025-06-18T14:38:54.703Z ]
+ LOG  refreshToken==> e8ce3332c5fec0f6b72289cafa38571eee4dff01
+ LOG  ==== [wzRefresh] >>: grant_type=refresh_token&refresh_token=e8ce3332c5fec0f6b72289cafa38571eee4dff01
+ LOG  ==== [wzLogin] ==:
+ LOG  ==== [wzLogin]: {"code": 400, "message": "Invalid grant: refresh token is invalid", "name": "invalid_grant", "status": 400, "statusCode": 400}

@@ -1,0 +1,10 @@
+keytool -list -v -keystore ./release.keystore -alias my-key-alias -storepass Qwerty1234 -keypass Qwerty1234
+
+release:
+e6:f1:82:8f:25:4d:6e:46:85:c4:5b:cc:3c:bd:b4:79:fe:27:0b:a0
+
+debug:
+b9:92:22:f4:b6:d7:86:bf:d4:aa:ca:df:5f:85:a5:49:18:ed:20:82
+
+Gmail pass:
+mkhh lnhr rnlj cxba

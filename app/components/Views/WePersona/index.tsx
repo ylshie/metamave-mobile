@@ -391,6 +391,10 @@ const MyPersona = ({
     trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
     navigation.navigate('MemberPersona');
   }
+  const onPressInvite = () => {
+    trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
+    navigation.navigate('WeFriend');
+  }
   const onPressLanguage = () => {
     trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
     navigation.navigate('LanguagePersona');
@@ -518,18 +522,21 @@ const MyPersona = ({
               }}>{'!\n未驗證'}</Text>
             </View>
           </View>
-          <View style={{
-            padding: 0,
-            backgroundColor: '#ECF2F8',
-            marginTop: 0,
-            marginBottom: 0,
-          }}>
+          <TouchableOpacity
+            onPress={onPressInvite}
+            style={{
+              padding: 0,
+              backgroundColor: '#ECF2F8',
+              marginTop: 0,
+              marginBottom: 0,
+            }}
+          >
             <Banner 
               name='banner' 
               width={win.width * 0.9} 
               height={win.width * 0.34} 
             />
-          </View>
+          </TouchableOpacity>
           
           <View style={{
               width: '100%',

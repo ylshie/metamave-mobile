@@ -711,7 +711,7 @@ class TransactionReviewInformation extends PureComponent {
                 <Text style={styles.error}>{error}</Text>
                 {over && (
                   <Text style={[styles.error, styles.underline]}>
-                    {errorLinkText}
+                    {/* errorLinkText */}
                   </Text>
                 )}
               </TouchableOpacity>

@@ -162,6 +162,7 @@ const Tokens = memo(() => {
   const goToAddToken = useCallback(() => {
     // add token currently only support on evm
     if (isEvmSelected) {
+      console.log('===ARTHUR===', 'EVM')
       goToAddEvmToken({
         setIsAddTokenEnabled,
         navigation,
@@ -170,6 +171,8 @@ const Tokens = memo(() => {
         getDecimalChainId,
         currentChainId,
       });
+    } else {
+      console.log('===ARTHUR===', 'XXXEVM')
     }
   }, [
     isEvmSelected,

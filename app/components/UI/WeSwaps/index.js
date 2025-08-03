@@ -325,9 +325,11 @@ function SwapsAmountView({
     (async () => {
       const { SwapsController } = Engine.context;
       try {
+        console.log('TRACE', 'fetchAggregatorMetadataWithCache')
         await SwapsController.fetchAggregatorMetadataWithCache({
           networkClientId: selectedNetworkClientId,
         });
+        console.log('TRACE', 'fetchTopAssetsWithCache')
         await SwapsController.fetchTopAssetsWithCache({
           networkClientId: selectedNetworkClientId,
         });
@@ -352,6 +354,7 @@ function SwapsAmountView({
           setInitialLoadingTokens(true);
         }
         setLoadingTokens(true);
+        console.log('TRACE', 'fetchTokenWithCache')
         await SwapsController.fetchTokenWithCache({
           networkClientId: selectedNetworkClientId,
         });

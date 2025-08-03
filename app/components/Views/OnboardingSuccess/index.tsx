@@ -35,6 +35,8 @@ import { OnboardingSuccessSelectorIDs } from '../../../../e2e/selectors/Onboardi
 import styles from './index.styles';
 import importAdditionalAccounts from '../../../util/importAdditionalAccounts';
 import { setCompletedOnboarding } from '../../../actions/onboarding';
+import Engine from '../../../core/Engine';
+import { Catt } from '../WeWallet/catt';
 
 interface OnboardingSuccessProps {
   onDone: () => void;
@@ -53,6 +55,7 @@ const OnboardingSuccess = ({
   const [showHint, setShowHint] = useState(false);
   const [hintText, setHintText] = useState('');
 
+  
   useLayoutEffect(() => {
     navigation.setOptions(getTransparentOnboardingNavbarOptions(colors));
   }, [navigation, colors]);
@@ -68,7 +71,28 @@ const OnboardingSuccess = ({
   };
 
   const handleOnDone = useCallback(() => {
+    const switchNetwrok = async () => {
+      try {
+        const chain = Catt.chainid
+        console.log('===NetworkController===', 1)
+        const { NetworkController } = Engine.context;
+        console.log('===NetworkController===', 2)
+        const config = NetworkController.getNetworkConfigurationByChainId(chain)
+        console.log('===NetworkController===', 3)
+        const { MultichainNetworkController } = Engine.context;
+        console.log('===NetworkController===', 4)
+        const id = config?.rpcEndpoints[0].networkClientId
+        console.log('===NetworkController===', 5)
+      //const networkClientId = 'c4924a29-76b3-445a-8e71-36b0b4c3a1e2'
+        console.log('===NetworkController===', config, id)
+  
+        id? await MultichainNetworkController.setActiveNetwork(id):'';
+      } catch (error) {
+        console.log('error', error)
+      }
+    }
     const onOnboardingSuccess = async () => {
+      await switchNetwrok()
       await importAdditionalAccounts();
       await dispatch(setCompletedOnboarding(true));
     };

@@ -14,6 +14,7 @@ import {
 import { ThemeContext, mockTheme } from '../../../../util/theme';
 import { OnboardingWizardModalSelectorsIDs } from '../../../../../e2e/selectors/Onboarding/OnboardingWizardModal.selectors';
 import { useMetrics } from '../../../../components/hooks/useMetrics';
+import Engine from '../../../../core/Engine';
 
 const styles = StyleSheet.create({
   main: {
@@ -50,8 +51,8 @@ const Step0 = ({ onClose }: Step1Props) => {
     ),
     [dynamicOnboardingStyles],
   );
-
-  const onNext = useCallback(() => {
+ 
+  const onNext = useCallback(async () => {
     dispatch(setOnboardingWizardStep?.(1));
 
     trackEvent(
@@ -69,7 +70,7 @@ const Step0 = ({ onClose }: Step1Props) => {
       style={styles.main}
       testID={OnboardingWizardModalSelectorsIDs.STEP_ONE_CONTAINER}
     >
-      <Text>Arthur Here [0]</Text>
+      {/*<Text>Arthur Here [0]</Text>*/}
       <View style={styles.coachmarkContainer}>
         <Coachmark
           title={strings('onboarding_wizard_new.step1.title')}

@@ -206,8 +206,8 @@ const MySocial = ({
     const token   = await StorageWrapper.getItem('accessToken');
     const account = await StorageWrapper.getItem('account');
     const data    = await wzInfo(token, account)
-    console.log('QueryCode', data)
-    setCode(data.info.id)
+  //console.log('QueryCode', data)
+    setCode(data.info.share)
   }
   useEffect(()=>{
     QueryCode()
@@ -674,7 +674,7 @@ const MySocial = ({
             }}>
               <Task icon={<BadgeN name='brone' width={66} height={66}/>}
                   title='新手任務'
-                  foot='邀請 1 人且完成 KYC'
+                  foot='邀請5位有效用戶'
                   percent={'60%'}
               />
             </View>
@@ -683,19 +683,21 @@ const MySocial = ({
             }}>
               <Task icon={<BadgeA name='silver' width={66} height={66}/>}
                   title='進階挑戰'
-                  foot='累積邀請 10 人 + 每人消費滿 $100'
+                  foot='推薦20位有效用戶+團隊月積分消費≥5萬'
                   percent={'40%'}
               />
             </View>
+            {/*
             <View style={{
               marginTop: 10,
             }}>
               <Task icon={<BadgeG name='gold' width={66} height={66}/>}
                   title='黃金代理人'
-                  foot='月 GMV 達 10,000 USD 且持倉 5,000 ARENA'
+                  foot='推薦50位有效用戶+團隊月積分消費20萬'
                   percent={'20%'}
               />
             </View>
+            */}
           </View>
           <Text style={{
             color: '#6B6969',
@@ -717,9 +719,9 @@ const MySocial = ({
               }}>
                 <Level colors={['#792600', '#C25B2B']}
                     icon={<Brone name='gold' width={40} height={40}/>}
-                    title='Bronze'
-                    subtitle='月 GMV ≥ 2,000 USD'
-                    foot='好友的好友消費，可得 0.3%反饋'
+                    title='基礎代理'
+                    subtitle='額外權益:專屬邀請連結'
+                    foot='推薦用戶每消費積分5%反饋'
                 />
               </View>
               <View style={{
@@ -727,21 +729,23 @@ const MySocial = ({
               }}>
                 <Level colors={['#757575', '#D2D2D2']}
                    icon={<Silver name='gold' width={40} height={40}/>}
-                   title='Silver'
-                   subtitle='月 GMV ≥ 5,000 + 持幣 1,000 ARENA'
-                   foot='好友的好友消費，可得 0.5%反饋'
+                   title='進階代理'
+                   subtitle='額外權益:官方禮物兌換資格'
+                   foot='推薦用戶每消費積分8%反饋'
                 />
               </View>
+              {/*
               <View style={{
                 marginTop: 10,
               }}>
                 <Level colors={['#B68F0E', '#B68F0F']}
                    icon={<Gold name='gold' width={40} height={40}/>}
-                   title='Gold'
-                   subtitle='月 GMV ≥ 10,000 + 持幣 5,000 ARENA'
-                   foot='好友的好友消費，可得 0.8%反饋'
+                   title='VIP代理'
+                   subtitle='額外權益:VIP專屬獎勵活動'
+                   foot='推薦用戶每消費積分10%反饋+第二層代理3%反饋'
               />
               </View>
+              */}
           </LinearGradient>
 
           <View style={{

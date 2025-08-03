@@ -1,0 +1,29 @@
+==ARTHUR== 
+0. prepareTransactionToSend 
+{"assetType": "ERC20", 
+ "data": "0xa9059cbb0000000000000000000000006b9ea60821bd0214a6e63ca848869528d5a554f900000000000000000000000000000000000000000000000000000000000186a0", 
+ "ensRecipient": undefined, 
+ "from": "0x6B9eA60821bd0214A6e63cA848869528d5A554F9", 
+ "gas": "a31a", 
+ "gasPrice": undefined, 
+ "id": "d9ffd290-4be9-11f0-814e-ad1824223ca7", 
+ "maxFeePerGas": undefined, 
+ "maxPriorityFeePerGas": undefined, 
+ "maxValueMode": false, 
+ "nonce": undefined, 
+ "paymentRequest": undefined, 
+ "proposedNonce": undefined, 
+ "readableValue": undefined, 
+ "securityAlertResponses": {}, 
+ "selectedAsset": {
+    "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7", 
+    "aggregators": ["Metamask", "Aave", "CoinGecko", "OpenSwap", "UniswapLabs", "Zerion", "1inch", "LiFi", "Socket", "Squid", "Rango", "Sonarwatch", "SushiSwap", "PMM", "Bancor"], 
+    "decimals": 6, 
+    "image": "https://static.cx.metamask.io/api/v1/tokenIcons/1/0xdac17f958d2ee523a2206206994597c13d831ec7.png", 
+    "name": "Tether USD", 
+    "symbol": "USDT"
+ }, 
+ "symbol": undefined, 
+ "to": "0xdAC17F958D2ee523a2206206994597C13D831ec7", 
+ "transaction": {
+    "data": "0xa9059cbb0000000000000000000000006b9ea60821bd0214a6e63ca848869528d5a554f900000000000000000000000000000000000000000000000000000000000186a0", "from": "0x6B9eA60821bd0214A6e63cA848869528d5A554F9", "gas": "a31a", "gasPrice": undefined, "maxFeePerGas": undefined, "maxPriorityFeePerGas": undefined, "to": "0xdAC17F958D2ee523a2206206994597C13D831ec7", "value": "0x0"}, "transactionFromName": undefined, "transactionTo": "0x6B9eA60821bd0214A6e63cA848869528d5A554F9", "transactionToName": "Account 1", "transactionValue": undefined, "type": undefined, "useMax": false, "value": "0x0", "warningGasPriceHigh": undefined}

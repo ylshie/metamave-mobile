@@ -31,7 +31,7 @@ const TabBar = ({ state, descriptors, navigation }: TabBarProps) => {
   const chainId = useSelector(selectChainId);
   const tabBarRef = useRef(null);
 
-  console.log('=========[Arthur]==========', 'TabBar', 'descriptors', descriptors)
+  //console.log('=========[Arthur]==========', 'TabBar', 'descriptors', descriptors)
   /**
    * Current onboarding wizard step
    */
@@ -96,6 +96,12 @@ const TabBar = ({ state, descriptors, navigation }: TabBarProps) => {
             navigation.navigate(Routes.SETTINGS_VIEW, {
               screen: 'Settings',
             });
+            break;
+          case Routes.FINANCE_VIEW:
+            navigation.navigate(Routes.FINANCE_VIEW, {
+              screen: 'WeFinance',
+            });
+            break;
         }
       };
 

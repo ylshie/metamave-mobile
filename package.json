@@ -301,6 +301,7 @@
     "mockttp": "^3.15.2",
     "multihashes": "0.4.14",
     "number-to-bn": "1.7.0",
+    "otp-generator": "^4.0.1",
     "path": "0.12.7",
     "pbkdf2": "3.1.2",
     "pify": "6.1.0",

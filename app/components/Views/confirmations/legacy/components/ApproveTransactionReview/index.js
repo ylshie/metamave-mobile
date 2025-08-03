@@ -1074,7 +1074,7 @@ class ApproveTransactionReview extends PureComponent {
                                     reset
                                     style={[styles.error, styles.underline]}
                                   >
-                                    {errorLinkText}
+                                    {/* errorLinkText */}
                                   </Text>
                                 )}
                               </TouchableOpacity>

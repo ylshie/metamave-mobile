@@ -965,6 +965,12 @@ export function getWalletNavbarOptions(
   };
 
   function openQRScanner() {
+    /*
+    navigation.navigate('WeSecordT' ,{
+      disableTabber: false
+    })
+    */
+    
     navigation.navigate(Routes.QR_TAB_SWITCHER, {
       disableTabber: true,  // [Arthur] {QRScan Entrance}
       onScanSuccess,
@@ -974,6 +980,7 @@ export function getWalletNavbarOptions(
         MetaMetricsEvents.WALLET_QR_SCANNER,
       ).build(),
     );
+    
   }
 
   function handleNotificationOnPress() {

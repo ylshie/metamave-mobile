@@ -64,6 +64,8 @@ const Step1 = ({ onClose }: Step1Props) => {
     );
   }, [dispatch, trackEvent, createEventBuilder]);
 
+  //  Afthur
+  
   return (
     <View
       style={styles.main}

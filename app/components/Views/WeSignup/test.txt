@@ -1,0 +1,17 @@
+curl -X 'POST' \
+  'https://mail.arwaexchange.com/v1/account/gtest/submit?access_token=226150226a5abb88306f8ef022271dc53c1fd7bea73e8d9ac2c859b445db5850' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "to": [
+    {
+      "name": "Yuliang Hsieh",
+      "address": "yuliang.hsieh@gmail.com"
+    }
+  ],
+  "subject": "Verification Code!",
+  "text": "Your verification code is 00000",
+  "html": "<p>Your verification code is 00000</p>",
+  "attachments": [
+  ]
+}'

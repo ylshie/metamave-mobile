@@ -1927,7 +1927,7 @@ function SwapsQuotesView({
               {(isSwapsNativeAsset(sourceToken) ||
                 (hasEnoughTokenBalance && !hasEnoughEthBalance)) && (
                 <Text link underline small onPress={buyEth}>
-                  {strings('swaps.token_marketplace')}
+                  {/* strings('swaps.token_marketplace') */}
                 </Text>
               )}
             </Alert>

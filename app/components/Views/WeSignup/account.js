@@ -198,8 +198,9 @@ export async function wzCoin(token, source, value) {
 }
 
 export async function wzLogin(email, pass) {
+  console.log('_____ wzLogin ____')
   if (bypass) return {ret: true}
-  
+  console.log('===== wzLogin ====')
   const xxx = `grant_type=password&username=${email}&password=${pass}`
   try {
     const ret = await fetch(base + '/wz_token?',  {
@@ -211,15 +212,16 @@ export async function wzLogin(email, pass) {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
     })
-    console.log("==== [wzLogin] ==:")
+    console.log("==== [wzLogin] >>:", xxx)
     const data = await ret.json()
-    console.log("==== [wzLogin]:", data)
+    console.log("==== [wzLogin] <<<", data)
     if (data.code) {
       return {ok: false, error: data}
     } else {
       return {ok: true, data}
     }
   } catch (error) {
+    console.log('~~~~~ wzLogin [ERROR]~~~~~~', error)
     return {ok: false, error: error}
   }
 }

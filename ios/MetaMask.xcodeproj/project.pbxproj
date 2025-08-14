@@ -1289,13 +1289,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MetaMask/MetaMaskDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1685;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 48XVW22RCG;
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 48XVW22RCG;
+				DEVELOPMENT_TEAM = 3SRF43BZ39;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1333,15 +1331,14 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
-					"$(inherited)",
 					"-ObjC",
-					"-lc++",
+					"-lc++abi",
+					"$(inherited)",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = "io.metamask.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.metamave.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = MetaMask;
-				PROVISIONING_PROFILE_SPECIFIER = "match Development io.metamask.MetaMask";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development io.metamask.MetaMask";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MetaMask-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
@@ -1358,12 +1355,11 @@
 				ASSETCATALOG_COMPILER_OPTIMIZATION = time;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MetaMask/MetaMask.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1685;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 48XVW22RCG;
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 48XVW22RCG;
+				DEVELOPMENT_TEAM = 3SRF43BZ39;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1399,15 +1395,14 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
-					"$(inherited)",
 					"-ObjC",
-					"-lc++",
+					"-lc++abi",
+					"$(inherited)",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
-				PRODUCT_BUNDLE_IDENTIFIER = "io.metamask.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "io.metamave.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = MetaMask;
-				PROVISIONING_PROFILE_SPECIFIER = "Bitrise AppStore io.metamask.MetaMask";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Bitrise AppStore io.metamask.MetaMask";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MetaMask-Bridging-Header.h";
 				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 				SWIFT_VERSION = 5.0;
@@ -1466,9 +1461,9 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
-					"$(inherited)",
 					"-ObjC",
-					"-lc++",
+					"-lc++abi",
+					"$(inherited)",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = "io.metamask.$(PRODUCT_NAME:rfc1034identifier)";
@@ -1530,9 +1525,9 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = (
-					"$(inherited)",
 					"-ObjC",
-					"-lc++",
+					"-lc++abi",
+					"$(inherited)",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = "io.metamask.$(PRODUCT_NAME:rfc1034identifier)";
@@ -1694,9 +1689,9 @@
 					"-DFB_SONARKIT_ENABLED=1",
 				);
 				OTHER_LDFLAGS = (
-					"$(inherited)",
 					"-ObjC",
-					"-lc++",
+					"-lc++abi",
+					"$(inherited)",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = "io.metamask.MetaMask-QA";
@@ -1761,9 +1756,9 @@
 					"-DFB_SONARKIT_ENABLED=1",
 				);
 				OTHER_LDFLAGS = (
-					"$(inherited)",
 					"-ObjC",
-					"-lc++",
+					"-lc++abi",
+					"$(inherited)",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = "io.metamask.MetaMask-QA";

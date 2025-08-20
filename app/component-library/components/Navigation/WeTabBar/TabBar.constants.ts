@@ -18,4 +18,5 @@ export const ICON_BY_TAB_BAR_ICON_KEY: IconByTabBarIconKey = {
   [TabBarIconKey.WePerson]: IconName.WePerson,
 };
 
-export const TAB_BAR_HEIGHT = Device.isAndroid() ? 62 : 48;
+//export const TAB_BAR_HEIGHT = Device.isAndroid() ? 62 : 48;
+export const TAB_BAR_HEIGHT = Device.isAndroid() ? 62 : 62;

@@ -388,7 +388,7 @@ const MySocial = ({
               fontWeight: '600',
               flexShrink: 1,
             }}>
-            歡迎來到WeZan社群!
+            歡迎來到WeZan社群!------
             </Text>
             <Text style={{
               position: 'absolute',

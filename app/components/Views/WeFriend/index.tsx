@@ -523,328 +523,336 @@ const MySocial = ({
       assets.push(stakedEvmAsset);
     }
     return (
-      <ScrollView
+      <View
         style={{
-          width: '100%',
-          backgroundColor: '#E4EDFF',
-        //alignItems: 'center',
-          paddingLeft: 20,
-          paddingRight: 20,
-          paddingTop: 60,
-        //paddingBottom: 60,
-        //...styles.wrapper
+          alignItems: 'center',
+          ...styles.wrapper
         }}
         testID={WalletViewSelectorsIDs.WALLET_CONTAINER}
       >
-        <>
-          <Banner name='banner' width={200} height={34}/>
-          <View style={{
+        <ScrollView
+          style={{
             width: '100%',
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: 10,
-          }}>
-            <View style={{
-              width: '60%',
-            }}>
-              <Text style={{
-                color: '#6B6969',
-                fontSize: 20,
-                fontWeight: '600',
-              }}>邀請好友一起賺</Text>
-              <Text style={{
-                color: '#6B6969',
-                fontSize: 20,
-                fontWeight: '800',
-              }}>20 USDTA</Text>
-              <Text style={{
-                color: '#EB7D00',
-                fontSize: 20,
-                fontWeight: '600',
-              }}>成為高階代理人！</Text>
-              <View style={{
-                width: 30,
-                height: 2,
-                backgroundColor: '#6B6969',
-              }}/>
-              <Text style={{
-                color: '#808184',
-                fontSize: 14,
-                fontWeight: '400',
-              }}>和朋友一起增值財富</Text>
-            </View>
-            <View style={{
-              width: '40%',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-              {/*<Box name='box' width={160} height={160}/>*/}
-              <Image
-                source={require('./images/box.png')}
-                style={{
-                  width: 160,
-                  height: 160,
-                }}
-                resizeMode='contain'
-              />
-            </View>
-          </View>
-          
-          <Invite>
-            <Title_1 text='立即分享推薦碼'/>
-            <SubTitle_1 text='解鎖更多紅利與專屬分佣！'/>
-            <Field>
-              <Name caption='推廣碼:'/>
-              <Value caption={code}/>
-              <TouchableOpacity onPress={()=>copyToClipboard(code)}>
-                <Copy name='copy' width={20} height={20}/>
-              </TouchableOpacity>
-            </Field>
-            <Field>
-              <Name caption='邀請連結:'/>
-              <Value caption={'promote.wezan/'+code}/>
-              <TouchableOpacity onPress={()=>copyToClipboard('promote.wezan/'+code)}>
-                <Copy name='copy' width={20} height={20}/>
-              </TouchableOpacity>
-            </Field>
-            <Field>
-              <Name caption='總邀請人數'/>
-              <Text>0</Text>
-            </Field>
-          </Invite>
-          
-          <View style={{
-            width: '100%',
-            flexDirection: 'row',
-          //justifyContent: 'center',
+            backgroundColor: '#E4EDFF',
           //alignItems: 'center',
-            padding: 10,
-            marginTop: 20,
-          }}>
+            paddingLeft: 20,
+            paddingRight: 20,
+            paddingTop: 60,
+          //paddingBottom: 60,
+          //...styles.wrapper
+          }}
+          //testID={WalletViewSelectorsIDs.WALLET_CONTAINER}
+        >
+          <>
+            <Banner name='banner' width={200} height={34}/>
             <View style={{
-              width: '50%',
-              justifyContent: 'flex-start'
-            }}>
-              <Text style={{
-                color: '#6B6969',
-                fontSize: 30,
-                fontWeight: '600',
-                lineHeight: 32,
-                textAlign: 'left'
-              }}>
-                成長任務
-              </Text>
-              <Text style={{
-                color: '#6B6969',
-                fontSize: 20,
-                fontWeight: '600',
-                textAlign: 'left'
-              }}>
-                解鎖更多紅利
-              </Text>
-              <Text style={{
-                color: '#EB7D00',
-                fontSize: 20,
-                fontWeight: '600',
-                textAlign: 'left'
-              }}>
-                專屬分佣！
-              </Text>
-            </View>
-            {/*<Badges name='badges' width={200} height={120}/>*/}
-            <View style={{
-              width: '50%',
+              width: '100%',
+              flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center',
+              padding: 10,
             }}>
-              <Image
-                source={require('./images/allbadges.png')}
-                style={{
-                  width: 180,
-                  height: 124,
-                }}
-                resizeMode='contain'
-              />
+              <View style={{
+                width: '60%',
+              }}>
+                <Text style={{
+                  color: '#6B6969',
+                  fontSize: 20,
+                  fontWeight: '600',
+                }}>邀請好友一起賺</Text>
+                <Text style={{
+                  color: '#6B6969',
+                  fontSize: 20,
+                  fontWeight: '800',
+                }}>20 USDTA</Text>
+                <Text style={{
+                  color: '#EB7D00',
+                  fontSize: 20,
+                  fontWeight: '600',
+                }}>成為高階代理人！</Text>
+                <View style={{
+                  width: 30,
+                  height: 2,
+                  backgroundColor: '#6B6969',
+                }}/>
+                <Text style={{
+                  color: '#808184',
+                  fontSize: 14,
+                  fontWeight: '400',
+                }}>和朋友一起增值財富</Text>
+              </View>
+              <View style={{
+                width: '40%',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+                {/*<Box name='box' width={160} height={160}/>*/}
+                <Image
+                  source={require('./images/box.png')}
+                  style={{
+                    width: 160,
+                    height: 160,
+                  }}
+                  resizeMode='contain'
+                />
+              </View>
             </View>
-          </View>
-          <View>
+            
+            <Invite>
+              <Title_1 text='立即分享推薦碼'/>
+              <SubTitle_1 text='解鎖更多紅利與專屬分佣！'/>
+              <Field>
+                <Name caption='推廣碼:'/>
+                <Value caption={code}/>
+                <TouchableOpacity onPress={()=>copyToClipboard(code)}>
+                  <Copy name='copy' width={20} height={20}/>
+                </TouchableOpacity>
+              </Field>
+              <Field>
+                <Name caption='邀請連結:'/>
+                <Value caption={'promote.wezan/'+code}/>
+                <TouchableOpacity onPress={()=>copyToClipboard('promote.wezan/'+code)}>
+                  <Copy name='copy' width={20} height={20}/>
+                </TouchableOpacity>
+              </Field>
+              <Field>
+                <Name caption='總邀請人數'/>
+                <Text>0</Text>
+              </Field>
+            </Invite>
+            
             <View style={{
-              marginTop: 10,
-            }}>
-              <Task icon={<BadgeN name='brone' width={66} height={66}/>}
-                  title='新手任務'
-                  foot='邀請5位有效用戶'
-                  percent={'60%'}
-              />
-            </View>
-            <View style={{
-              marginTop: 10,
-            }}>
-              <Task icon={<BadgeA name='silver' width={66} height={66}/>}
-                  title='進階挑戰'
-                  foot='推薦20位有效用戶+團隊月積分消費≥5萬'
-                  percent={'40%'}
-              />
-            </View>
-            {/*
-            <View style={{
-              marginTop: 10,
-            }}>
-              <Task icon={<BadgeG name='gold' width={66} height={66}/>}
-                  title='黃金代理人'
-                  foot='推薦50位有效用戶+團隊月積分消費20萬'
-                  percent={'20%'}
-              />
-            </View>
-            */}
-          </View>
-          <Text style={{
-            color: '#6B6969',
-            fontSize: 30,
-            fontWeight: '600',
-            lineHeight: 34,
-            marginTop: 20,
-          }}>代理人等級</Text>
-          <LinearGradient
-            colors={['#1D3F87', '#C5D3F1']} 
-            style={{
-              padding: 20,
-              borderRadius: 10,
+              width: '100%',
+              flexDirection: 'row',
+            //justifyContent: 'center',
+            //alignItems: 'center',
+              padding: 10,
               marginTop: 20,
-              marginBottom: 20,
             }}>
+              <View style={{
+                width: '50%',
+                justifyContent: 'flex-start'
+              }}>
+                <Text style={{
+                  color: '#6B6969',
+                  fontSize: 30,
+                  fontWeight: '600',
+                  lineHeight: 32,
+                  textAlign: 'left'
+                }}>
+                  成長任務
+                </Text>
+                <Text style={{
+                  color: '#6B6969',
+                  fontSize: 20,
+                  fontWeight: '600',
+                  textAlign: 'left'
+                }}>
+                  解鎖更多紅利
+                </Text>
+                <Text style={{
+                  color: '#EB7D00',
+                  fontSize: 20,
+                  fontWeight: '600',
+                  textAlign: 'left'
+                }}>
+                  專屬分佣！
+                </Text>
+              </View>
+              {/*<Badges name='badges' width={200} height={120}/>*/}
+              <View style={{
+                width: '50%',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+                <Image
+                  source={require('./images/allbadges.png')}
+                  style={{
+                    width: 180,
+                    height: 124,
+                  }}
+                  resizeMode='contain'
+                />
+              </View>
+            </View>
+            <View>
               <View style={{
                 marginTop: 10,
               }}>
-                <Level colors={['#792600', '#C25B2B']}
-                    icon={<Brone name='gold' width={40} height={40}/>}
-                    title='基礎代理'
-                    subtitle='額外權益:專屬邀請連結'
-                    foot='推薦用戶每消費積分5%反饋'
+                <Task icon={<BadgeN name='brone' width={66} height={66}/>}
+                    title='新手任務'
+                    foot='邀請5位有效用戶'
+                    percent={'60%'}
                 />
               </View>
               <View style={{
                 marginTop: 10,
               }}>
-                <Level colors={['#757575', '#D2D2D2']}
-                   icon={<Silver name='gold' width={40} height={40}/>}
-                   title='進階代理'
-                   subtitle='額外權益:官方禮物兌換資格'
-                   foot='推薦用戶每消費積分8%反饋'
+                <Task icon={<BadgeA name='silver' width={66} height={66}/>}
+                    title='進階挑戰'
+                    foot='推薦20位有效用戶+團隊月積分消費≥5萬'
+                    percent={'40%'}
                 />
               </View>
               {/*
               <View style={{
                 marginTop: 10,
               }}>
-                <Level colors={['#B68F0E', '#B68F0F']}
-                   icon={<Gold name='gold' width={40} height={40}/>}
-                   title='VIP代理'
-                   subtitle='額外權益:VIP專屬獎勵活動'
-                   foot='推薦用戶每消費積分10%反饋+第二層代理3%反饋'
-              />
+                <Task icon={<BadgeG name='gold' width={66} height={66}/>}
+                    title='黃金代理人'
+                    foot='推薦50位有效用戶+團隊月積分消費20萬'
+                    percent={'20%'}
+                />
               </View>
               */}
-          </LinearGradient>
-
-          <View style={{
-            marginTop: 20,
-            marginBottom: 30,
-          }}>
-            <Caption text='可領取獎勵'/>
-            <Center>
-              <Circle text='10'/>
-              <View style={{
-                backgroundColor: '#1F438F',
-                borderRadius: 8,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: 10,
-                marginTop: 10
-              }}>
-                <Setting name='setting' width={18} height={18}/>
-                <Text style={{
-                  left: 5,
-                  color: '#FFFFFF',
-                  fontSize: 16,
-                  fontWeight: '500'
-                }}>領取獎勵</Text>
-              </View>
-            </Center>
-          </View>
-          
-          <Caption text='邀請步驟'/>
-          <View style={{
-            padding: 10,
-            marginTop: 10,
-          }}>
-            <Step step={1}
-                  state={[true, false]} 
-                  title='邀請好友' 
-                  foot='分享連結或邀請碼給您的朋友'/>
-            <Step step={2} 
-                  title='完成註冊'
-                  state={[false, false]} 
-                  foot='您的朋友透過邀請連結或邀請碼完成註冊'/>
-            <Step step={3} 
-                  title='完成邀請' 
-                  state={[false, true]} 
-                  foot='完成KYC後進行交易，您都會獲得反饋獎勵'/>
-          </View>
-
-          <View style={{
-            backgroundColor: '#FFFFFF',
-            borderRadius: 12,
-            padding: 12,
-          }}>
-            <View style={{
-              width: '100%',
+            </View>
+            <Text style={{
+              color: '#6B6969',
+              fontSize: 30,
+              fontWeight: '600',
+              lineHeight: 34,
               marginTop: 20,
+            }}>代理人等級</Text>
+            <LinearGradient
+              colors={['#1D3F87', '#C5D3F1']} 
+              style={{
+                padding: 20,
+                borderRadius: 10,
+                marginTop: 20,
+                marginBottom: 20,
+              }}>
+                <View style={{
+                  marginTop: 10,
+                }}>
+                  <Level colors={['#792600', '#C25B2B']}
+                      icon={<Brone name='gold' width={40} height={40}/>}
+                      title='基礎代理'
+                      subtitle='額外權益:專屬邀請連結'
+                      foot='推薦用戶每消費積分5%反饋'
+                  />
+                </View>
+                <View style={{
+                  marginTop: 10,
+                }}>
+                  <Level colors={['#757575', '#D2D2D2']}
+                    icon={<Silver name='gold' width={40} height={40}/>}
+                    title='進階代理'
+                    subtitle='額外權益:官方禮物兌換資格'
+                    foot='推薦用戶每消費積分8%反饋'
+                  />
+                </View>
+                {/*
+                <View style={{
+                  marginTop: 10,
+                }}>
+                  <Level colors={['#B68F0E', '#B68F0F']}
+                    icon={<Gold name='gold' width={40} height={40}/>}
+                    title='VIP代理'
+                    subtitle='額外權益:VIP專屬獎勵活動'
+                    foot='推薦用戶每消費積分10%反饋+第二層代理3%反饋'
+                />
+                </View>
+                */}
+            </LinearGradient>
+
+            <View style={{
+              marginTop: 20,
+              marginBottom: 30,
+            }}>
+              <Caption text='可領取獎勵'/>
+              <Center>
+                <Circle text='10'/>
+                <View style={{
+                  backgroundColor: '#1F438F',
+                  borderRadius: 8,
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  padding: 10,
+                  marginTop: 10
+                }}>
+                  <Setting name='setting' width={18} height={18}/>
+                  <Text style={{
+                    left: 5,
+                    color: '#FFFFFF',
+                    fontSize: 16,
+                    fontWeight: '500'
+                  }}>領取獎勵</Text>
+                </View>
+              </Center>
+            </View>
+            
+            <Caption text='邀請步驟'/>
+            <View style={{
+              padding: 10,
+              marginTop: 10,
+            }}>
+              <Step step={1}
+                    state={[true, false]} 
+                    title='邀請好友' 
+                    foot='分享連結或邀請碼給您的朋友'/>
+              <Step step={2} 
+                    title='完成註冊'
+                    state={[false, false]} 
+                    foot='您的朋友透過邀請連結或邀請碼完成註冊'/>
+              <Step step={3} 
+                    title='完成邀請' 
+                    state={[false, true]} 
+                    foot='完成KYC後進行交易，您都會獲得反饋獎勵'/>
+            </View>
+
+            <View style={{
+              backgroundColor: '#FFFFFF',
+              borderRadius: 12,
+              padding: 12,
             }}>
               <View style={{
                 width: '100%',
-                flexDirection: 'row'
+                marginTop: 20,
               }}>
-                <Text style={{
-                  width: '70%',
-                  color: '#6C757D',
-                  fontSize: 16,
-                  fontWeight: '500',
-                }}>總邀請人數</Text>
-                <Text style={{
-                  width: '30%',
-                  color: '#343A40',
-                  fontSize: 16,
-                  fontWeight: '500',
-                  textAlign: 'right',
-                }}>12</Text>
-              </View>
-              <View style={{
-                flexDirection: 'row'
-              }}>
-                <Text style={{
-                  width: '70%',
-                  color: '#6C757D',
-                  fontSize: 16,
-                  fontWeight: '500',
-                }}>總邀請完成任務人數</Text>
-                <Text style={{
-                  width: '30%',
-                  color: '#0063F5',
-                  fontSize: 16,
-                  fontWeight: '500',
-                  textAlign: 'right',
-                }}>05</Text>
+                <View style={{
+                  width: '100%',
+                  flexDirection: 'row'
+                }}>
+                  <Text style={{
+                    width: '70%',
+                    color: '#6C757D',
+                    fontSize: 16,
+                    fontWeight: '500',
+                  }}>總邀請人數</Text>
+                  <Text style={{
+                    width: '30%',
+                    color: '#343A40',
+                    fontSize: 16,
+                    fontWeight: '500',
+                    textAlign: 'right',
+                  }}>12</Text>
+                </View>
+                <View style={{
+                  flexDirection: 'row'
+                }}>
+                  <Text style={{
+                    width: '70%',
+                    color: '#6C757D',
+                    fontSize: 16,
+                    fontWeight: '500',
+                  }}>總邀請完成任務人數</Text>
+                  <Text style={{
+                    width: '30%',
+                    color: '#0063F5',
+                    fontSize: 16,
+                    fontWeight: '500',
+                    textAlign: 'right',
+                  }}>05</Text>
+                </View>
               </View>
             </View>
-          </View>
-          <View style={{
-            height: 100,
-          }}></View>
-        </>
-      </ScrollView>
+            <View style={{
+              height: 100,
+            }}></View>
+          </>
+        </ScrollView>
+      </View>
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [

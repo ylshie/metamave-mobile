@@ -804,6 +804,26 @@ const SendView = () => (
   </Stack.Navigator>
 );
 
+const SocialView = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="Social"
+      component={WeSocial}
+      options={Settings.navigationOptions}
+    />
+  </Stack.Navigator>
+);
+
+const FriendView = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="Friend"
+      component={WeFriend}
+      options={Settings.navigationOptions}
+    />
+  </Stack.Navigator>
+);
+
 /* eslint-disable react/prop-types */
 const NftDetailsModeView = (props) => (
   <Stack.Navigator>
@@ -1044,8 +1064,8 @@ const MainNavigator = () => (
       component={NftDetailsFullImageModeView}
     />
     <Stack.Screen name="PaymentRequestView" component={PaymentRequestView} />
-    <Stack.Screen name="WeFriend" component={WeFriend} />
-    <Stack.Screen name="WeSocial" component={WeSocial} />
+    <Stack.Screen name="WeFriend" component={FriendView} />
+    <Stack.Screen name="WeSocial" component={SocialView} />
     <Stack.Screen name={Routes.RAMP.BUY}>
       {() => <RampRoutes rampType={RampType.BUY} />}
     </Stack.Screen>

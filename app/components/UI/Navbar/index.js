@@ -1652,6 +1652,7 @@ export function getSwapsAmountNavbar(navigation, route, themeColors) {
 export function getPersonaNavbar(navigation, route, themeColors, title) {
   const innerStyles = StyleSheet.create({
     headerButtonText: {
+    //backgroundColor: '#FF0000', 
       color: themeColors.primary.default,
       fontSize: 14,
       ...fontStyles.normal,

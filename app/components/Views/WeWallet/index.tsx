@@ -753,12 +753,16 @@ const MyWallet = ({
 
   function renderTokensContent() {
     return (
-      <ScrollableTabView renderTabBar={renderTabBar} onChangeTab={onChangeTab}>
-        <Tokens {...tokensTabProps} />
-        {isEvmSelected && (
-          <CollectibleContracts {...collectibleContractsTabProps} />
-        )}
-      </ScrollableTabView>
+      <View style={{
+        marginTop: 100,
+      }}>
+        <ScrollableTabView renderTabBar={renderTabBar} onChangeTab={onChangeTab}>
+          <Tokens {...tokensTabProps} />
+          {isEvmSelected && (
+            <CollectibleContracts {...collectibleContractsTabProps} />
+          )}
+        </ScrollableTabView>
+      </View>
     );
   }
   const sheetRef = useRef<BottomSheetRef>(null);

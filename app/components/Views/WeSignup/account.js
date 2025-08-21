@@ -9,6 +9,7 @@ import StorageWrapper from '../../../store/storage-wrapper';
 
 const idProd  = '521969317751-frn0aovmv2qposmilrfpil3s017u7595.apps.googleusercontent.com'
 const idDebug = '521969317751-5dbab0ujkgs902681lo0bnaek8u56rtm.apps.googleusercontent.com'
+const idIOS   = '521969317751-jajdse0f3a67cokpq7nfv45i28kt7f02.apps.googleusercontent.com'
 
 //let formdata = new FormData();
 
@@ -17,11 +18,12 @@ const idDebug = '521969317751-5dbab0ujkgs902681lo0bnaek8u56rtm.apps.googleuserco
 //formdata.append("product[category_ids][]", 2)
 
 const webClientId = idDebug
+const iosClientId = idIOS
 export const configureGoogleSignIn = () => {
 //console.log('client id=', webClientId)
   GoogleSignin.configure({
     webClientId,
-    iosClientId: '',
+    iosClientId,
     offlineAccess: true, //false,
     profileImageSize: 150,
   });
@@ -68,8 +70,11 @@ export const checkGoogle = async () => {
 }
 export const signIn = async (callback) => {
   try {
+    console.log('[GOOGLE] >> check Google Service');
     await GoogleSignin.hasPlayServices();
+    console.log('[GOOGLE] >> call sign in')
     const { type, data } = await GoogleSignin.signIn();
+    console.log('[GOOGLE] >> call sign return', data)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (type === 'success') {
       console.log('\n=============================\n',{ data }, '\n======================\n')
@@ -84,8 +89,9 @@ export const signIn = async (callback) => {
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error) {
+    console.log('[GOOGLE] >> call sign in exception', error, 'web', webClientId, 'ios', iosClientId)
     Alert.alert('exception:' + error.message+' id='+webClientId);
-    console.log('signin error', error)
+  //console.log('signin error', error)
     /*
     if (isErrorWithCode(error)) {
       console.log('Arthur', 'error', error.message, error);
@@ -201,8 +207,38 @@ export async function wzLogin(email, pass) {
   console.log('_____ wzLogin ____')
   if (bypass) return {ret: true}
   console.log('===== wzLogin ====')
+  /*
+  try {
+    console.log("==== [wzLogin] Google >>:")
+    //const ret = await fetch('https://www.google.com')
+    const url = 'https://www.google.com'
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', url);
+
+    xhr.onload = function () {
+      console.log('XHR Success:', xhr.status, xhr.responseText);
+      console.log("==== [wzLogin] Google <<:")
+    };
+
+    xhr.onerror = function (err) {
+      console.log('XHR Error:', err);
+      console.log("~~~~ [wzLogin] Google ~~~~", err)
+    };
+
+    xhr.ontimeout = function () {
+      console.log('XHR Timeout');
+    };
+
+    xhr.timeout = 100000; //10000; // 10 seconds timeout
+    xhr.send();
+  // console.log("==== [wzLogin] Google <<:")
+  } catch (error) {
+    console.log("~~~~ [wzLogin] Google ~~~~", error)
+  }
+  */
   const xxx = `grant_type=password&username=${email}&password=${pass}`
   try {
+    console.log('===== wzLogin fetch ====', xxx)
     const ret = await fetch(base + '/wz_token?',  {
         method: 'POST',
       //body: "grant_type=password&username=yuliang.hsieh@gmail.com&password=12345678",

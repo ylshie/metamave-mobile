@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>MetaMask</string>
+	<string>WeZan</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIconName</key>
@@ -25,6 +25,8 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>ethereum</string>
@@ -32,6 +34,7 @@
 				<string>dapp</string>
 				<string>wc</string>
 				<string>expo-metamask</string>
+				<string>com.googleusercontent.apps.521969317751-jajdse0f3a67cokpq7nfv45i28kt7f02</string>
 			</array>
 		</dict>
 	</array>

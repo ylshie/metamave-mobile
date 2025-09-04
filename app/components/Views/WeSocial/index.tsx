@@ -502,7 +502,7 @@ const MySocial = ({
               <Text style={{
                 textAlign: 'left',
                 marginRight: 10,
-              }}>wezanpay.com</Text>
+              }}>wezan.io</Text>
               <Explore name='link' width={20} height={20}/>
             </View>
             <View style={{

@@ -120,6 +120,7 @@ import { Step } from './step';
 import StorageWrapper from '../../../store/storage-wrapper';
 import { wzInfo } from '../WeSignup/account';
 import useCopyClipboard from '../Notifications/Details/hooks/useCopyClipboard';
+import { drawMe } from './wzSDK';
 /*--------------------*/
 
 interface WalletProps {
@@ -155,6 +156,7 @@ const MySocial = ({
   const styles = createStyles(theme);
   const { colors } = theme;
   const [code, setCode] = useState<string>('5D7EW')
+  const [url,  setUrl]  = useState<string>()
 
   const networkConfigurations = useSelector(selectNetworkConfigurations);
   const evmNetworkConfigurations = useSelector(
@@ -511,6 +513,16 @@ const MySocial = ({
       {children}
     </View>
   )
+  const doGetCard = async (code: string)=> {
+    try {
+      console.log('doGetCard', 'call', code)
+      const data = await drawMe(code)
+      console.log('doGetCard', 'done', data)
+      setUrl('data:image/png;base64, ' + data.image)
+    } catch(error) {
+      console.log('doGetCard', 'error', error)
+    }
+  }
   const copyToClipboard = useCopyClipboard();
   const renderContent = useCallback(() => {
     const assets = tokensByChainIdAndAddress
@@ -616,9 +628,16 @@ const MySocial = ({
                 </TouchableOpacity>
               </Field>
               <Field>
-                <Name caption='總邀請人數'/>
-                <Text>0</Text>
+                  <TouchableOpacity onPress={()=>doGetCard('wz11111')}>
+                    <Name caption='總邀請人數'/>
+                  </TouchableOpacity>
+                  <Text>0</Text>
               </Field>
+              {
+                url
+                ? <Image width={400} height={600} source={{uri: url}}/>
+                : <></>
+              }
             </Invite>
             
             <View style={{

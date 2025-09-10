@@ -120,6 +120,7 @@ import { Step } from './step';
 import StorageWrapper from '../../../store/storage-wrapper';
 import { wzInfo } from '../WeSignup/account';
 import useCopyClipboard from '../Notifications/Details/hooks/useCopyClipboard';
+import { MyToast } from '../confirmations/legacy/SendFlow/WeSendOption';
 /*--------------------*/
 
 interface WalletProps {
@@ -155,6 +156,7 @@ const MySocial = ({
   const styles = createStyles(theme);
   const { colors } = theme;
   const [code, setCode] = useState<string>('5D7EW')
+  const [showToast, setShowToast] = useState(false)
 
   const networkConfigurations = useSelector(selectNetworkConfigurations);
   const evmNetworkConfigurations = useSelector(
@@ -311,6 +313,7 @@ const MySocial = ({
     );
   }, [navigate, chainId, trackEvent, createEventBuilder]);
 
+  
   /**
    * Check to see if notifications are enabled
    */
@@ -511,6 +514,11 @@ const MySocial = ({
       {children}
     </View>
   )
+  const onPressReward = async () => {
+    setShowToast(true)
+    setTimeout(()=>setShowToast(false), 2000)
+  }
+  
   const copyToClipboard = useCopyClipboard();
   const renderContent = useCallback(() => {
     const assets = tokensByChainIdAndAddress
@@ -637,7 +645,7 @@ const MySocial = ({
                   color: '#6B6969',
                   fontSize: 30,
                   fontWeight: '600',
-                  lineHeight: 32,
+                  lineHeight: 36,
                   textAlign: 'left'
                 }}>
                   成長任務
@@ -762,15 +770,18 @@ const MySocial = ({
               <Caption text='可領取獎勵'/>
               <Center>
                 <Circle text='10'/>
-                <View style={{
-                  backgroundColor: '#1F438F',
-                  borderRadius: 8,
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  padding: 10,
-                  marginTop: 10
-                }}>
+                <TouchableOpacity
+                    onPress={onPressReward}
+                    style={{
+                      backgroundColor: '#1F438F',
+                      borderRadius: 8,
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      padding: 10,
+                      marginTop: 10
+                    }}
+                >
                   <Setting name='setting' width={18} height={18}/>
                   <Text style={{
                     left: 5,
@@ -778,7 +789,7 @@ const MySocial = ({
                     fontSize: 16,
                     fontWeight: '500'
                   }}>領取獎勵</Text>
-                </View>
+                </TouchableOpacity>
               </Center>
             </View>
             
@@ -852,6 +863,11 @@ const MySocial = ({
             }}></View>
           </>
         </ScrollView>
+        {
+          showToast
+          ? <MyToast text={'請先完成任務'}/>
+          : <></>
+        }
       </View>
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps

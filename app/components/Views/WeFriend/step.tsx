@@ -44,7 +44,9 @@ export const Step = ({step, state, title, foot}:{step: number, state: boolean[],
                 }}/>
         }
       </View>
-      <View>
+      <View style={{
+        width: '70%',
+      }}>
         <Text style={{
           color: '#000000',
           fontSize: 16,

@@ -152,6 +152,8 @@ import xgame from './xgame.svg'
 import { Dimensions } from 'react-native';
 import { chain, forEach } from 'lodash';
 import { Catt } from './catt';
+import Device from '../../../util/device';
+import { useMultichainBalances } from '../../hooks/useMultichainBalances';
 /*--------------------*/
 
 const createStyles = ({ colors, typography }: Theme) =>
@@ -308,6 +310,12 @@ const MyWallet = ({
       : AvatarAccountType.JazzIcon,
   );
 
+  const { selectedAccountMultichainBalance } = useMultichainBalances();
+  console.log('[Arthur]', 'balance=', selectedAccountMultichainBalance?.displayBalance)
+  //const [totalAmount, setTotalAmount] = useState('100.0');
+  const totalAmount = selectedAccountMultichainBalance?.displayBalance;
+  //selectedAccountMultichainBalance?.displayBalance
+  
   useEffect(() => {
     if (
       isDataCollectionForMarketingEnabled === null &&
@@ -820,6 +828,7 @@ const MyWallet = ({
     }
     ///: END:ONLY_INCLUDE_IF
 
+    //const { selectedAccountMultichainBalance } = useMultichainBalances();
     // Native send flow
     /*  [Arthur]
     closeBottomSheetAndNavigate(() => {
@@ -827,7 +836,11 @@ const MyWallet = ({
       ticker && dispatch(newAssetTransaction(getEther(ticker)));
     });
     */
-    navigate('SendFlowView');
+    console.log('[Arthur]', 'use params')
+    navigate('SendFlowView', {
+      screen: 'SendOption',
+      params: {amount: '0.0'}
+    });
   }, [
     //closeBottomSheetAndNavigate, // [Arthur]
     navigate,
@@ -841,7 +854,67 @@ const MyWallet = ({
     ///: END:ONLY_INCLUDE_IF
   ]);
 
+  const onSend2 = async () => {
+    trackEvent(
+      createEventBuilder(MetaMetricsEvents.SEND_BUTTON_CLICKED)
+        .addProperties({
+          text: 'Send',
+          tokenSymbol: '',
+          location: 'TabBar',
+          chain_id: getDecimalChainId(chainId),
+        })
+        .build(),
+    );
+
+    ///: BEGIN:ONLY_INCLUDE_IF(keyring-snaps)
+    // Non-EVM (Snap) Send flow
+    if (selectedAccount && !isEvmAccountType(selectedAccount.type)) {
+      if (!selectedAccount.metadata.snap) {
+        throw new Error('Non-EVM needs to be Snap accounts');
+      }
+
+      // TODO: Remove this once we want to enable all non-EVM Snaps
+      if (!isMultichainWalletSnap(selectedAccount.metadata.snap.id as SnapId)) {
+        throw new Error(
+          `Non-EVM Snap is not whitelisted: ${selectedAccount.metadata.snap.id}`,
+        );
+      }
+
+      try {
+        await sendMultichainTransaction(
+          selectedAccount.metadata.snap.id as SnapId,
+          {
+            account: selectedAccount.id,
+            scope: chainId as CaipChainId,
+          },
+        );
+      } catch {
+        // Restore the previous page in case of any error
+        sheetRef.current?.onCloseBottomSheet();
+      }
+
+      // Early return, not to let the non-EVM flow slip into the native send flow.
+      return;
+    }
+    ///: END:ONLY_INCLUDE_IF
+
+    //const { selectedAccountMultichainBalance } = useMultichainBalances();
+    // Native send flow
+    /*  [Arthur]
+    closeBottomSheetAndNavigate(() => {
+      navigate('SendFlowView');
+      ticker && dispatch(newAssetTransaction(getEther(ticker)));
+    });
+    */
+    console.log('[Arthur]', 'use params')
+    navigate('SendFlowView', {
+      screen: 'SendOption',
+      params: {amount: totalAmount}
+    });
+  };
+
   const onPressFriend = useCallback(() => {
+    //if (! Device.isAndroid()) return;
     navigate('WeFriend');
 
     trackEvent(
@@ -862,6 +935,7 @@ const MyWallet = ({
   ]);
 
   const onPressSocial = useCallback(() => {
+    //if (! Device.isAndroid()) return;
   //navigate(Routes.SETTINGS_VIEW, {screen: 'SocialPersona'});
     navigate('WeSocial');
 
@@ -934,6 +1008,7 @@ const MyWallet = ({
   ]);
 
   const onPressPoint = useCallback(() => {
+    //if (! Device.isAndroid()) return;
     trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
     navigate('WePoint');
   },[
@@ -1063,7 +1138,7 @@ const MyWallet = ({
               <WalletAction
                 actionType={WalletActionType.WeSend}
                 iconName={IconName.Arrow2Right}
-                onPress={onSend}
+                onPress={onSend2}
                 iconStyle={sendIconStyle}
                 actionID={WalletActionsBottomSheetSelectorsIDs.SEND_BUTTON}
                 iconSize={AvatarSize.Md}
@@ -1072,7 +1147,7 @@ const MyWallet = ({
               <WalletAction
                 actionType={WalletActionType.WeReceive}
                 iconName={IconName.Received}
-                onPress={onSend}
+                onPress={onSend2}
                 actionID={WalletActionsBottomSheetSelectorsIDs.RECEIVE_BUTTON}
                 iconStyle={styleActions.styles.icon}
                 iconSize={AvatarSize.Md}
@@ -1091,7 +1166,7 @@ const MyWallet = ({
               <WalletAction
                 actionType={WalletActionType.WeCashout}
                 iconName={IconName.Received}
-                onPress={onSend}
+                onPress={onSend2}
                 actionID={WalletActionsBottomSheetSelectorsIDs.RECEIVE_BUTTON}
                 iconStyle={styleActions.styles.icon}
                 iconSize={AvatarSize.Md}

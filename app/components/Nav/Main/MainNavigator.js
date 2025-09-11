@@ -37,6 +37,7 @@ import WeHelp from '../../Views/WeHelp';        // Arthur
 import WeRobot from '../../Views/WeRobot';      // Arthur
 import WeArticle from '../../Views/WeArticle';      // Arthur
 import WeSocial from '../../Views/WeSocial';      // Arthur
+import WeCard from '../../Views/WeCard';      // Arthur
 import WeFriend from '../../Views/WeFriend';      // Arthur
 import WeMember from '../../Views/WeMember';      // Arthur
 import WePhone from '../../Views/WePhone';      // Arthur
@@ -821,6 +822,11 @@ const FriendView = () => (
       component={WeFriend}
       options={Settings.navigationOptions}
     />
+    <Stack.Screen
+      name="Card"
+      component={WeCard}
+      options={Settings.navigationOptions}
+    />
   </Stack.Navigator>
 );
 
@@ -1048,7 +1054,7 @@ const MainNavigator = () => (
       name="SendFlowView"
       component={SendFlowView}
       //Disabling swipe down on IOS
-      options={{ gestureEnabled: false }}
+      options={{ gestureEnabled: false }} // [Arthur]
     />
     <Stack.Screen name="AddBookmarkView" component={AddBookmarkView} />
     <Stack.Screen name="OfflineModeView" component={OfflineModeView} />

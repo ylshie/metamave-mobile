@@ -363,7 +363,6 @@ const MyFriend = ({
     setICode(code)
     setILink(link)
     const ret = await data
-    console.log('checkDataURL', 'trace', ret.trace)
     console.log('checkDataURL', 'url', url)
     setUrl('data:image/png;base64,' + ret.image)
   }

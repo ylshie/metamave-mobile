@@ -435,10 +435,10 @@ const MyPersona = ({
                   //height: 18,
                     marginTop: 5,
                     marginBottom: 5,
-                    paddingTop: 0,
-                    paddingBottom: 0, 
-                    fontSize: 12,
+                    padding: 4,
+                    fontSize: 14,
                     fontWeight: '400',
+                    lineHeight: 16,
                     backgroundColor: 'white',
                   }}
                 />
@@ -459,16 +459,6 @@ const MyPersona = ({
               .map((x) => (
                 <RenderItem icon={x.symbol} caption={x.caption}/>
               ))}
-              {/*
-              <RenderItem icon='USD' caption='United States Dollar'/>
-              <RenderItem icon='JPY' caption='Japanese Yen'/>
-              <RenderItem icon='EUR' caption='Euro'/>
-              <RenderItem icon='CNY' caption='Chinese Yuan (Onshore)'/>
-              <RenderItem icon='MMK' caption='Myanmar Kyat'/>
-              <RenderItem icon='TWD' caption='New Taiwan Dollar'/>
-              <RenderItem icon='HKD' caption='Hong Kong Dollar'/>
-              <RenderItem icon='MYR' caption='Malaysian Ringgit'/>
-              */}
           </View>
         </>
       </View>

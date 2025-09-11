@@ -142,7 +142,7 @@ const debugStyle = {
 /**
  * Main view for the wallet
  */
-const MySocial = ({
+const MyFriend = ({
   navigation,
   storePrivacyPolicyShownDate,
   shouldShowNewPrivacyToast,
@@ -379,21 +379,6 @@ const MySocial = ({
     navigation.navigate('SecurityPersona');
   };
   
-  const RenderItem = ({caption}: {caption: string}) => (
-              <View style={{
-                width: '100%',
-                flexDirection: 'row',
-              //borderStyle: 'solid',
-              //borderColor: 'black',
-              //borderWidth: 1,
-                marginTop: 10,
-              }}>
-                <Text style={{
-                  fontSize: 14,
-                  fontWeight: '600',
-                }}>{caption}</Text>
-              </View>
-  )
   const Invite = ({children}:{children:ReactNode | string}) => (
     <LinearGradient 
       colors={['#3068DB', '#1C3D82']}
@@ -524,9 +509,16 @@ const MySocial = ({
   const doGetCard = async (code: string)=> {
     try {
       console.log('doGetCard', 'call', code)
-      const data = await drawMe(code)
-      console.log('doGetCard', 'done', data)
-      setUrl('data:image/png;base64, ' + data.image)
+    //const data = await drawMe(code)
+    //console.log('doGetCard', 'done', data)
+      const data = drawMe(code)
+      const link = 'promote.wezan'+code;
+    //=======[ Important ]================================================
+    // data url can't not have space between 'type.' and base64 data
+    // Otherwise it will cause image unable to show at react native iOS 
+    //====================================================================
+    //setUrl('data:image/png;base64,' + data.image)
+      navigation.navigate('WeFriend', { screen: 'Card', params: {data, code, link} });
     } catch(error) {
       console.log('doGetCard', 'error', error)
     }
@@ -643,7 +635,7 @@ const MySocial = ({
               </Field>
               {
                 url
-                ? <Image width={400} height={600} source={{uri: url}}/>
+                ? <Image style={{marginLeft: 2, height: 600, width: 400}} source={{uri: url}}/>
                 : <></>
               }
             </Invite>
@@ -953,4 +945,4 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(hideNftFetchingLoadingIndicatorAction()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MySocial);
+export default connect(mapStateToProps, mapDispatchToProps)(MyFriend);

@@ -359,10 +359,11 @@ const MyFriend = ({
     console.log('checkDataURL', 'enter')
     const {data, code, link} = route.params as {data: any, code: any, link: any};
     console.log('checkDataURL', 'code', code)
-    console.log('checkDataURL', 'data', data)
+  //console.log('checkDataURL', 'data', data)
     setICode(code)
     setILink(link)
     const ret = await data
+    console.log('checkDataURL', 'trace', ret.trace)
     console.log('checkDataURL', 'url', url)
     setUrl('data:image/png;base64,' + ret.image)
   }

@@ -11,7 +11,16 @@ function options(body) {
 
 export const drawMe = async (code, qrimage) => {
     console.log('drawMe', 'call')
-    const data = await fetch(base + apiDrawMe, options({code}))
-    console.log('drawMe', 'done', data)
-    return await data.json();
+    const trace = []
+    trace.push({enter: Date.now()})
+    const ret  = await fetch(base + apiDrawMe, options({trace, code}))
+    const data = await ret.json();
+    //console.log('data', data)
+    if (data.trace) { data.trace.push({done: Date.now()})}
+    //trace.push({done: Date.now()})
+    //console.log('drawMe', 'done', trace, await data.json())
+    if (data.trace) {
+        console.log('trace', data.trace)
+    }
+    return data;
 }

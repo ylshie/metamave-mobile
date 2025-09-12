@@ -418,10 +418,28 @@ class WeSignup extends PureComponent {
   //const id      = route.params?.id;
     const invite  = route.params?.invite;
     
-    const res = wzAddAcount(email, pass, invite)
-    console.log("[Account] add:", res)
-    StorageWrapper.setItem('account', email)
-    StorageWrapper.setItem('password', pass)
+    try { 
+      const res = await wzAddAcount(email, pass, invite)
+      console.log("[Account] add:", res)
+      StorageWrapper.setItem('account', email)
+      StorageWrapper.setItem('password', pass)
+    } catch (error) {
+      console.log('WeCode', 'wzAddAcount', 'error', error)
+    }
+
+    try {
+      const res   = await wzLogin("M:" + email, pass)
+      console.log("wzLogin", 'res=', res)
+      StorageWrapper.setItem('accessToken', res.data.accessToken)
+      StorageWrapper.setItem('refreshToken', res.data.refreshToken)
+      StorageWrapper.setItem('accessTokenExpiresAt', res.data.accessTokenExpiresAt)
+      StorageWrapper.setItem('refreshTokenExpiresAt', res.data.refreshTokenExpiresAt)
+      StorageWrapper.setItem('type', 'google')
+      StorageWrapper.setItem('account',  data.user.email)
+      StorageWrapper.setItem('token', data.idToken)
+    } catch (error) {
+      console.log('WeCode', 'wzLogin', 'error', error)
+    }
 
     this.props.navigation.navigate('Onboarding');
   };

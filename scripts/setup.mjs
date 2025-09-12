@@ -165,6 +165,7 @@ const setupIosTask = {
         title: 'Install bundler gem',
         task: async () => {
           await $`gem install bundler -v 2.5.8`;
+        //  await $`echo [PASSWORD] | sudo gem install bundler -v 2.5.8`; // [Arthur]
         },
       },
       {

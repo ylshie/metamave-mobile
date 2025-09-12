@@ -67,7 +67,9 @@ import { randomInt } from 'react-native-quick-crypto';
 import { wzExist, wzLogin, wzMail, wzAddGcount } from './account';
 //import otpGenerator from 'otp-generator'
 import { configureGoogleSignIn, signIn } from './account';
-
+import HelpText, {
+  HelpTextSeverity,
+} from '../../../component-library/components/Form/HelpText';
 const crypto = require('crypto')
 
 
@@ -313,7 +315,7 @@ const Forgot = ({onPress}) => {
             {'忘記密碼?'}
           </Text>
 }
-const Login = ({onPress}) => {
+const Login = ({onPress, loading}) => {
   return  <View style={{
             height: 40,
             justifyContent: 'center',
@@ -321,18 +323,26 @@ const Login = ({onPress}) => {
             backgroundColor: '#007AFF',
             borderRadius: 6,
           }}>
-            <Text
-            onPress={onPress}
-            style={{
-              width: '100%',
-              textAlign: 'center',
-              color: '#FFFFFF',
-              fontSize: 15,
-              fontWeight: '700',
-            }}>登入</Text>
+            {
+            loading
+            ? <ActivityIndicator
+                size="small"
+                color='#FFFFFF'
+              />
+            : <Text onPress={onPress}
+                style={{
+                  width: '100%',
+                  textAlign: 'center',
+                  color: '#FFFFFF',
+                  fontSize: 15,
+                  fontWeight: '700',
+                }}>
+                登入
+              </Text> 
+            }
           </View>
 }
-const Google = ({onPress}) => {
+const Google = ({onPress, loading}) => {
   return  <TouchableOpacity 
             style={{
               height: 40,
@@ -344,19 +354,26 @@ const Google = ({onPress}) => {
             }}
             onPress={onPress}
           >
-            
-              <Gcon name='g' width={20} height={20}/>
-              <Text style={{
-                textAlign: 'center',
-                color: '#FFFFFF',
-                fontSize: 12,
-                fontWeight: '400',
-                paddingLeft: 10,
-              }}>使用Google登入</Text>
-            
+          {
+            loading
+            ? <ActivityIndicator
+                size="small"
+                color='#FFFFFF'
+              /> 
+            : <>
+                <Gcon name='g' width={20} height={20}/>
+                <Text style={{
+                  textAlign: 'center',
+                  color: '#FFFFFF',
+                  fontSize: 12,
+                  fontWeight: '400',
+                  paddingLeft: 10,
+                }}>使用Google登入</Text>
+              </>
+          }
           </TouchableOpacity>
 }
-const Sigup = ({onPress}) => {
+const Sigup = ({onPress, loading}) => {
   return  <View style={{
             height: 40,
             justifyContent: 'center',
@@ -364,15 +381,24 @@ const Sigup = ({onPress}) => {
             backgroundColor: '#007AFF',
             borderRadius: 6,
           }}>
-            <Text
-            onPress={onPress}
-            style={{
-              width: '100%',
-              textAlign: 'center',
-              color: '#FFFFFF',
-              fontSize: 15,
-              fontWeight: '700',
-            }}>註冊</Text>
+          {
+            loading
+            ? <ActivityIndicator
+                size="small"
+                color='#FFFFFF'
+              /> 
+            : <Text onPress={onPress}
+                    style={{
+                      width: '100%',
+                      textAlign: 'center',
+                      color: '#FFFFFF',
+                      fontSize: 15,
+                      fontWeight: '700',
+                    }}
+              >
+                註冊
+              </Text>
+          }
           </View>
 }
 const styleInput = {
@@ -449,6 +475,10 @@ class WeSignup extends PureComponent {
     addEmail: '',
     addPass: '',
     addInvite: '',
+    inlogin: false,
+    insiging: false,
+    ingogin: false,
+    error: undefined
   };
 
   seedwords = null;
@@ -576,24 +606,28 @@ class WeSignup extends PureComponent {
     const okAccount = this.state.account == this.state.userEmail
     const okPassword= this.state.password == this.state.userPass
 
+    this.setState({inlogin: true})
     try {
       const res = await wzLogin("M:"+this.state.userEmail, this.state.userPass)
       console.log("wzLogin", 'res=', res)
-      StorageWrapper.setItem('accessToken', res.data.accessToken)
-      StorageWrapper.setItem('refreshToken', res.data.refreshToken)
-      StorageWrapper.setItem('accessTokenExpiresAt', res.data.accessTokenExpiresAt)
-      StorageWrapper.setItem('refreshTokenExpiresAt', res.data.refreshTokenExpiresAt)
-      StorageWrapper.setItem('type', 'mail')
-      StorageWrapper.setItem('account', this.state.userEmail)
-      StorageWrapper.setItem('token', this.state.userPass)
       if (res.ok) {
+        StorageWrapper.setItem('accessToken', res.data.accessToken)
+        StorageWrapper.setItem('refreshToken', res.data.refreshToken)
+        StorageWrapper.setItem('accessTokenExpiresAt', res.data.accessTokenExpiresAt)
+        StorageWrapper.setItem('refreshTokenExpiresAt', res.data.refreshTokenExpiresAt)
+        StorageWrapper.setItem('type', 'mail')
+        StorageWrapper.setItem('account', this.state.userEmail)
+        StorageWrapper.setItem('token', this.state.userPass)
         this.props.navigation.navigate('Onboarding');
       } else {
+        console.log('login failed', 'Alert')
+        this.setState({error: strings('login.invalid_password')});
         Alert.alert("Login failed")
       }
     } catch (error) {
       console.log(error)
     }
+    this.setState({inlogin: false})
     /*
     console.log("okAccount", okAccount, okAccount)
     if (okAccount && okPassword) {
@@ -656,13 +690,13 @@ class WeSignup extends PureComponent {
     }
     console.log("Check exist")
     try {
+      this.setState({insiging: true})
       const exist = await wzExist("M", this.state.addEmail)
       console.log('[Account] exist', this.state.addEmail, exist)
-      if (exist.ret) {
-        Alert.alert('Account existed')
+      if (exist) {
+        this.setState({insiging: false})
+        Alert.alert('帳號已經存在')
         return
-      } else {
-
       }
     //const otpGenerator = require('otp-generator')
     //const xcode = otpGenerator.generate(5, option);
@@ -684,11 +718,13 @@ class WeSignup extends PureComponent {
     } catch (error) {
       Alert.alert("Errror", error.message)
     }
+    this.setState({insiging: false})
   };
   onPressForgot = () => {
     this.props.navigation.navigate('Forgot');
   };
   onPressGoogle = async () => {
+    this.setState({ingogin: true})
     configureGoogleSignIn();
     const next = async ()=>{
       await GoogleSignin.signInSilently()
@@ -714,6 +750,7 @@ class WeSignup extends PureComponent {
       StorageWrapper.setItem('account',  data.user.email)
       StorageWrapper.setItem('token', data.idToken)
 
+      this.setState({ingogin: false})
       console.log("before Onboarding")
       this.props.navigation.navigate('Onboarding')
       console.log("after Onboarding")
@@ -725,6 +762,7 @@ class WeSignup extends PureComponent {
     } else {
       await signIn(next)
     }
+    
     console.log("after next")
   //this.props.navigation.navigate('Onboarding');
   //navigation.navigate('KYCPersona');
@@ -824,6 +862,14 @@ class WeSignup extends PureComponent {
                   onChangeText={(text)=>this.setState({userPass: text})}
                 />
               </View>
+              {!!this.state.error && (
+                <HelpText
+                  severity={HelpTextSeverity.Error}
+                  variant={TextVariant.BodyMD}
+                >
+                  {this.state.error}
+                </HelpText>
+              )}
               <View style={{
                 justifyContent: 'flex-end'
               }}>
@@ -833,10 +879,10 @@ class WeSignup extends PureComponent {
               <View style={{
                 marginBottom: 20,
               }}>
-                <Login onPress={this.onPressLogin}/>
+                <Login onPress={this.onPressLogin} loading={this.state.inlogin}/>
               </View>
               
-              <Google onPress={this.onPressGoogle}/>
+              <Google onPress={this.onPressGoogle} loading={this.state.ingogin}/>
 
               <View style={{
                 flexDirection: 'row',
@@ -894,7 +940,7 @@ class WeSignup extends PureComponent {
                   placeholder={'若無邀請碼直接跳過'}
                   onChangeText={(text)=>this.setState({addInvite: text})}/>
               </View>
-              <Sigup onPress={this.onPressCode}/>
+              <Sigup onPress={this.onPressCode} loading={this.state.insiging}/>
               
               <View style={{
                 flexDirection: 'row',

@@ -605,17 +605,20 @@ const MyPersona = ({
                 name    = {swap? iWPoint.name: iArena.name}
                 onChangeValue = { swap? onChangeWalue: onChangeAalue}
           />
+          {
           <View style={{
             position: 'absolute',
             width: '100%',
             height: '100%',
             justifyContent: 'center',
             alignItems: 'center',
+            pointerEvents: "box-none" // Let parent not to receive event
           }}>
             <TouchableOpacity onPress={()=> setSwap(! swap)}>
               <Swap name='swap' width={34} height={34}/>
             </TouchableOpacity>
           </View>
+          }
         </View>
         
         <View style={{

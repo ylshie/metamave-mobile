@@ -204,6 +204,7 @@ const Login: React.FC = () => {
     const LOGIN_VAULT_CORRUPTION_TAG = 'Login/ handleVaultCorruption:';
 
     if (!passwordRequirementsMet(password)) {
+      console.log('==Password===', 2)
       setError(strings('login.invalid_password'));
       return;
     }
@@ -229,6 +230,7 @@ const Login: React.FC = () => {
               }),
             );
             setLoading(false);
+            console.log('==Password===', 3)
             setError(null);
             return;
           } catch (e) {
@@ -243,6 +245,7 @@ const Login: React.FC = () => {
     } catch (e: unknown) {
       Logger.error(e as Error);
       setLoading(false);
+      console.log('==Password===', 4)
       setError(strings('login.invalid_password'));
     }
   };
@@ -358,6 +361,7 @@ const Login: React.FC = () => {
       if (loading || locked) return;
 
       setLoading(true);
+      console.log('==Password===', 5, password, locked, loading)
       setError(null);
       const authType = await Authentication.componentAuthenticationType(
         biometryChoice,
@@ -393,12 +397,14 @@ const Login: React.FC = () => {
       const loginError = loginErr as Error;
       const loginErrorMessage = loginError.toString();
 
+      console.log('Login error', loginError)
       if (
         toLowerCaseEquals(loginError, WRONG_PASSWORD_ERROR) ||
         toLowerCaseEquals(loginError, WRONG_PASSWORD_ERROR_ANDROID) ||
         loginErrorMessage.includes(PASSWORD_REQUIREMENTS_NOT_MET)
       ) {
         setLoading(false);
+        console.log('==Password===', 6)
         setError(strings('login.invalid_password'));
 
         trackErrorAsAnalytics('Login: Invalid Password', loginErrorMessage);
@@ -424,6 +430,7 @@ const Login: React.FC = () => {
             'Failed to handle vault corruption',
           );
           setLoading(false);
+          console.log('==Password===', 7)
           setError(strings('login.clean_vault_error'));
         }
       } else if (toLowerCaseEquals(loginError, DENY_PIN_ERROR_ANDROID)) {
@@ -431,7 +438,9 @@ const Login: React.FC = () => {
         updateBiometryChoice(false);
       } else {
         setLoading(false);
-        setError(loginErrorMessage);
+        console.log('==Password===', 8)
+        setError(strings('login.invalid_password'));
+      //setError(loginErrorMessage);
       }
       Logger.error(loginError, 'Failed to unlock');
     }

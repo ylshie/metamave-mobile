@@ -71,6 +71,7 @@ import I_Recieve from './images/receive.svg'
 import I_Balance from './images/balance.svg'
 import I_Transfer from './images/transfer.svg'
 import I_Red from './images/red.svg'
+import { useMultichainBalances } from '../../../../../hooks/useMultichainBalances';
 
 import { 
   ToastContext,
@@ -78,6 +79,12 @@ import {
 } from '../../../../../../component-library/components/Toast';
 
 const dummy = () => true;
+
+//const { selectedAccountMultichainBalance } = useMultichainBalances();
+//const MyBalance = () => {
+//  const { selectedAccountMultichainBalance } = useMultichainBalances();
+//  return selectedAccountMultichainBalance?.displayBalance;
+//}
 
 export const MyToast = ({text}) => {
   return  <View style={{
@@ -636,9 +643,13 @@ class WeSendFlow extends PureComponent {
       confusableCollection,
       toEnsAddressResolved,
     } = this.state;
+  //const { selectedAccountMultichainBalance } = useMultichainBalances();
 
     const colors = this.context.colors || mockTheme.colors;
     const styles = createStyles(colors);
+    const { route } = this.props;
+    const { amount } = route.params
+    console.log('[Arthur]','[Swap]','======= route.params ======', route.params, route)
 
     const checksummedAddress = toAccount && toChecksumAddress(toAccount);
     const existingAddressName = this.getAddressNameFromBookOrInternalAccounts(
@@ -681,7 +692,8 @@ class WeSendFlow extends PureComponent {
             <RenderBalance 
               color={'#3D3D3D'} 
               caption={'可用餘額'}
-              foot={'$87,430.12'}
+            //  foot={selectedAccountMultichainBalance?.displayBalance}
+              foot={amount}
               icon={<I_Balance name='balance' width={100} height={100}/>}
             />
           </RenderBlock>

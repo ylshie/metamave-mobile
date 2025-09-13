@@ -4,6 +4,7 @@ import React, {
   useRef,
   useCallback,
   useContext,
+  useState,
 } from 'react';
 import {
   ActivityIndicator,
@@ -98,6 +99,9 @@ import LinearGradient from 'react-native-linear-gradient'
 import Copy from './images/copy.svg'
 import useCopyClipboard from '../Notifications/Details/hooks/useCopyClipboard';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { wzInfo } from '../WeSignup/account';
+import StorageWrapper from '../../../store/storage-wrapper';
+
 /*--------------------*/
 
 interface WalletProps {
@@ -171,6 +175,8 @@ const MyPersona = ({
   const { trackEvent, createEventBuilder } = useMetrics();
   const styles = createStyles(theme);
   const { colors } = theme;
+  const [uid, setUid] = useState<string>();
+  const [email, setEmail] = useState<string>('');
 
   const networkConfigurations = useSelector(selectNetworkConfigurations);
   const evmNetworkConfigurations = useSelector(
@@ -220,6 +226,19 @@ const MyPersona = ({
 
   const copyToClipboard = useCopyClipboard();
   
+  async function QueryCode() {
+    const token   = await StorageWrapper.getItem('accessToken');
+    const account = await StorageWrapper.getItem('account');
+    const data    = await wzInfo(token, account)
+    console.log('QueryCode', data)
+    setUid(data.info.uid)
+    setEmail(data.info.email)
+  //setCode(data.info.share)
+  }
+  useEffect(()=>{
+    QueryCode()
+  })
+
   useEffect(() => {
     if (
       isDataCollectionForMarketingEnabled === null &&
@@ -495,7 +514,7 @@ const MyPersona = ({
                 fontSize: 12,
                 fontWeight: '400',
               }}>
-                {'jell*****@gmail.com'}
+                {email? email: ''}
               </Text>
               <View style={{
                 width: '55%',
@@ -508,7 +527,7 @@ const MyPersona = ({
                   fontSize: 12,
                   fontWeight: '500',
                 }}>
-                  {'UID:22369874'}
+                  {uid? `UID: ${uid}`: ''}
                 </Text>
                 <TouchableOpacity onPress={onPressCopy}>
                   <Copy name='copy' width={20} height={20}/>

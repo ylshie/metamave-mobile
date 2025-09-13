@@ -237,7 +237,7 @@ export const swapsTokensSelector = createSelector(
     if (!tokens) {
       return [];
     }
-
+    console.log('[Arthur]', '[Swap]', 'chainId', chainId ,'tokens=', tokens, 'tokenList=')
     return addMetadata(chainId, tokens, tokenList);
   },
 );

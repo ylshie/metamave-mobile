@@ -11,6 +11,7 @@ import {
   Linking,
   TextInput,
   ImageSourcePropType,
+  TouchableOpacity,
 } from 'react-native';
 
 import { connect, useSelector } from 'react-redux';
@@ -334,7 +335,16 @@ const MySocial = ({
     trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
     navigation.navigate('SecurityPersona');
   };
-  
+  const openLink = (url: string) => {
+    console.log('url', url)
+    Linking.canOpenURL(url).then(supported => {
+      if (supported) {
+        Linking.openURL(url)
+      } else {
+        console.log("Don't know how to open URI: " + url);
+      }
+    });
+  }
   const RenderItem = ({caption}: {caption: string}) => (
               <View style={{
                 width: '100%',
@@ -503,7 +513,9 @@ const MySocial = ({
                 textAlign: 'left',
                 marginRight: 10,
               }}>wezan.io</Text>
-              <Explore name='link' width={20} height={20}/>
+              <TouchableOpacity onPress={()=>openLink('https://wezan.io')}>
+                <Explore name='link' width={20} height={20}/>
+              </TouchableOpacity>
             </View>
             <View style={{
               flexDirection: 'row',

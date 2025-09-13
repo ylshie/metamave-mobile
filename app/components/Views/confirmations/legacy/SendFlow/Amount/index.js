@@ -1425,7 +1425,7 @@ class Amount extends PureComponent {
                   })}
                   {'\n'}
                   <Text style={[styles.error, styles.underline]}>
-                    {strings('transaction.token_Marketplace')}
+                    {/*strings('transaction.token_Marketplace')*/}
                   </Text>
                   {'\n'}
                   {strings('transaction.you_can_also_send_funds')}

@@ -919,7 +919,8 @@ class PaymentRequest extends PureComponent {
                   )}
                 </View>
               </View>
-              {switchable && (
+              {/*   // [Arthur] [remove conversion]
+              switchable && (
                 <View style={styles.switchContainer}>
                   <TouchableOpacity
                     onPress={this.switchPrimaryCurrency}
@@ -933,7 +934,8 @@ class PaymentRequest extends PureComponent {
                     />
                   </TouchableOpacity>
                 </View>
-              )}
+              )
+              */}
             </View>
           </View>
           {showError && (
@@ -1420,7 +1422,8 @@ class PaymentRequest extends PureComponent {
                   )}
                 </View>
               </View>
-              {switchable && (
+              {/*   [Arthur] [remove conversion]
+              switchable && (
                 <View style={styles.switchContainer}>
                   <TouchableOpacity
                     onPress={this.switchPrimaryCurrency}
@@ -1434,7 +1437,8 @@ class PaymentRequest extends PureComponent {
                     />
                   </TouchableOpacity>
                 </View>
-              )}
+              )
+              */}
             </View>
           </View>
           {showError && (

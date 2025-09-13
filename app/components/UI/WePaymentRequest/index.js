@@ -1,4 +1,5 @@
 import React, { PureComponent, useCallback } from 'react';
+import { createRef } from 'react';
 import {
   Dimensions,     // [Arthur] {QRCode}
   SafeAreaView,
@@ -845,7 +846,17 @@ class PaymentRequest extends PureComponent {
                   }}
                 />;
       }
-      
+    const qrRef = createRef()
+    const doCapture = async ()=> {
+      console.log('====== doCapture in =======')
+      try {
+        this.svg.toDataURL((dataURL) => {
+          console.log('====== doCapture out ======', dataURL);  
+        });
+      } catch(error) {
+        console.log('====== doCapture err ======')
+      }
+    }
     return (
       <View
         style={baseStyles.flexGrow}
@@ -856,7 +867,9 @@ class PaymentRequest extends PureComponent {
             //logo={PNG_MM_LOGO_PATH}
             //logoSize={35}
             //logoMargin={5}
+            ref={qrRef}
             value={this.state.qrLink}
+            getRef={(c) => (this.svg = c)}
             size={Dimensions.get('window').width / 3}
           />
         </View>

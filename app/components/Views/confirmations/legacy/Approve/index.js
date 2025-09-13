@@ -563,6 +563,7 @@ class Approve extends PureComponent {
                 this.setState({ approved: true });
                 this.props.hideModal();
               }
+              console.log('[TX]','Approve','onConfirm');
               NotificationManager.watchSubmittedTransaction({
                 ...transactionMeta,
                 assetType: 'ETH',

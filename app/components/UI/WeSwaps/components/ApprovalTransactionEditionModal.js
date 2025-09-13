@@ -65,6 +65,8 @@ function ApprovalTransactionEditionModal({
 
   const onSetApprovalAmount = useCallback(() => {
     try {
+      const contract = swapsUtils.getSwapsContractAddress(chainId)
+      console.log('[Arthur]','[Swap]','onSetApprovalAmount', chainId, contract)
       const newApprovalTransaction = generateTxWithNewTokenAllowance(
         spendLimitUnlimitedSelected
           ? approvalTransactionAmount

@@ -915,6 +915,7 @@ export default async function decodeTransaction(args) {
     txChainId,
     swapsTransactions = {},
   } = args;
+  console.log('[Arthur]', '[Swap]', '@decodeTransaction', args)
   const ticker = networkConfigurationsByChainId?.[txChainId]?.nativeCurrency;
   const chainIdToUse = tx.chainId || chainId;
   const { isTransfer } = tx || {};

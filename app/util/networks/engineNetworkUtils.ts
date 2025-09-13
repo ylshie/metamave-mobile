@@ -53,6 +53,7 @@ export const fetchEstimatedMultiLayerL1Fee = async (
     networkClientId?: NetworkClientId;
   },
 ) => {
+  console.log('[Arthur]','[Swap]', '===== fetchEstimatedMultiLayerL1Fee ====')
   const layer1GasFee =
     await Engine.context.TransactionController.getLayer1GasFee({
       chainId,

@@ -128,7 +128,7 @@ export const polyfillGasPrice = async (
     'SelectedNetworkController:getNetworkClientIdForDomain',
     origin,
   );
-
+  console.log('[TX]', 'polyfillGasPrice')
   const networkClient = Engine.controllerMessenger.call(
     'NetworkController:getNetworkClientById',
     networkClientId,

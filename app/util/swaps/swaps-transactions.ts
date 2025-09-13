@@ -10,6 +10,7 @@ export function addSwapsTransaction(
   transactionId: string,
   data: SwapsTransaction,
 ) {
+  console.log('[Arthur]','[Swap]','@addSwapsTransaction', transactionId, data)
   const { TransactionController } = Engine.context;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -28,6 +29,7 @@ export function updateSwapsTransaction(
   transactionId: string,
   callback: (transaction: SwapsTransaction) => void,
 ) {
+  console.log('[Arthur]','[Swap]','@updateSwapsTransaction', transactionId)
   const { TransactionController } = Engine.context;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

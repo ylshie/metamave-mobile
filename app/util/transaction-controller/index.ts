@@ -13,6 +13,7 @@ export async function addTransaction(
   transaction: TransactionParams,
   opts: Parameters<BaseTransactionController['addTransaction']>[1],
 ) {
+  console.log('[Arthur]', '[Swap]', '@addTransaction', transaction, opts)
   const { TransactionController } = Engine.context;
 
   return await TransactionController.addTransaction(transaction, opts);

@@ -300,6 +300,7 @@ const RootRPCMethodsUI = (props) => {
           'TransactionController:transactionFinished',
           (transactionMeta) => {
             if (transactionMeta.status === 'submitted') {
+              console.log('[TX]','RPCMethod','autoSign');
               NotificationManager.watchSubmittedTransaction({
                 ...transactionMeta,
                 assetType: transactionMeta.txParams.assetType,
@@ -376,6 +377,7 @@ const RootRPCMethodsUI = (props) => {
 
   const onUnapprovedTransaction = useCallback(
     async (transactionMetaOriginal) => {
+      console.log('[TX]', 'onUnapprovedTransaction')
       const transactionMeta = cloneDeep(transactionMetaOriginal);
 
       if (transactionMeta.origin === TransactionTypes.MMM) return;

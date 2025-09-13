@@ -327,6 +327,7 @@ class Send extends PureComponent {
     const { addressBook, globalChainId, internalAccounts, selectedAddress } =
       this.props;
 
+    console.log('[TX]', 'handleNewTxMeta', 0)
     let newTxMeta = {};
     let txRecipient;
     switch (action) {
@@ -627,6 +628,7 @@ class Send extends PureComponent {
         transactionSubmitted: true,
       });
       this.props.navigation.pop();
+      console.log('[TX]','Send','onConfirm');
       InteractionManager.runAfterInteractions(() => {
         NotificationManager.watchSubmittedTransaction({
           ...transactionMeta,

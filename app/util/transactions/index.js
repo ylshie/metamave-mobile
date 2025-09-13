@@ -246,6 +246,7 @@ export function isApprovalTransaction(data) {
  * @returns {String} - String containing the generated data, by default for approve method
  */
 export function generateApprovalData(opts) {
+  console.log('[Arthur]', '[Swap]', '@generateApprovalData', opts)
   const { spender, value, data } = opts;
 
   if (!spender || !value) {
@@ -1438,6 +1439,7 @@ export const parseTransactionLegacy = (
  */
 export function validateTransactionActionBalance(transaction, rate, accounts) {
   try {
+    console.log('[TX]', 'validateTransactionActionBalance', 0)
     const checksummedFrom = safeToChecksumAddress(transaction.transaction.from);
     const balance = accounts[checksummedFrom].balance;
 
@@ -1445,6 +1447,7 @@ export function validateTransactionActionBalance(transaction, rate, accounts) {
     const transactionToCheck = transaction.transaction;
 
     if (isEIP1559Transaction(transactionToCheck)) {
+      console.log('[TX]', 'validateTransactionActionBalance', 1)
       gasPrice = transactionToCheck.maxFeePerGas;
     }
 

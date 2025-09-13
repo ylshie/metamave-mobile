@@ -11,7 +11,7 @@ export function getGlobalEthQuery(
 ): EthQuery {
   const finalController = networkController ?? Engine.context.NetworkController;
   const { provider } = finalController.getSelectedNetworkClient() ?? {};
-
+  console.log('[TX]', 'getGlobalEthQuery', provider)
   if (!provider) {
     throw new Error('No selected network client');
   }

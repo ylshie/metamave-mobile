@@ -105,10 +105,12 @@ export const useSwapsSmartTransaction = ({ quote, gasEstimates }: { quote?: Quot
   gasPrice: string;
   medium: string;
 } }) => {
+  //console.log('[Arthur]','[Swap]','useSwapsSmartTransaction', quote)
   const chainId = useSelector(selectEvmChainId);
   const isEIP1559Network = useSelector(selectIsEIP1559Network);
   const approvalTransaction: TxParams | null = useSelector(selectSwapsApprovalTransaction);
   const tradeTransaction = quote?.trade;
+  console.log('[Arthur]','[Swap]','@useSwapsSmartTransaction', approvalTransaction)
 
   // We don't need to await on the approval tx to be confirmed on chain. We can simply submit both the approval and trade tx at the same time.
   // Sentinel will batch them for us and ensure they are executed in the correct order.
@@ -145,6 +147,7 @@ export const useSwapsSmartTransaction = ({ quote, gasEstimates }: { quote?: Quot
         isEIP1559Network,
         gasEstimates,
       });
+      console.log('[Arthur]','[Swap]','submitSmartTransaction approve', approvalTransaction, approvalTxUuid)
 
       if (approvalTxUuid) {
         SmartTransactionsController.updateSmartTransaction({
@@ -160,15 +163,17 @@ export const useSwapsSmartTransaction = ({ quote, gasEstimates }: { quote?: Quot
     if (tradeTransaction) {
       const tradeGas = decimalToHex(smartTransactionFees.tradeTxFees?.gasLimit || 0).toString();
       tradeTxUuid = await submitSmartTransaction({
-        unsignedTransaction: {...tradeTransaction, chainId, gas: tradeGas},
-      smartTransactionFees: {
-        fees: smartTransactionFees.tradeTxFees?.fees,
-        cancelFees: [],
-      },
-      chainId,
-      isEIP1559Network,
-      gasEstimates,
-    });
+          unsignedTransaction: {...tradeTransaction, chainId, gas: tradeGas},
+        smartTransactionFees: {
+          fees: smartTransactionFees.tradeTxFees?.fees,
+          cancelFees: [],
+        },
+        chainId,
+        isEIP1559Network,
+        gasEstimates,
+      });
+
+      console.log('[Arthur]','[Swap]','submitSmartTransaction trade', tradeTransaction, tradeTxUuid)
 
       if (tradeTxUuid) {
         SmartTransactionsController.updateSmartTransaction({

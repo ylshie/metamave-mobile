@@ -411,7 +411,8 @@ function SwapsQuotesView({
   shouldUseSmartTransaction,
   isEIP1559Network,
 }) {
-  console.log('======= I AM HERE =======', quotes, quoteValues)
+//console.log('======= I AM HERE =======', quotes, quoteValues)
+  console.log('[Arthur]','[Swap]','SwapsQoutesView', approvalTransaction)
   const navigation = useNavigation();
   /* Get params from navigation */
   const route = useRoute();
@@ -1043,6 +1044,7 @@ function SwapsQuotesView({
 
   const handleApprovalTransaction = useCallback(
     async (isHardwareAddress) => {
+      console.log('[Arthur]','[Swap]','handleApprovalTransaction')
       try {
         resetTransaction();
 
@@ -1147,6 +1149,7 @@ function SwapsQuotesView({
   );
 
   const handleCompleteSwap = useCallback(async () => {
+    console.log('[Arthur]','[Swap]','@handleCompleteSwap')
     setIsHandlingSwap(true);
 
     if (!selectedQuote) {
@@ -1162,6 +1165,7 @@ function SwapsQuotesView({
 
     if (shouldUseSmartTransaction) {
       try {
+        console.log('[Arthur]','[Swap]','@handleCompleteSwap', 'submitSwapsSmartTransaction')
         const { approvalTxUuid, tradeTxUuid } =
           await submitSwapsSmartTransaction();
 
@@ -1169,6 +1173,7 @@ function SwapsQuotesView({
         // We use the stx uuids instead of the txMeta.id since we don't have the txMeta
         // Approval tx info
         if (approvalTxUuid) {
+          console.log('[Arthur]','[Swap]','@handleCompleteSwap', 'addSwapsTransaction')
           addSwapsTransaction(approvalTxUuid, {
             action: 'approval',
             sourceToken: {

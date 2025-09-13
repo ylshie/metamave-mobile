@@ -555,6 +555,7 @@ class Approval extends PureComponent {
                 this.setState({ transactionHandled: true });
                 this.props.hideModal();
               }
+              console.log('[TX]','Arppove Legacy','onConfirm');
               NotificationManager.watchSubmittedTransaction({
                 ...transactionMeta,
                 assetType: transaction.assetType,

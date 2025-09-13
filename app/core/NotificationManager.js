@@ -188,6 +188,7 @@ class NotificationManager {
 
   _failedCallback = (transactionMeta) => {
     // If it fails we hide the pending tx notification
+    console.log('[TX]', '_failedCallback')
     this._removeNotificationById(transactionMeta.id);
     const transaction =
       this._transactionsWatchTable[transactionMeta.txParams.nonce];
@@ -208,6 +209,7 @@ class NotificationManager {
   };
 
   _confirmedCallback = (transactionMeta, originalTransaction) => {
+    console.log('[TX]', '_confirmedCallback')
     // Once it's confirmed we hide the pending tx notification
     this._removeNotificationById(transactionMeta.id);
     this._transactionsWatchTable[transactionMeta.txParams.nonce].length &&
@@ -263,6 +265,7 @@ class NotificationManager {
   };
 
   _speedupCallback = (transactionMeta) => {
+    console.log('[TX]', '_speedupCallback')
     this.watchSubmittedTransaction(transactionMeta, true);
     setTimeout(() => {
       this._showNotification({
@@ -309,6 +312,7 @@ class NotificationManager {
   }
 
   onMessageReceived(data) {
+    console.log('[TX]', 'onMessageReceived')
     this._showNotification(data);
   }
 
@@ -347,6 +351,7 @@ class NotificationManager {
    * based on the status of the transaction (failed or confirmed)
    */
   watchSubmittedTransaction(transaction, speedUp = false) {
+    console.log('[TX]', 'watchSubmittedTransaction', transaction)
     if (transaction.silent) return false;
     const { TransactionController } = Engine.context;
     const transactionMeta = TransactionController.state.transactions.find(
@@ -396,6 +401,7 @@ class NotificationManager {
       );
 
     const smartTransactionListener = async (smartTransaction) => {
+      console.log('[TX]', 'smartTransactionListener')
       if (smartTransaction.status === SmartTransactionStatuses.PENDING) {
         return;
       }
@@ -431,6 +437,7 @@ class NotificationManager {
    * Generates a notification for an incoming transaction
    */
   gotIncomingTransaction = async (incomingTransactions) => {
+    console.log('[TX]', 'gotIncomingTransaction', incomingTransactions)
     try {
       const { AccountTrackerController, AccountsController } = Engine.context;
 

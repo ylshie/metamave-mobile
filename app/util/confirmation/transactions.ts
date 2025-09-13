@@ -23,6 +23,7 @@ export function buildTransactionParams({
   showCustomNonce: boolean;
   transaction: any;
 }): TransactionParams {
+  console.log('[TX]', 'buildTransactionParams', 0)
   const transactionParams: TransactionParams = { ...transaction };
   const { nonce, value } = transaction;
   const { type } = transactionParams;
@@ -36,6 +37,7 @@ export function buildTransactionParams({
     gasEstimateType === GAS_ESTIMATE_TYPES.FEE_MARKET &&
     type !== TransactionEnvelopeType.legacy
   ) {
+    console.log('[TX]', 'buildTransactionParams', 1, 'gasPrice')
     const {
       estimatedBaseFeeHex,
       gasLimitHex,
@@ -51,6 +53,7 @@ export function buildTransactionParams({
     );
     transactionParams.estimatedBaseFee = addHexPrefix(estimatedBaseFeeHex);
   } else {
+    console.log('[TX]', 'buildTransactionParams', 2, 'gasPrice')
     const { suggestedGasLimitHex, suggestedGasPriceHex } = gasDataLegacy;
 
     transactionParams.gas = addHexPrefix(suggestedGasLimitHex);

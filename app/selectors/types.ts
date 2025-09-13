@@ -21,6 +21,7 @@ import { AccountsControllerState } from '@metamask/accounts-controller';
 import { TokenSearchDiscoveryControllerState } from '@metamask/token-search-discovery-controller';
 ///: BEGIN:ONLY_INCLUDE_IF(preinstalled-snaps,external-snaps)
 import { SnapController } from '@metamask/snaps-controllers';
+import { UniswapController } from '../core/Uniswap';
 ///: END:ONLY_INCLUDE_IF
 
 export interface EngineState {
@@ -39,6 +40,7 @@ export interface EngineState {
       TokenBalancesController: TokenBalancesControllerState;
       TokenRatesController: TokenRatesControllerState;
       TransactionController: TransactionControllerState;
+      UniswapController: UniswapController;
       SwapsController: SwapsController;
       ///: BEGIN:ONLY_INCLUDE_IF(preinstalled-snaps,external-snaps)
       SnapController: SnapController;

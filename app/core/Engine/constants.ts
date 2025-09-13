@@ -36,6 +36,7 @@ export const BACKGROUND_STATE_CHANGE_EVENT_NAMES = [
   'SelectedNetworkController:stateChange',
   'SignatureController:stateChange',
   'SmartTransactionsController:stateChange',
+  'UniswapController:stateChange',
   'SwapsController:stateChange',
   'TokenBalancesController:stateChange',
   'TokenListController:stateChange',

@@ -357,6 +357,19 @@ export const swapsTopAssetsSelector = createSelector(
   },
 );
 
+const selectUniswapControllerState = (state) => {
+//console.log('[Arthur]','[Swap]', '@selectUniswapControllerState', state.engine.backgroundState.UniswapController)
+  return state.engine.backgroundState.UniswapController;
+}
+
+export const selectUniswapQuoteValues = createSelector(
+  selectUniswapControllerState,
+  (swapsControllerState) => {
+    console.log('[Arthur]','[Swap]', '@selectUniswapQuoteValues', swapsControllerState)
+    return swapsControllerState.quote;
+  }
+);
+
 // * Reducer
 export const initialState = {
   isLive: true, // TODO: should we remove it?

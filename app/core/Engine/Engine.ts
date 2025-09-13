@@ -208,6 +208,7 @@ import { getIsQuicknodeEndpointUrl } from './controllers/network-controller/util
 import { appMetadataControllerInit } from './controllers/app-metadata-controller';
 import { InternalAccount } from '@metamask/keyring-internal-api';
 import { toFormattedAddress } from '../../util/address';
+import { UniswapController } from '../Uniswap';
 
 const NON_EMPTY = 'NON_EMPTY';
 
@@ -1374,6 +1375,18 @@ export class Engine {
       }),
       TransactionController: this.transactionController,
       SmartTransactionsController: this.smartTransactionsController,
+      UniswapController: new UniswapController({
+        messenger: this.controllerMessenger.getRestricted<
+          'UniswapController',
+          never,
+          never
+        >({
+          name: 'UniswapController',
+          allowedActions: [],
+          allowedEvents: [],
+        }),
+        state: initialState.UniswapController,
+      }),
       SwapsController: new SwapsController({
         clientId: AppConstants.SWAPS.CLIENT_ID,
         fetchAggregatorMetadataThreshold:
@@ -1508,6 +1521,7 @@ export class Engine {
           name: 'ComposableController',
           allowedActions: [],
           allowedEvents: Array.from(BACKGROUND_STATE_CHANGE_EVENT_NAMES),
+        //allowedEvents: ['UniswapController:stateChange'],
         }),
       },
     );
@@ -2024,6 +2038,7 @@ function assertEngineExists(
   instance: Engine | null,
 ): asserts instance is Engine {
   if (!instance) {
+    console.log('[Arthur]', 'Engine=', instance)
     throw new Error('Engine does not exist');
   }
 }
@@ -2062,6 +2077,7 @@ export default {
       TokenSearchDiscoveryController,
       TransactionController,
       SmartTransactionsController,
+      UniswapController,
       SwapsController,
       GasFeeController,
       TokensController,
@@ -2112,6 +2128,7 @@ export default {
       TokensController,
       TransactionController,
       SmartTransactionsController,
+      UniswapController,
       SwapsController,
       GasFeeController,
       ///: BEGIN:ONLY_INCLUDE_IF(preinstalled-snaps,external-snaps)

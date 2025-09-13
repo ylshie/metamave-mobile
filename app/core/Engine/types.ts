@@ -128,6 +128,12 @@ import {
   SubjectMetadataControllerState,
   ///: END:ONLY_INCLUDE_IF
 } from '@metamask/permission-controller';
+import { 
+  UniswapController, 
+  UniswapControllerActions,
+  UniswapControllerEvents,
+  UniswapControllerState 
+} from '../Uniswap';
 import SwapsController, {
   SwapsControllerState,
   SwapsControllerActions,
@@ -304,6 +310,7 @@ type SnapsGlobalEvents =
 type GlobalActions =
   | AccountTrackerControllerActions
   | NftControllerActions
+  | UniswapControllerActions
   | SwapsControllerActions
   | AddressBookControllerActions
   | ApprovalControllerActions
@@ -353,6 +360,7 @@ type GlobalEvents =
   | ComposableControllerEvents<EngineState>
   | AccountTrackerControllerEvents
   | NftControllerEvents
+  | UniswapControllerEvents
   | SwapsControllerEvents
   | AddressBookControllerEvents
   | ApprovalControllerEvents
@@ -458,6 +466,7 @@ export type Controllers = {
   SnapInterfaceController: SnapInterfaceController;
   CronjobController: CronjobController;
   ///: END:ONLY_INCLUDE_IF
+  UniswapController: UniswapController;
   SwapsController: SwapsController;
   ///: BEGIN:ONLY_INCLUDE_IF(keyring-snaps)
   MultichainBalancesController: MultichainBalancesController;
@@ -500,6 +509,7 @@ export type EngineState = {
   TokenSearchDiscoveryController: TokenSearchDiscoveryControllerState;
   TransactionController: TransactionControllerState;
   SmartTransactionsController: SmartTransactionsControllerState;
+  UniswapController: UniswapControllerState;
   SwapsController: SwapsControllerState;
   GasFeeController: GasFeeState;
   TokensController: TokensControllerState;

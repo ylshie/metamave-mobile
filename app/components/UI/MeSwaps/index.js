@@ -88,6 +88,8 @@ import { getSwapsLiveness } from '../../../reducers/swaps/utils';
 import { selectShouldUseSmartTransaction } from '../../../selectors/smartTransactionsController';
 import { useStablecoinsDefaultSlippage } from './useStablecoinsDefaultSlippage';
 import { BorderColor, BorderRadius } from '../Box/box.types';
+import { testAPI } from './uniswap';
+
 const createStyles = (colors) =>
   StyleSheet.create({
     swapItem: {
@@ -460,6 +462,13 @@ function SwapsAmountView({
     }
   }, [selectedAddress, swapsTokens, initialSource]);
 
+  const [xxx, setXXX] = useState(false)
+  useEffect(()=>{
+    if (xxx) return
+    setXXX(true)
+    testAPI()
+  })
+
   const hasInvalidDecimals = useMemo(() => {
     if (sourceToken) {
       return amount?.split('.')[1]?.length > sourceToken.decimals;
@@ -574,7 +583,7 @@ function SwapsAmountView({
       await TokensController.addToken({ address, symbol, decimals, name });
     }
     return navigation.navigate(
-      'SwapsQuotesView',
+      'MeSwapsQuotesView',
       setQuotesNavigationsParams(
         sourceToken?.address,
         destinationToken?.address,

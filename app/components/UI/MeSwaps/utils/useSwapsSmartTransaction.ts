@@ -101,7 +101,7 @@ const submitSmartTransaction = async ({
 
 
 
-export const useSwapsSmartTransaction = ({ quote, gasEstimates }: { quote?: Quote & Partial<GasIncludedQuote>, gasEstimates: {
+export const useSwapsSmartTransaction = ({ uniQuote, quote, gasEstimates }: { uniQuote?: any, quote?: Quote & Partial<GasIncludedQuote>, gasEstimates: {
   gasPrice: string;
   medium: string;
 } }) => {
@@ -109,29 +109,40 @@ export const useSwapsSmartTransaction = ({ quote, gasEstimates }: { quote?: Quot
   const chainId = useSelector(selectEvmChainId);
   const isEIP1559Network = useSelector(selectIsEIP1559Network);
   const approvalTransaction: TxParams | null = useSelector(selectSwapsApprovalTransaction);
-  const tradeTransaction = quote?.trade;
-  console.log('[Arthur]','[Swap]','@useSwapsSmartTransaction', approvalTransaction)
+  const tradeTransaction = uniQuote? uniQuote.transaction: quote?.trade;
+  //console.log('[Arthur]','[Swap]','@useSwapsSmartTransaction', 'uniQuote', uniQuote)
+  //console.log('[Arthur]','[Swap]','@useSwapsSmartTransaction', approvalTransaction)
 
   // We don't need to await on the approval tx to be confirmed on chain. We can simply submit both the approval and trade tx at the same time.
   // Sentinel will batch them for us and ensure they are executed in the correct order.
   const submitSwapsSmartTransaction = async () => {
     const { SmartTransactionsController } = Engine.context;
+    console.log('[Arthur]','[Swap]','@submitSwapsSmartTransaction', approvalTransaction, tradeTransaction)
 
     // Calc fees
     let smartTransactionFees;
     if (quote?.isGasIncludedTrade) {
+      console.log('[Arthur]','[Swap]','@getGasIncludedTransactionFees')
       smartTransactionFees = getGasIncludedTransactionFees(quote as unknown as GasIncludedQuote);
     }
     if (!smartTransactionFees) {
-      smartTransactionFees = await SmartTransactionsController.getFees(tradeTransaction, approvalTransaction);
+      console.log('[Arthur]','[Swap]','@SmartTransactionsController.getFees [in]')
+      try {
+        smartTransactionFees = await SmartTransactionsController.getFees(tradeTransaction, approvalTransaction);
+        console.log('[Arthur]','[Swap]','@SmartTransactionsController.getFees [out]', smartTransactionFees)
+      } catch (error) {
+        console.log('[Arthur]','[Swap]','@SmartTransactionsController.getFees [error]', error)
+        throw error
+      }
     }
 
     // Approval transaction (if it exists)
     let approvalTxUuid: string | undefined;
     let tradeTxUuid: string | undefined;
-    if (approvalTransaction && smartTransactionFees.approvalTxFees) {
+    if (approvalTransaction && smartTransactionFees?.approvalTxFees) {
       const approvalGas = decimalToHex(smartTransactionFees.approvalTxFees.gasLimit).toString() || '0';
 
+      console.log('[Arthur]','[Swap]','@submitSwapsSmartTransaction', 'approvalTransaction')
       approvalTxUuid = await submitSmartTransaction({
         unsignedTransaction: {
           ...approvalTransaction,
@@ -147,7 +158,7 @@ export const useSwapsSmartTransaction = ({ quote, gasEstimates }: { quote?: Quot
         isEIP1559Network,
         gasEstimates,
       });
-      console.log('[Arthur]','[Swap]','submitSmartTransaction approve', approvalTransaction, approvalTxUuid)
+      console.log('[Arthur]','[Swap]','@submitSmartTransaction approve', approvalTransaction, approvalTxUuid)
 
       if (approvalTxUuid) {
         SmartTransactionsController.updateSmartTransaction({
@@ -161,19 +172,25 @@ export const useSwapsSmartTransaction = ({ quote, gasEstimates }: { quote?: Quot
 
     // Trade transaction
     if (tradeTransaction) {
-      const tradeGas = decimalToHex(smartTransactionFees.tradeTxFees?.gasLimit || 0).toString();
-      tradeTxUuid = await submitSmartTransaction({
+      console.log('[Arthur]','[Swap]','@submitSwapsSmartTransaction', 'tradeTransaction [in]')
+      const tradeGas = decimalToHex(smartTransactionFees?.tradeTxFees?.gasLimit || 0).toString();
+      try {
+        tradeTxUuid = await submitSmartTransaction({
           unsignedTransaction: {...tradeTransaction, chainId, gas: tradeGas},
-        smartTransactionFees: {
-          fees: smartTransactionFees.tradeTxFees?.fees,
-          cancelFees: [],
-        },
-        chainId,
-        isEIP1559Network,
-        gasEstimates,
-      });
-
-      console.log('[Arthur]','[Swap]','submitSmartTransaction trade', tradeTransaction, tradeTxUuid)
+          smartTransactionFees: {
+            fees: smartTransactionFees?.tradeTxFees?.fees,
+            cancelFees: [],
+          },
+          chainId,
+          isEIP1559Network,
+          gasEstimates,
+        });
+        console.log('[Arthur]','[Swap]','@submitSwapsSmartTransaction', 'tradeTransaction [out]')
+      } catch (error) {
+        console.log('[Arthur]','[Swap]','@submitSwapsSmartTransaction', 'tradeTransaction [error]', error)
+        throw error
+      }
+      console.log('[Arthur]','[Swap]','@submitSmartTransaction trade', tradeTxUuid, tradeTransaction)
 
       if (tradeTxUuid) {
         SmartTransactionsController.updateSmartTransaction({

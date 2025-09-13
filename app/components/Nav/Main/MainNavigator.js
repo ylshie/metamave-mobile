@@ -1,3 +1,4 @@
+//const useUniSwap = true
 import React, { useRef, useState, useEffect } from 'react';
 import { Image, StyleSheet, Keyboard, Platform } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -67,8 +68,11 @@ import Amount from '../../Views/confirmations/legacy/SendFlow/Amount';
 import Confirm from '../../Views/confirmations/legacy/SendFlow/Confirm';
 import ContactForm from '../../Views/Settings/Contacts/ContactForm';
 import ActivityView from '../../Views/ActivityView';
-import SwapsAmountView from '../../UI/WeSwaps';
-import SwapsQuotesView from '../../UI/WeSwaps/QuotesView';
+//import SwapsAmountView from '../../UI/MeSwaps';
+//import SwapsQuotesView from '../../UI/MeSwaps/QuotesView';
+import SwapsAmountView from '../../UI/MeSwaps';
+import SwapsQuotesView from '../../UI/MeSwaps/QuotesView';
+import MeSwapsQuotesView from '../../UI/MeSwaps/MeQuotesView';
 import CollectiblesDetails from '../../UI/CollectibleModal';
 import OptinMetrics from '../../UI/OptinMetrics';
 import Drawer from '../../UI/Drawer';
@@ -958,6 +962,11 @@ const Swaps = () => (
       name="SwapsQuotesView"
       component={SwapsQuotesView}
       options={SwapsQuotesView.navigationOptions}
+    />
+    <Stack.Screen
+      name="MeSwapsQuotesView"
+      component={MeSwapsQuotesView}
+      options={MeSwapsQuotesView.navigationOptions}
     />
   </Stack.Navigator>
 );

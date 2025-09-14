@@ -54,7 +54,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import DefaultTabBar from 'react-native-scrollable-tab-view/DefaultTabBar';
 import { TouchableOpacity } from 'react-native';
 import storageWrapper from '../../../store/storage-wrapper';
-import { wzAddAcount } from '../WeSignup/account';
+import { wzAddAcount, wzLogin } from '../WeSignup/account';
 
 const createStyles = (colors) =>
   StyleSheet.create({
@@ -423,6 +423,7 @@ class WeSignup extends PureComponent {
       console.log("[Account] add:", res)
       StorageWrapper.setItem('account', email)
       StorageWrapper.setItem('password', pass)
+      StorageWrapper.setItem('token', pass)
     } catch (error) {
       console.log('WeCode', 'wzAddAcount', 'error', error)
     }
@@ -434,9 +435,7 @@ class WeSignup extends PureComponent {
       StorageWrapper.setItem('refreshToken', res.data.refreshToken)
       StorageWrapper.setItem('accessTokenExpiresAt', res.data.accessTokenExpiresAt)
       StorageWrapper.setItem('refreshTokenExpiresAt', res.data.refreshTokenExpiresAt)
-      StorageWrapper.setItem('type', 'google')
-      StorageWrapper.setItem('account',  data.user.email)
-      StorageWrapper.setItem('token', data.idToken)
+      StorageWrapper.setItem('type', 'mail')
     } catch (error) {
       console.log('WeCode', 'wzLogin', 'error', error)
     }

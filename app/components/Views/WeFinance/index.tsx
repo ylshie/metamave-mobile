@@ -224,7 +224,7 @@ export const PointStake = ({onPress}:{
                   fontSize: 11,
                   fontWeight: '400',
                 //flex: 1,
-                }}>質押 wPoints 30 天 → ARENA </Text>
+                }}>質押 wPoints 30 天 → 獲得額外</Text>
                 <Text style={{
                   color: '#FF4000',
                   fontSize: 11,
@@ -603,12 +603,12 @@ const MyPersona = ({
                 fontSize: 30,
                 fontWeight: '800',
                 lineHeight: 32,
-              }}>$3,578</Text>
+              }}>3,578</Text>
               <Text style={{
                 color: '#4A5568',
                 fontSize: 14,
                 fontWeight: '400',
-              }}>總理財收益: 30 USD</Text>
+              }}>總理財收益: 30 wPoints</Text>
             </View>
             <View style={{
               width: '40%',
@@ -632,7 +632,7 @@ const MyPersona = ({
                 color: '#000000',
                 fontSize: 10,
                 fontWeight: '400',
-              }}>投資(USD)</Text>
+              }}>投資(wPoints)</Text>
             </Slot>
             <Slot>
               <ButtonBlue text='兌換' onPress={onPressPoint}/>
@@ -656,7 +656,7 @@ const MyPersona = ({
                 color: '#000000',
                 fontSize: 10,
                 fontWeight: '400',
-              }}>投資(USD)</Text>
+              }}>投資(wPoints)</Text>
             </Slot>
             <Slot>
               <ButtonBlue text='去質押' onPress={onPressStake}/>

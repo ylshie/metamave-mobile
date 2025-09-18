@@ -507,7 +507,7 @@ const MyFriend = ({
   }
   
   const doGetCard = async (code: string)=> {
-    return;
+  //return;
     try {
       console.log('doGetCard', 'call', code)
     //const data = await drawMe(code)
@@ -849,7 +849,7 @@ const MyFriend = ({
                     fontSize: 16,
                     fontWeight: '500',
                     textAlign: 'right',
-                  }}>12</Text>
+                  }}>0</Text>
                 </View>
                 <View style={{
                   flexDirection: 'row'
@@ -866,7 +866,7 @@ const MyFriend = ({
                     fontSize: 16,
                     fontWeight: '500',
                     textAlign: 'right',
-                  }}>05</Text>
+                  }}>0</Text>
                 </View>
               </View>
             </View>

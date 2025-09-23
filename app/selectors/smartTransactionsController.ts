@@ -44,6 +44,7 @@ export const selectSmartTransactionsEnabled = createDeepEqualSelector(
         canBypassRpc &&
         !addrIshardwareAccount &&
         smartTransactionsFeatureFlagEnabled &&
+        false && // [Arthur]
         smartTransactionsLiveness,
     );
   },

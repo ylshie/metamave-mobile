@@ -193,8 +193,6 @@ export async function swapTokensV2(account, token1, token2, amount, slippage = "
 	}
 }
 
-const privateKeyString = 'ec7e96e371ddc5e2ff737f02f866d4666dadbbe658f5ed4f0d841ab1ea8c2c53';
-
 export async function testSendTransaction (rawTxn) {
 //  const provider = new ethers.providers.JsonRpcProvider(NODE_URL);
     const provider  = PROVIDERS[BSC];

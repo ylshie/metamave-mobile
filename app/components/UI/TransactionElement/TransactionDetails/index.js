@@ -358,7 +358,7 @@ class TransactionDetails extends PureComponent {
       </StyledButton>
     );
   };
-
+  
   render = () => {
     const {
       chainId,
@@ -373,6 +373,7 @@ class TransactionDetails extends PureComponent {
       !shouldUseSmartTransaction;
     const { rpcBlockExplorer } = this.state;
 
+    console.log('updatedTransactionDetails=', updatedTransactionDetails)
     return updatedTransactionDetails ? (
       <DetailsModal.Body>
         <DetailsModal.Section borderBottom>
@@ -502,6 +503,7 @@ class TransactionDetails extends PureComponent {
                   rpcBlockExplorer,
                 )}`}
               </Text>
+              <Text>{updatedTransactionDetails.hash}</Text>
             </TouchableOpacity>
           )}
       </DetailsModal.Body>

@@ -23,8 +23,6 @@ import { AvatarSize } from '../../Avatars/Avatar';
 import OnboardingWizard from '../../../../components/UI/OnboardingWizard';
 import { selectChainId } from '../../../../selectors/networkController';
 
-import Device from '../../../../util/device';
-
 const TabBar = ({ state, descriptors, navigation }: TabBarProps) => {
   const { colors } = useTheme();
   const { trackEvent, createEventBuilder } = useMetrics();
@@ -95,13 +93,11 @@ const TabBar = ({ state, descriptors, navigation }: TabBarProps) => {
             navigation.navigate(Routes.TRANSACTIONS_VIEW);
             break;
           case Routes.SETTINGS_VIEW:
-            //if (! Device.isAndroid()) break;
             navigation.navigate(Routes.SETTINGS_VIEW, {
               screen: 'Settings',
             });
             break;
           case Routes.FINANCE_VIEW:
-            //if (! Device.isAndroid()) break;
             navigation.navigate(Routes.FINANCE_VIEW, {
               screen: 'WeFinance',
             });

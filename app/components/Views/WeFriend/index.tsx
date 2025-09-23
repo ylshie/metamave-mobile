@@ -507,7 +507,6 @@ const MyFriend = ({
   }
   
   const doGetCard = async (code: string)=> {
-  //return;
     try {
       console.log('doGetCard', 'call', code)
     //const data = await drawMe(code)
@@ -628,12 +627,36 @@ const MyFriend = ({
                   <Copy name='copy' width={20} height={20}/>
                 </TouchableOpacity>
               </Field>
+              {/*
               <Field>
                   <TouchableOpacity onPress={()=>doGetCard('wz11111')}>
                     <Name caption='總邀請人數'/>
                   </TouchableOpacity>
                   <Text>0</Text>
               </Field>
+              */}
+              <TouchableOpacity
+                    onPress={()=>doGetCard(code)}
+                    style={{
+                      width: '90%',
+                      backgroundColor: '#719CF4',
+                      borderRadius: 8,
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      padding: 10,
+                      marginTop: 10,
+                    }}
+                >
+                  <Text style={{
+                    width: '100%',
+                    textAlign: 'center',
+                    left: 5,
+                    color: '#FFFFFF',
+                    fontSize: 16,
+                    fontWeight: '500'
+                  }}>立即邀請</Text>
+                </TouchableOpacity>
               {
                 url
                 ? <Image style={{marginLeft: 2, height: 600, width: 400}} source={{uri: url}}/>

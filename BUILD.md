@@ -16,6 +16,11 @@ keytool -list -v -keystore {my-app.keystore} -alias {my-app}
     let isSimulator = false
     #endif
 
+General
+0. Your lockfile needs to be updated, but yarn was run with `--frozen-lockfile`
+    yarn install [package] => update lock file, need to avoid conflict package
+    yarn setup
+
 iOS Porting
 0.  [sudo gem]
     echo password | sudo gem install bundler -v 2.5.8

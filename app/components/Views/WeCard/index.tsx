@@ -129,6 +129,8 @@ import WLink from '../../../images/banners/link.svg';
 import barcode from '../../../images/banners/barcode.png';
 import download from '../../../images/banners/download.png';
 import wlink from '../../../images/banners/link.png';
+import RNFS from 'react-native-fs';
+import Share from 'react-native-share';
 /*--------------------*/
 
 interface WalletProps {
@@ -364,7 +366,8 @@ const MyFriend = ({
     setILink(link)
     const ret = await data
     console.log('checkDataURL', 'url', url)
-    setUrl('data:image/png;base64,' + ret.image)
+  //setUrl('data:image/png;base64,' + ret.image)
+    setUrl(ret.image)
   }
   useEffect(() => {
     if (url) return;
@@ -413,6 +416,25 @@ const MyFriend = ({
     } catch(error) {
       console.log('doGetCard', 'error', error)
     }
+  }
+  const shareFile = (dataUrl: string|undefined) => {
+    if (! dataUrl) return
+    const filePath = RNFS.DocumentDirectoryPath + '/card.png';
+    RNFS.writeFile(filePath, dataUrl, 'base64').then(async () => {
+      console.log('File written successfully!', filePath)
+      try {
+        const tag = 'file://'+ filePath
+        console.log('cameral roll tag=', tag)
+        const res = await Share.open({url: tag});
+        console.log('share file done', res)
+        RNFS.unlink(filePath);
+      } catch(err) {
+        console.log('share file error', err)
+      }
+    })
+    .catch((err) => {
+      console.error(err.message)
+    });
   }
   const copyToClipboard = useCopyClipboard();
   const renderContent = useCallback(() => {
@@ -470,7 +492,7 @@ const MyFriend = ({
                               height: 450, 
                               width: 340,
                           }} 
-                          source={{uri: url}}
+                          source={{uri: 'data:image/png;base64,'+url}}
                     />
                   </View>
                 : <></>
@@ -487,7 +509,9 @@ const MyFriend = ({
                 borderStyle: 'solid',
                 borderRadius: 8,
               }}>
-                <TouchableOpacity style={{
+                <TouchableOpacity
+                  onPress={()=> shareFile(url)} 
+                style={{
                   flexDirection: 'column',
                   justifyContent: 'center',
                   alignItems: 'center',

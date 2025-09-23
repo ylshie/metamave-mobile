@@ -1,5 +1,5 @@
 import React, { PureComponent, useCallback } from 'react';
-import { createRef } from 'react';
+import { createRef, useEffect } from 'react';
 import {
   Dimensions,     // [Arthur] {QRCode}
   SafeAreaView,
@@ -776,9 +776,17 @@ class PaymentRequest extends PureComponent {
     //} else if (selectedAsset.symbol !== 'ETH' && !exchangeRate) {
     //  switchable = false;
     //}
-    //useEffect(()=>{
-    //  onNext()
-    //}, [cryptoAmount, selectedAsset]);
+    /*
+    useEffect(()=>{
+      const { selectedAddress, navigation, chainId } = this.props;
+      const { cryptoAmount, selectedAsset} = this.state;
+      if (! selectedAsset) return
+      if (! selectedAddress) return
+      if (amount == 0) return
+
+      onNext()
+    }, [amount]);
+    */
 
     if (isTDSupportedForNetwork) {
       const defaults =
@@ -1259,6 +1267,10 @@ class PaymentRequest extends PureComponent {
       symbol,
       showError: false,
     });
+    const me = this;
+    setTimeout(()=>{
+      if (amount) me.onNext();
+    }, 1000)
   //this.onNext();  // [Arthur]
   };
 

@@ -69,11 +69,11 @@ import Amount from '../../Views/confirmations/legacy/SendFlow/Amount';
 import Confirm from '../../Views/confirmations/legacy/SendFlow/Confirm';
 import ContactForm from '../../Views/Settings/Contacts/ContactForm';
 import ActivityView from '../../Views/ActivityView';
+import SwapsAmountView from '../../UI/WeSwaps';
+import SwapsQuotesView from '../../UI/WeSwaps/QuotesView';
 //import SwapsAmountView from '../../UI/MeSwaps';
 //import SwapsQuotesView from '../../UI/MeSwaps/QuotesView';
-import SwapsAmountView from '../../UI/MeSwaps';
-import SwapsQuotesView from '../../UI/MeSwaps/QuotesView';
-import MeSwapsQuotesView from '../../UI/MeSwaps/MeQuotesView';
+//import MeSwapsQuotesView from '../../UI/MeSwaps/MeQuotesView';
 import CollectiblesDetails from '../../UI/CollectibleModal';
 import OptinMetrics from '../../UI/OptinMetrics';
 import Drawer from '../../UI/Drawer';
@@ -819,6 +819,16 @@ const SocialView = () => (
   </Stack.Navigator>
 );
 
+const PointView = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="Point"
+      component={WePoint}
+      options={Settings.navigationOptions}
+    />
+  </Stack.Navigator>
+);
+
 const FriendView = () => (
   <Stack.Navigator>
     <Stack.Screen
@@ -969,11 +979,13 @@ const Swaps = () => (
       component={SwapsQuotesView}
       options={SwapsQuotesView.navigationOptions}
     />
+    {/*
     <Stack.Screen
       name="MeSwapsQuotesView"
       component={MeSwapsQuotesView}
       options={MeSwapsQuotesView.navigationOptions}
     />
+     */}
   </Stack.Navigator>
 );
 
@@ -1081,6 +1093,7 @@ const MainNavigator = () => (
     <Stack.Screen name="PaymentRequestView" component={PaymentRequestView} />
     <Stack.Screen name="WeFriend" component={FriendView} />
     <Stack.Screen name="WeSocial" component={SocialView} />
+    <Stack.Screen name="Point" component={PointView} />
     <Stack.Screen name={Routes.RAMP.BUY}>
       {() => <RampRoutes rampType={RampType.BUY} />}
     </Stack.Screen>

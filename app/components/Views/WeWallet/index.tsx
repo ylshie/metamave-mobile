@@ -1010,7 +1010,7 @@ const MyWallet = ({
   const onPressPoint = useCallback(() => {
     //if (! Device.isAndroid()) return;
     trackEvent(createEventBuilder(MetaMetricsEvents.SETTINGS_GENERAL).build());
-    navigate('WePoint');
+    navigate('Point');
   },[
     navigate,
     trackEvent,

@@ -9,6 +9,12 @@ keytool -list -v -keystore {my-app.keystore} -alias {my-app}
 2. TARGET_IPHONE_SIMULATOR
     node_modules/expo-dev-menu/ios/DevMenuViewController.swift
     [TEMP] force true
+    //let isSimulator = TARGET_IPHONE_SIMULATOR > 0
+    #if targetEnvironment(simulator)
+    let isSimulator = true
+    #else
+    let isSimulator = false
+    #endif
 
 iOS Porting
 1.  [add 3 framework]

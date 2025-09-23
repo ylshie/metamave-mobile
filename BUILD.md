@@ -17,6 +17,8 @@ keytool -list -v -keystore {my-app.keystore} -alias {my-app}
     #endif
 
 iOS Porting
+0.  [sudo gem]
+    echo password | sudo gem install bundler -v 2.5.8
 1.  [add 3 framework]
     double-conversion.xcframework
     glog.xcframework

@@ -236,7 +236,7 @@ export const PointStake = ({onPress}:{
               style={{
                 width: 128,
               }}>
-                <ButtonBlue text='立即存入-->'/>
+                <ButtonBlue text='立即存入-->' onPress={onPress}/>
               </TouchableOpacity>
             </View>
             <View style={{

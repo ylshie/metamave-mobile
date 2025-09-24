@@ -402,7 +402,7 @@ const MyFriend = ({
   }, [navigation]);
 
   const win = Dimensions.get('window');
-  
+  /*
   const doGetCard = async (code: string)=> {
     try {
       console.log('doGetCard', 'call', code)
@@ -417,6 +417,7 @@ const MyFriend = ({
       console.log('doGetCard', 'error', error)
     }
   }
+  */
   const shareFile = (dataUrl: string|undefined) => {
     if (! dataUrl) return
     const filePath = RNFS.DocumentDirectoryPath + '/card.png';
@@ -521,7 +522,7 @@ const MyFriend = ({
                   <Text>保存海報</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={()=>icode? copyToClipboard(icode): {}} 
+                  onPress={()=>ilink? copyToClipboard(ilink): {}} 
                   style={{
                     flexDirection: 'column',
                     justifyContent: 'center',
@@ -533,7 +534,7 @@ const MyFriend = ({
                   <Text>複製連結</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={()=>ilink? copyToClipboard(ilink): {}} 
+                  onPress={()=>icode? copyToClipboard(icode): {}} 
                   style={{
                     flexDirection: 'column',
                     justifyContent: 'center',

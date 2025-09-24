@@ -505,14 +505,15 @@ const MyFriend = ({
     setShowToast(true)
     setTimeout(()=>setShowToast(false), 2000)
   }
-  
+  const scheme  = 'https://'
+  const urlBase = 'promote.wezan.io?c=';
   const doGetCard = async (code: string)=> {
     try {
       console.log('doGetCard', 'call', code)
     //const data = await drawMe(code)
     //console.log('doGetCard', 'done', data)
       const data = drawMe(code)
-      const link = 'promote.wezan'+code;
+      const link = `${scheme}${urlBase}${code}`;
     //=======[ Important ]================================================
     // data url can't not have space between 'type.' and base64 data
     // Otherwise it will cause image unable to show at react native iOS 
@@ -622,8 +623,8 @@ const MyFriend = ({
               </Field>
               <Field>
                 <Name caption='邀請連結:'/>
-                <Value caption={'promote.wezan/'+code}/>
-                <TouchableOpacity onPress={()=>copyToClipboard('promote.wezan/'+code)}>
+                <Value caption={`${urlBase}${code}`}/>
+                <TouchableOpacity onPress={()=>copyToClipboard(`${scheme}${urlBase}${code}`)}>
                   <Copy name='copy' width={20} height={20}/>
                 </TouchableOpacity>
               </Field>

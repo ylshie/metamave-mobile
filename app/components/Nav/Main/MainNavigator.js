@@ -73,7 +73,7 @@ import SwapsAmountView from '../../UI/WeSwaps';
 import SwapsQuotesView from '../../UI/WeSwaps/QuotesView';
 //import SwapsAmountView from '../../UI/MeSwaps';
 //import SwapsQuotesView from '../../UI/MeSwaps/QuotesView';
-//import MeSwapsQuotesView from '../../UI/MeSwaps/MeQuotesView';
+import MeSwapsQuotesView from '../../UI/MeSwaps/MeQuotesView';
 import CollectiblesDetails from '../../UI/CollectibleModal';
 import OptinMetrics from '../../UI/OptinMetrics';
 import Drawer from '../../UI/Drawer';
@@ -979,13 +979,13 @@ const Swaps = () => (
       component={SwapsQuotesView}
       options={SwapsQuotesView.navigationOptions}
     />
-    {/*
+    {
     <Stack.Screen
       name="MeSwapsQuotesView"
       component={MeSwapsQuotesView}
       options={MeSwapsQuotesView.navigationOptions}
     />
-     */}
+    }
   </Stack.Navigator>
 );
 

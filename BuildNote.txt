@@ -1,7 +1,0 @@
-
-[iOS]
-1. minminmun target
-    [RESOLVED] change 13 => 14 
-2. TARGET_IPHONE_SIMULATOR
-    [TEMP] force true
-

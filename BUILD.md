@@ -34,3 +34,6 @@ iOS Porting
 3.  [Remove react-native-flipper link]
     At ios/Pods/Target Support Files/Pods Metamask/Pods-MetaMask.release.xcconfig
     remove -l"react-native-flipper"
+4.  [Remove react-native-flipper from Product reference]
+    In Product at XCode
+    remove react-native-flipper 

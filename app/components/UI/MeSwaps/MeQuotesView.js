@@ -87,6 +87,8 @@ import {
   selectSwapsTopAggId,
   selectSwapsUsedCustomGas,
   selectSwapsUsedGasEstimate,
+  selectUniswapsQuotesLastFetched,
+  selectUnswapsIsInPolling,
   swapsTokensSelector,
 } from '../../../reducers/swaps';
 import { decGWEIToHexWEI, hexToDecimal } from '../../../util/conversions';
@@ -546,10 +548,12 @@ function SwapsQuotesView({
     () => allQuotes.find((quote) => quote?.aggregator === selectedQuoteId),
     [allQuotes, selectedQuoteId],
   );
+  /*
   const myUniQuote = useMemo(
     () => uniQuote,
     [uniQuote],
   );
+  */
   const tradeTxTokenFee = useMemo(
     () => getTradeTxTokenFee(selectedQuote),
     [selectedQuote],
@@ -621,7 +625,7 @@ function SwapsQuotesView({
   const doSendTX = useCallback(
     ()=>{
       const { UniswapController } = Engine.context;
-      UniswapController.sendTX(uniQuote.transaction)
+    //UniswapController.sendTX(uniQuote.transaction)
     },
     [uniQuote]
   )
@@ -1609,12 +1613,17 @@ function SwapsQuotesView({
   /* First load effect: handle initial animation */
   useEffect(() => {
     if (isFirstLoad && !shouldFinishFirstLoad) {
+      console.log('~~~ firstLoadTime ~~~', firstLoadTime)
+      console.log('~~~ quotesLastFetched ~~~', quotesLastFetched)
       if (firstLoadTime < quotesLastFetched || error) {
+        console.log('~~~ setShouldFinishFirstLoad ~~~')
         setShouldFinishFirstLoad(true);
         if (!error) {
           navigation.setParams({ leftAction: strings('swaps.edit') });
         }
       }
+    } else {
+      console.log('isFirstLoad && !shouldFinishFirstLoad not fit')
     }
   }, [
     error,
@@ -1910,7 +1919,9 @@ function SwapsQuotesView({
   });
 
   /* Rendering */
-  if (isFirstLoad || (!error?.key && !selectedQuote)) {
+  // [Arthur]
+  //if (isFirstLoad || (!error?.key && !selectedQuote)) { // [Arthur]
+  if (isFirstLoad || (!error?.key && !uniQuote)) { // [Arthur]
     return (
       <ScreenView contentContainerStyle={styles.screen} scrollEnabled={false}>
         <Text>LoadView</Text>
@@ -2756,8 +2767,10 @@ const mapStateToProps = (state) => ({
   selectedAddress: selectSelectedInternalAccountFormattedAddress(state),
   conversionRate: selectConversionRate(state),
   currentCurrency: selectCurrentCurrency(state),
-  isInPolling: selectSwapsIsInPolling(state),
-  quotesLastFetched: selectSwapsQuotesLastFetched(state),
+//isInPolling: selectSwapsIsInPolling(state),
+  isInPolling: selectUnswapsIsInPolling(state),
+//quotesLastFetched: selectSwapsQuotesLastFetched(state),
+  quotesLastFetched: selectUniswapsQuotesLastFetched(state),
   pollingCyclesLeft: selectSwapsPollingCyclesLeft(state),
   topAggId: selectSwapsTopAggId(state),
   aggregatorMetadata: selectSwapsAggregatorMetadata(state),
@@ -2765,7 +2778,8 @@ const mapStateToProps = (state) => ({
   quoteValues: selectSwapsQuoteValues(state),
   uniQuote: selectUniswapQuoteValues(state),
   approvalTransaction: selectSwapsApprovalTransaction(state),
-  error: selectSwapsError(state),
+//error: selectSwapsError(state),     // [Arthur]
+  error: null,
   quoteRefreshSeconds: selectSwapsQuoteRefreshSeconds(state),
   gasEstimateType: selectGasFeeControllerEstimateType(state),
   gasFeeEstimates: selectGasFeeEstimates(state),

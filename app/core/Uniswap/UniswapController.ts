@@ -2,13 +2,15 @@ import { BaseController } from "@metamask/base-controller"
 import { RestrictedMessenger } from "@metamask/base-controller";
 import { ControllerStateChangeEvent } from "@metamask/base-controller";
 import { ExToken } from "../../components/UI/MeSwaps/uniswap/tokens";
-import { estimateOut, swapTokensV2, testSendTransaction } from "../../components/UI/MeSwaps/uniswap";
+import { estimateOut, swapTokensV2 } from "../../components/UI/MeSwaps/uniswap";
 import { PopulatedTransaction } from "ethers";
 
 const name = 'UniswapController';
 export type UniswapControllerState = {
 //test: {};
   quote: any;
+  isInPolling: boolean;
+  quotesLastFetched: number | null;
 };
 
 export type AddLog = {
@@ -32,6 +34,8 @@ export type UniswapControllerMessenger = RestrictedMessenger<
 
 const metadata = {
   quote: { persist: false, anonymous: false },
+  isInPolling: { persist: false, anonymous: false },
+  quotesLastFetched: { persist: false, anonymous: false },
 };
 export class UniswapController extends BaseController<typeof name, UniswapControllerState, UniswapControllerMessenger> {
     constructor ({
@@ -47,11 +51,13 @@ export class UniswapController extends BaseController<typeof name, UniswapContro
         metadata,
         state: {
           quote: undefined,
+          isInPolling: false,
+          quotesLastFetched: null,
           ...state
         }
       })
     }
-    public quote: any;
+    //public quote: any;
     add() {
 
     }
@@ -66,12 +72,13 @@ export class UniswapController extends BaseController<typeof name, UniswapContro
 
     }
     async sendTX(tx: PopulatedTransaction) {
-      testSendTransaction(tx)
+      //testSendTransaction(tx)
     }
     async runQuotes(fetchParams: any, fetchParamsMetaData: any) {
       console.log('[Arthur]', '@UniswapController', 'startFetchAndSetQuotes')
       console.log('[Arthur]', '@UniswapController', 'fetchParams', fetchParams, fetchParamsMetaData)
       console.log('[Arthur]', '@UniswapController', 'state', this.state)
+      this.update((_state) => {_state.isInPolling = true;});
       try {
         const {account, sourceToken, destinationToken, sourceAmount} = fetchParams
         const BSC    = 56
@@ -101,11 +108,14 @@ export class UniswapController extends BaseController<typeof name, UniswapContro
         console.log('[Arthur]', '[Swap]', '@resetAndStartPolling', 'estimateOut <=', sourceToken.name, sourceAmount, destinationToken.name, res)
       // this.quote = res;
         this.update((_state) => {
-          console.log('[Arthur]','[Swap]', 'update', _state)
+          console.log('[Arthur]','[Swap]', '~~~ Quote Complete ~~~~','update', _state)
           _state.quote = res;
+          _state.isInPolling = false;
+          _state.quotesLastFetched = Date.now();
         });
         console.log('[Arthur]','[Swap]', 'update', this.state)
       } catch (error) {
+        this.update((_state) => {_state.isInPolling = false;});
         console.log('[Arthur]', '[Swap]', '@resetAndStartPolling', 'estimateOut exception', error)
       }
     }

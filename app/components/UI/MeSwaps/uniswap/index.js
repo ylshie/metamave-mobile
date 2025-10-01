@@ -192,7 +192,7 @@ export async function swapTokensV2(account, token1, token2, amount, slippage = "
         else return undefined;
 	}
 }
-
+/*
 export async function testSendTransaction (rawTxn) {
 //  const provider = new ethers.providers.JsonRpcProvider(NODE_URL);
     const provider  = PROVIDERS[BSC];
@@ -233,7 +233,7 @@ export async function testSendTransaction (rawTxn) {
         console.log('[TX]', '>>>utest<<<', "error", error);
     }
 }
-
+*/
 export async function testAPI () {
     const source    = USDT_Arbit;
     const target    = CATT_Arbit;

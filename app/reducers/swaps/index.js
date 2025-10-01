@@ -171,6 +171,20 @@ export const selectSwapsIsInPolling = createSelector(
   (swapsControllerState) => swapsControllerState.isInPolling,
 );
 
+const selectUniswapControllerState = (state) => {
+//console.log('[Arthur]','[Swap]', '@selectUniswapControllerState', state.engine.backgroundState.UniswapController)
+  return state.engine.backgroundState.UniswapController;
+}
+
+export const selectUnswapsIsInPolling = createSelector(
+  selectUniswapControllerState,
+  (swapsControllerState) => swapsControllerState.isInPolling,
+);
+export const selectUniswapsQuotesLastFetched = createSelector(
+  selectUniswapControllerState,
+  (swapsControllerState) => swapsControllerState.quotesLastFetched,
+);
+
 const swapsControllerAndUserTokens = createSelector(
   swapsControllerTokens,
   selectTokens,
@@ -356,11 +370,6 @@ export const swapsTopAssetsSelector = createSelector(
     return addMetadata(chainId, result, tokenList);
   },
 );
-
-const selectUniswapControllerState = (state) => {
-//console.log('[Arthur]','[Swap]', '@selectUniswapControllerState', state.engine.backgroundState.UniswapController)
-  return state.engine.backgroundState.UniswapController;
-}
 
 export const selectUniswapQuoteValues = createSelector(
   selectUniswapControllerState,

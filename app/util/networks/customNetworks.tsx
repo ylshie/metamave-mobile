@@ -75,9 +75,7 @@ export const PopularList = [
   {
     chainId: toHex('56'),
     nickname: 'BNB Smart Chain Mainnet',
-  //rpcUrl: 'https://bsc-dataseed1.binance.org',
-    rpcUrl: `https://bsc-mainnet.infura.io/v3/${infuraProjectId}`,
-  //rpcUrl: 'https://bsc-mainnet.infura.io/v3/2db519c12f574787a412ab22a36e92bb'
+    rpcUrl: 'https://bsc-dataseed1.binance.org',
     failoverRpcUrls: [],
     ticker: 'BNB',
     warning: true,

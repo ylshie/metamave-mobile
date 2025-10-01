@@ -92,6 +92,7 @@ const useMultichainBalances = (): UseMultichainBalancesHook => {
   const getEvmBalance = useCallback(
     (account: InternalAccount) => {
       const balance = Engine.getTotalEvmFiatAccountBalance(account);
+      console.log('~~~~ getEvmBalance ~~~~', balance)
       let total;
 
       if (isOriginalNativeEvmTokenSymbol) {
@@ -193,6 +194,7 @@ const useMultichainBalances = (): UseMultichainBalancesHook => {
           multichainAssetsRates,
           nonEvmChainId,
         );
+        console.log('~~~ getAccountBalanceData ~~~~', 'not evm', nonEvmAccountBalance);
         return {
           displayBalance: getNonEvmDisplayBalance(nonEvmAccountBalance),
           totalFiatBalance: nonEvmAccountBalance.totalBalanceFiat,
@@ -204,6 +206,7 @@ const useMultichainBalances = (): UseMultichainBalancesHook => {
       }
       ///: END:ONLY_INCLUDE_IF
       const evmAccountBalance = getEvmBalance(account);
+      console.log('~~~ getAccountBalanceData ~~~~', 'evm', evmAccountBalance);
       return {
         displayBalance: evmAccountBalance.displayBalance,
         totalFiatBalance: evmAccountBalance.totalFiatBalance,
@@ -271,8 +274,10 @@ const useMultichainBalances = (): UseMultichainBalancesHook => {
   ]);
 
   const selectedAccountMultichainBalance = useMemo(() => {
+    console.log('~~~~~ selectedAccountMultichainBalance ~~~~~')
     if (selectedInternalAccount) {
       const accountBalanceData = getAccountBalanceData(selectedInternalAccount);
+      console.log('~~~~~ selectedAccountMultichainBalance ~~~~~', accountBalanceData)
       return {
         displayBalance: accountBalanceData.displayBalance,
         displayCurrency: currentCurrency,

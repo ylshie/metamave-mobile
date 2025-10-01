@@ -131,6 +131,7 @@ import download from '../../../images/banners/download.png';
 import wlink from '../../../images/banners/link.png';
 import RNFS from 'react-native-fs';
 import Share from 'react-native-share';
+import Close from './images/close.svg'
 /*--------------------*/
 
 interface WalletProps {
@@ -480,6 +481,22 @@ const MyFriend = ({
               alignItems: 'center',
             //padding: 10,
             }}>
+              <TouchableOpacity
+                onPress={()=>{navigation.goBack()}}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  width: '100%',
+                  justifyContent: 'flex-end',
+                  paddingRight: 26,
+                  paddingBottom: 5,
+                  //borderColor: 'red',
+                  //borderWidth: 1,
+                  //borderStyle: 'solid',
+                }}
+              >
+                <Close name='close' width={30} height={30}/>
+              </TouchableOpacity>
               {
                 url
                 ? <View style={{
@@ -487,6 +504,7 @@ const MyFriend = ({
                 //borderColor: 'green',
                 //borderStyle: 'solid',
                   marginBottom: 20,
+
                 }}>
                     <Image style={{
                               marginLeft: 2, 

@@ -41,4 +41,22 @@ const Catt_Bsc: {
     name: 'Catt'
 }
 
-export const Catt = Catt_Bsc
+const USDT_Bsc: {
+    chain: `${number}`,
+    chainid: `0x${string}`,
+    address: `0x${string}`,
+    symbol: string,
+    decimals: number,
+    image: string,
+    name: string,
+} = {
+    chain: chain_bsc,
+    chainid: chain_bsc,
+    address: "0x55d398326f99059fF775485246999027B3197955",
+    symbol: 'USDT',
+    decimals: 6,
+    image: '',
+    name: 'USDT'
+}
+
+export const Catt = USDT_Bsc    //Catt_Bsc

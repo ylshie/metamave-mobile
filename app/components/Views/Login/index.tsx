@@ -337,7 +337,7 @@ const Login: React.FC = () => {
     //console.log('====List===', tokens) 
       
       if (tokens[chain]) {
-        TokensController.addToken(Catt)
+        //TokensController.addToken(Catt)
         /*
         TokensController.addToken({
           address: '0x36D5E58F99C5e1468FFD447E5f6E8B05d7DCdFa4',

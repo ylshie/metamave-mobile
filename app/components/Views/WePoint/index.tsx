@@ -126,6 +126,7 @@ interface WalletProps {
 }
 const win = Dimensions.get('window');
 
+const ConvertRate = 10000.0;
 const Item = ({tag, balance, value, icon, name, onChangeValue} : {
   tag: string,
   balance: number,
@@ -397,11 +398,11 @@ const MyPersona = ({
 
   const onChangeWalue = (value: number) => {
     setWalue(value)
-    setAalue(value /1000.0)
+    setAalue(value /ConvertRate)
   }
   const onChangeAalue = (value: number) => {
     setAalue(value)
-    setWalue(Math.floor(value * 1000))
+    setWalue(Math.floor(value * ConvertRate))
   }
   /**
    * Check to see if notifications are enabled

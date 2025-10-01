@@ -442,7 +442,7 @@ const MyWallet = ({
         }
         */
         
-        const added = await TokensController.addToken(Catt);
+      //const added = await TokensController.addToken(Catt);
       //console.log('===addToken===', added)
         setDone(true)
       }

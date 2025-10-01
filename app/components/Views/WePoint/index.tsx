@@ -205,7 +205,7 @@ const MyPersona = ({
   const [swap, setSwap] = useState(false)
   const [walue, setWalue] = useState(0)
   const [aalue, setAalue] = useState(0)
-  const [walance, setWalance] = useState(6432)
+  const [walance, setWalance] = useState(0)  // 6432
   const [aelance, setAelance] = useState(0)
   const [callback, setCallback] = useState<()=>void>()
 

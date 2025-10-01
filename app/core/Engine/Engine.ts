@@ -1643,6 +1643,7 @@ export class Engine {
     totalNativeTokenBalance: string;
     ticker: string;
   } => {
+    console.log('~~~~ getTotalEvmFiatAccountBalance ~~~~')
     const {
       CurrencyRateController,
       AccountsController,
@@ -1765,7 +1766,7 @@ export class Engine {
               exchangeRate,
               decimalsToShow,
             );
-
+            console.log('~~~~ tokenBalance ~~~~', item.address, tokenBalance, tokenBalanceFiat)
             const tokenPricePercentChange1d =
               tokenExchangeRates?.[item.address as Hex]?.pricePercentChange1d;
 

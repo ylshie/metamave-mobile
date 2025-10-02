@@ -393,7 +393,7 @@ const MyPersona = ({
     const big     = value? BigNumber.from(value): 0
     const units   = ethers.utils.formatUnits(big, 18)
     const balance = Number(units)
-    console.log('~~ wzPoint ~~', 'contractBalances updated', contractBalances)
+    console.log(Date.now(), '~~ wzPoint ~~', 'contractBalances updated', contractBalances)
     setAelance(balance)
   }, [contractBalances])
 
@@ -473,6 +473,25 @@ const MyPersona = ({
     const account = AccountsController.getSelectedAccount().address
   //const account = '0x6B9eA60821bd0214A6e63cA848869528d5A554F9'
 
+    const RefreshToken = async () => {
+      let done = false;
+      console.log(Date.now(), '~~ Refresh start ~~')
+      try {
+        const config    = evmNetworkConfigurations[chainId as `0x${string}`]
+        const networkId = config.rpcEndpoints[config.defaultRpcEndpointIndex].networkClientId;
+        console.log(Date.now(), '~~ Refresh trace ~~', networkId, config)
+        await AccountTrackerController.refresh(networkId);
+        done = true;
+        console.log(Date.now(), '~~ Refresh single done ~~')
+      } catch (error) {
+        console.log(Date.now(), '~~ Refresh single error ~~')
+        done = false;
+      }
+      if (! done) {
+        await AccountTrackerController.refresh()
+        console.log(Date.now(), '~~ Refresh all done ~~')
+      }
+    }
     const PointToCoin = async () => {
       const token   = await StorageWrapper.getItem('accessToken');
       const target  = account
@@ -480,7 +499,23 @@ const MyPersona = ({
         const tx  = await wzPoint(token, target, walue)
         console.log('wzPoint', tx)
         await QueryCode()
-        AccountTrackerController.refresh() // remove await
+        /*
+        Object.values(evmNetworkConfigurations).forEach(
+          ({ defaultRpcEndpointIndex, rpcEndpoints }) => {
+            AccountTrackerController.refresh(
+              rpcEndpoints[defaultRpcEndpointIndex].networkClientId,
+            );
+          },
+        );
+        */
+      //AccountTrackerController.refresh() // remove await
+        const config = evmNetworkConfigurations[chainId as `0x${string}`]
+        /*
+        AccountTrackerController.refresh(
+          config.rpcEndpoints[config.defaultRpcEndpointIndex].networkClientId,
+        );
+        */
+        RefreshToken()
         return {ok: tx.ok, tx}
       } catch (error) {
         return {ok: false, error}
@@ -494,7 +529,14 @@ const MyPersona = ({
         const tx   = await wzCoin(token, source, aalue)
         console.log('wzCoin', tx)
         await QueryCode()
-        AccountTrackerController.refresh() // remove await
+      //AccountTrackerController.refresh() // remove await
+        /*
+        const config = evmNetworkConfigurations[chainId as `0x${string}`]
+        AccountTrackerController.refresh(
+          config.rpcEndpoints[config.defaultRpcEndpointIndex].networkClientId,
+        );
+        */
+        RefreshToken()
         return {ok: true, tx}
       } catch (error) {
         console.log('wzCoin error', error)

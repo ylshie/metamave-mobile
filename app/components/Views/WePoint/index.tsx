@@ -393,6 +393,7 @@ const MyPersona = ({
     const big     = value? BigNumber.from(value): 0
     const units   = ethers.utils.formatUnits(big, 18)
     const balance = Number(units)
+    console.log('~~ wzPoint ~~', 'contractBalances updated', contractBalances)
     setAelance(balance)
   }, [contractBalances])
 
@@ -479,7 +480,7 @@ const MyPersona = ({
         const tx  = await wzPoint(token, target, walue)
         console.log('wzPoint', tx)
         await QueryCode()
-        await AccountTrackerController.refresh()
+        AccountTrackerController.refresh() // remove await
         return {ok: tx.ok, tx}
       } catch (error) {
         return {ok: false, error}
@@ -493,7 +494,7 @@ const MyPersona = ({
         const tx   = await wzCoin(token, source, aalue)
         console.log('wzCoin', tx)
         await QueryCode()
-        await AccountTrackerController.refresh()
+        AccountTrackerController.refresh() // remove await
         return {ok: true, tx}
       } catch (error) {
         console.log('wzCoin error', error)
@@ -510,6 +511,9 @@ const MyPersona = ({
       }
     }
     
+    console.log('~~ wzPoint ~~~', 'evmNetworkConfigurations=', evmNetworkConfigurations)
+    console.log('~~ wzPoint ~~~', 'chainId=', chainId)
+
     navigation.navigate(Routes.MODAL.ROOT_MODAL_FLOW, {
       screen: Routes.MODAL.WE_WAITER,
       params: {

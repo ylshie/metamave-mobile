@@ -272,8 +272,8 @@ const MyPersona = ({
   const { trackEvent, createEventBuilder } = useMetrics();
   const styles = createStyles(theme);
   const { colors } = theme;
-  const [point, setPoint] = useState(2478)
-  const [token, setToken] = useState(1508)
+  const [point, setPoint] = useState(0) // 2478
+  const [stake, setStake] = useState(0) // 1508
   const [showToast, setShowToast] = useState(false)
   const isFocused = useIsFocused();
   
@@ -608,7 +608,7 @@ const MyPersona = ({
                 color: '#4A5568',
                 fontSize: 14,
                 fontWeight: '400',
-              }}>總理財收益: 30 wPoints</Text>
+              }}>總理財收益: 0 wPoints</Text>
             </View>
             <View style={{
               width: '40%',
@@ -660,7 +660,7 @@ const MyPersona = ({
             </Slot>
             <Slot>
               <ButtonBlue text='去質押' onPress={onPressStake}/>
-              <Balance value={token}/>
+              <Balance value={stake}/>
             </Slot>
           </FrameWhite>
         </View>

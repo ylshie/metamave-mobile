@@ -742,13 +742,19 @@ class WeSignup extends PureComponent {
       }
       const res   = await wzLogin("G:"+data.user.email, data.idToken)
       console.log("wzLogin", 'res=', res)
-      StorageWrapper.setItem('accessToken', res.data.accessToken)
-      StorageWrapper.setItem('refreshToken', res.data.refreshToken)
-      StorageWrapper.setItem('accessTokenExpiresAt', res.data.accessTokenExpiresAt)
-      StorageWrapper.setItem('refreshTokenExpiresAt', res.data.refreshTokenExpiresAt)
-      StorageWrapper.setItem('type', 'google')
-      StorageWrapper.setItem('account',  data.user.email)
-      StorageWrapper.setItem('token', data.idToken)
+      if (res.ok) {
+        StorageWrapper.setItem('accessToken', res.data.accessToken)
+        StorageWrapper.setItem('refreshToken', res.data.refreshToken)
+        StorageWrapper.setItem('accessTokenExpiresAt', res.data.accessTokenExpiresAt)
+        StorageWrapper.setItem('refreshTokenExpiresAt', res.data.refreshTokenExpiresAt)
+        StorageWrapper.setItem('type', 'google')
+        StorageWrapper.setItem('account',  data.user.email)
+        StorageWrapper.setItem('token', data.idToken)
+      } else {
+        console.log('login failed', 'Alert')
+        this.setState({error: strings('login.invalid_password')});
+        Alert.alert("Login failed")
+      }
 
       this.setState({ingogin: false})
       console.log("before Onboarding")

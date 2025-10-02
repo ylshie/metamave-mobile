@@ -28,6 +28,7 @@ export const configureGoogleSignIn = () => {
     profileImageSize: 150,
   });
 };
+// For add Google account
 export const checkGoogle = async () => {
   if (! GoogleSignin.hasPreviousSignIn()) return
 
@@ -57,17 +58,23 @@ export const checkGoogle = async () => {
   const rex = await wzAddGcount(data.user.email, data.user.id, data.idToken)
   console.log("onPressGoogle", "wzAddGcount", rex)
 
-  const res   = await wzLogin("G:"+data.user.email, data.idToken)
+  const res = await wzLogin("G:"+data.user.email, data.idToken)
   console.log("wzLogin", 'res=', res)
-  StorageWrapper.setItem('accessToken', res.data.accessToken)
-  StorageWrapper.setItem('refreshToken', res.data.refreshToken)
-  StorageWrapper.setItem('accessTokenExpiresAt', res.data.accessTokenExpiresAt)
-  StorageWrapper.setItem('refreshTokenExpiresAt', res.data.refreshTokenExpiresAt)
-  StorageWrapper.setItem('type', 'google')
-  StorageWrapper.setItem('account',  data.user.email)
-  StorageWrapper.setItem('token', data.idToken)
-  
+  if (res.ok) {
+    StorageWrapper.setItem('accessToken', res.data.accessToken)
+    StorageWrapper.setItem('refreshToken', res.data.refreshToken)
+    StorageWrapper.setItem('accessTokenExpiresAt', res.data.accessTokenExpiresAt)
+    StorageWrapper.setItem('refreshTokenExpiresAt', res.data.refreshTokenExpiresAt)
+    StorageWrapper.setItem('type', 'google')
+    StorageWrapper.setItem('account',  data.user.email)
+    StorageWrapper.setItem('token', data.idToken)
+  } else {
+    console.log('login failed', 'Alert')
+    this.setState({error: strings('login.invalid_password')});
+    Alert.alert("Login failed")
+  }
 }
+
 export const signIn = async (callback) => {
   try {
     console.log('[GOOGLE] >> check Google Service');

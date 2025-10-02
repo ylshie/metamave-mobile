@@ -100,12 +100,13 @@ import Finance from './images/finance.svg'
 import Hand from './images/hand.svg'
 import Golden from './images/golden.svg'
 import Dollar from './images/dollar.svg'
-import { wzInfo } from '../WeSignup/account';
+import { wzInfo, wzListStake } from '../WeSignup/account';
 import StorageWrapper from '../../../store/storage-wrapper';
 import { MyToast } from '../confirmations/legacy/SendFlow/WeSendOption';
 import { Alert, BackHandler } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import Recrod from './images/record.svg'
+import { Stake } from '../WeSecord';
 /*--------------------*/
 
 interface WalletProps {
@@ -275,10 +276,14 @@ const MyPersona = ({
   const [point, setPoint] = useState(0) // 2478
   const [stake, setStake] = useState(0) // 1508
   const [showToast, setShowToast] = useState(false)
+  const [stakes, setStakes] = useState<Stake[]>([])
   const isFocused = useIsFocused();
   
   useEffect(() => {
-    if (isFocused) { QueryCode() }
+    if (isFocused) { 
+      QueryCode()
+      QueryStake()
+    }
   }, [isFocused]);
 
   const onPressNothing = () => {
@@ -343,6 +348,32 @@ const MyPersona = ({
     const data    = await wzInfo(token, account)
     console.log('WeFinance QueryCode', data)
     setPoint(data.info.point)
+  }
+  async function QueryStake() {
+    const token   = await StorageWrapper.getItem('accessToken');
+    const data    = await wzListStake(token)
+    console.log('WeSecord QueryCode', data.ok, data.rx)
+    if (data.ok) {
+      setStakes(data.rx)
+      const total = getTotalStake(data.rx)
+      setStake(total)
+    } else {
+      console.log('wzListStake failed', data)
+    }
+  }
+  function getTotalStake(stakes: Stake[]) {
+    let total = 0;
+    stakes.forEach((value) => {
+      total += value.amount;
+    })
+    return total;
+  }
+  function getTotalRewaed(stakes: Stake[]) {
+    let total = 0;
+    stakes.forEach((value) => {
+      total += value.reward? value.reward: 0;
+    })
+    return total;
   }
   console.log('====NO EFFECT====')
   /*
@@ -608,7 +639,7 @@ const MyPersona = ({
                 color: '#4A5568',
                 fontSize: 14,
                 fontWeight: '400',
-              }}>總理財收益: 0 wPoints</Text>
+              }}>總理財收益: {getTotalRewaed(stakes)} wPoints</Text>
             </View>
             <View style={{
               width: '40%',

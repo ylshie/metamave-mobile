@@ -35,8 +35,8 @@ export const checkGoogle = async () => {
   const token   = await GoogleSignin.getTokens()
 //const test    = GoogleSignin.getCurrentUser()
   const now     = Date.now()
-  console.log("token", token)
-  console.log("user",  data)
+  console.log("checkGoogle", "token", token)
+  console.log("checkGoogle", "user",  data)
   //if (now > expire) {
   //  console.log('Google expire', 'now', now, 'expire', token, expire)
   //} else {
@@ -45,7 +45,7 @@ export const checkGoogle = async () => {
   //}
   const test  = GoogleSignin.getCurrentUser()
   const exist = await wzExist("G", test.user.email)
-  console.log("onPressGoogle", "==wzExist==", exist)
+  console.log("checkGoogle", "==wzExist==", exist)
   if (exist) {
     return; 
   }
@@ -54,9 +54,9 @@ export const checkGoogle = async () => {
 
   console.log('===xxx===', xxx)
   console.log("user", data, "token", token)
-  console.log("onPressGoogle", "before wzAddGcount")
+  console.log("checkGoogle", "before wzAddGcount")
   const rex = await wzAddGcount(data.user.email, data.user.id, data.idToken)
-  console.log("onPressGoogle", "wzAddGcount", rex)
+  console.log("checkGoogle", "wzAddGcount", rex)
 
   const res = await wzLogin("G:"+data.user.email, data.idToken)
   console.log("wzLogin", 'res=', res)
@@ -140,7 +140,7 @@ export async function wzLogin0(email, pass) {
     return data
 }
 
-export async function wzInfo(token, email) {
+export async function _wzInfo(token, email) {
   if (bypass) return {ret: true}
   
   const ret = await fetch(base + '/wz_info',  {
@@ -154,6 +154,27 @@ export async function wzInfo(token, email) {
   const data = await ret.json()
 //console.log("wzInfo:", data)
   return data
+}
+
+export async function wzInfo(token, email) {
+  try {
+    const ret = await _wzInfo(token, email)
+    if (ret.info) return ret;
+  } catch (error) {
+    console.log('_wzInfo failed')
+  }
+  const refresh = await StorageWrapper.getItem('refreshToken');
+  const res = await wzRefresh(refresh)
+  if (res.ok) {
+    console.log("refreshToken", 'new token', res.data)
+    StorageWrapper.setItem('accessToken',  res.data.accessToken)
+    StorageWrapper.setItem('refreshToken', res.data.refreshToken)
+    StorageWrapper.setItem('accessTokenExpiresAt',  res.data.accessTokenExpiresAt)
+    StorageWrapper.setItem('refreshTokenExpiresAt', res.data.refreshTokenExpiresAt)
+  } else {
+    Alert.alert('Refresh token failed')
+  }
+  return await _wzInfo(res.data.accessToken, email)
 }
 
 async function wzFetch(method, token, body) {

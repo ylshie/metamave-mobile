@@ -80,6 +80,7 @@ import {
 import {
   ParamListBase,
   RouteProp,
+  useIsFocused,
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
@@ -255,9 +256,11 @@ const Login: React.FC = () => {
     setBiometryChoice(newBiometryChoice);
   };
 
+  const isFocused = useIsFocused();
+  
   useEffect(()=> {
     const QueryToken = async () => {
-    //console.log('=== QueryCode ===')
+      console.log('=== QueryCode ===')
       try {
         configureGoogleSignIn()
         await checkGoogle()
@@ -269,16 +272,18 @@ const Login: React.FC = () => {
       const expire  = await StorageWrapper.getItem('accessTokenExpiresAt');
       const refresh = await StorageWrapper.getItem('refreshToken');
       const account = await StorageWrapper.getItem('account');
-    //console.log('=== QueryCode ===', token)
+      console.log('--- QueryCode ---', token)
       setToken(token)
       setExpire(expire)
       setRefresh(refresh)
       setAccount(account)
     }
+    console.log('~~~ QueryCode ~~~', token)
     QueryToken()
-  }, [token])
+  }, [isFocused])
 
   const checkExpire = () => {
+    return true;
     console.log('expire=[', expire, ']')
     if (expire == '') return true
     if (expire == undefined) return true
